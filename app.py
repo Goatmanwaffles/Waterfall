@@ -1,6 +1,10 @@
-def main():
-    print("Hello from waterfall!")
+from flask import Flask
 
+app = Flask(__name__)
 
-if __name__ == "__main__":
-    main()
+@app.route("/")
+def hello_world():
+    return "<h1>Waterfall</h1>"
+
+if __name__ == '__main__':
+    app.run(debug=True)
