@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pymysql
 
 # The DB_NAME of the database and other info
@@ -22,7 +24,7 @@ cursor = make_db.cursor()
 
 # DROPS THE ENTIRE DATABASE
 # THIS IS ONLY FOR TESTING PURPOSES!!!!!
-cursor.execute(f"DROP DATABASE {DB_NAME};")
+cursor.execute(f"DROP DATABASE IF EXISTS {DB_NAME};")
 
 cursor.execute(f"CREATE DATABASE IF NOT EXISTS {DB_NAME};")
 make_db.commit()
@@ -43,15 +45,16 @@ cursor = dbserver.cursor()
 print(f"Selected database: {dbserver.db}")
 
 # SQL files to run (in order)
-# Using a raw string to ignore \s warning
+# use pathlib for compatibility on Mac
+PROJECT_ROOT = Path(__file__).resolve().parent
 sql_files = [
-    r"sql\schema.sql",
-    r"sql\seed-data.sql"
+    PROJECT_ROOT / "sql" / "schema.sql",
+    PROJECT_ROOT / "sql" / "seed-data.sql",
 ]
 
 # Builds schema
-for file_DB_NAME in sql_files:
-    with open(file_DB_NAME, encoding="utf-8") as file:
+for sql_file in sql_files:
+    with sql_file.open(encoding="utf-8") as file:
         sql = file.read()
         for command in sql.split(";"):
             command = command.strip()
