@@ -3,14 +3,14 @@ CREATE TABLE IF NOT EXISTS classroom (
     room_number        varchar(7),
     capacity        numeric(4,0),
     primary key (building, room_number)
-);
+);;
 
 CREATE TABLE IF NOT EXISTS department (
     dept_name        varchar(20), 
     building        varchar(15), 
     budget                numeric(12,2) check (budget > 0),
     primary key (dept_name)
-);
+);;
 
 CREATE TABLE IF NOT EXISTS course (
     course_id        varchar(8), 
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS course (
     primary key (course_id),
     foreign key (dept_name) references department (dept_name)
     on delete set null
-);
+);;
 
 CREATE TABLE IF NOT EXISTS instructor (
     ID            varchar(5), 
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS instructor (
     primary key (ID),
     foreign key (dept_name) references department (dept_name)
     on delete set null
-);
+);;
 
 CREATE TABLE IF NOT EXISTS section (
     course_id        varchar(8), 
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS section (
     on delete cascade,
     foreign key (building, room_number) references classroom (building, room_number)
     on delete set null
-);
+);;
 
 CREATE TABLE IF NOT EXISTS teaches (
     ID            varchar(5), 
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS teaches (
     on delete cascade,
     foreign key (ID) references instructor (ID)
     on delete cascade
-);
+);;
 
 CREATE TABLE IF NOT EXISTS student (
     ID            varchar(5), 
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS student (
     primary key (ID),
     foreign key (dept_name) references department (dept_name)
     on delete set null
-);
+);;
 
 CREATE TABLE IF NOT EXISTS takes (
     ID            varchar(5), 
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS takes (
     on delete cascade,
     foreign key (ID) references student (ID)
     on delete cascade
-);
+);;
 
 CREATE TABLE IF NOT EXISTS advisor (
     s_ID            varchar(5),
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS advisor (
     on delete set null,
     foreign key (s_ID) references student (ID)
     on delete cascade
-);
+);;
 
 CREATE TABLE IF NOT EXISTS time_slot (
     time_slot_id        varchar(4),
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS time_slot (
     end_hr            numeric(2) check (end_hr >= 0 and end_hr < 24),
     end_min        numeric(2) check (end_min >= 0 and end_min < 60),
     primary key (time_slot_id, day, start_hr, start_min)
-);
+);;
 
 CREATE TABLE IF NOT EXISTS prereq (
     course_id        varchar(8), 
@@ -112,5 +112,5 @@ CREATE TABLE IF NOT EXISTS prereq (
     foreign key (course_id) references course (course_id)
     on delete cascade,
     foreign key (prereq_id) references course (course_id)
-);
+);;
 

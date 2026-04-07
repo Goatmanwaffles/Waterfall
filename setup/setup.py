@@ -39,11 +39,11 @@ def runSQL(cursor, dbserver, sql_filename):
     # Runs the SQL file
     with open(file=sql_file, encoding="utf-8") as file:
         sql = file.read()
-        for command in sql.split(";"):
+        for command in sql.split(";;"):
             command = command.strip()
             if command:
                 # print(f"Executed: {command}")
                 x = cursor.execute(command)
     
     dbserver.commit()
-
+    
