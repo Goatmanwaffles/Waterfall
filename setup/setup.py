@@ -27,14 +27,15 @@ def makeDatabase(hostname, username, password, database_name):
     
     return dbserver
 
-def buildSchema(cursor, dbserver, sql_files):
+# Runs any sql file input into it
+def runSQL(cursor, dbserver, sql_file):
     # Builds schema
-    for sql_file in sql_files:
-        with sql_file.open(encoding="utf-8") as file:
-            sql = file.read()
-            for command in sql.split(";"):
-                command = command.strip()
-                if command:
-                    # print(f"Executed: {command}")
-                    x = cursor.execute(command)
+    with open(file=sql_file, encoding="utf-8") as file:
+        sql = file.read()
+        for command in sql.split(";"):
+            command = command.strip()
+            if command:
+                # print(f"Executed: {command}")
+                x = cursor.execute(command)
+    
     dbserver.commit()
