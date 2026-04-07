@@ -6,7 +6,7 @@
 DROP PROCEDURE IF EXISTS create_instructor;
 DELIMITER //
 CREATE PROCEDURE create_instructor(
-IN id varchar(5),
+IN id int,
 IN instructor_name varchar(20),
 IN department_name VARCHAR(20),
 IN salary NUMERIC (8,2)
@@ -28,7 +28,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS update_instructor;
 DELIMITER //
 CREATE PROCEDURE update_instructor(
-IN instructor_id varchar(5),
+IN instructor_id int,
 IN instructor_name varchar(20),
 IN department_name VARCHAR(20),
 IN instructor_salary NUMERIC (8,2)
@@ -45,7 +45,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS delete_instructor;
 DELIMITER //
 CREATE PROCEDURE delete_instructor(
-IN instructor_id varchar(5)
+IN instructor_id int
 )
 BEGIN
 DELETE FROM INSTRUCTOR
@@ -58,7 +58,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS create_student;
 DELIMITER //
 CREATE PROCEDURE create_student(
-IN id varchar(5),
+IN id int,
 IN student_name varchar(20),
 IN department_name VARCHAR(20),
 IN total_credits NUMERIC (3,0)
@@ -80,7 +80,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS update_student;
 DELIMITER //
 CREATE PROCEDURE update_student(
-IN student_id varchar(5),
+IN student_id int,
 IN student_name varchar(20),
 IN department_name VARCHAR(20),
 IN total_credits NUMERIC (3,0)
@@ -97,7 +97,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS delete_student;
 DELIMITER //
 CREATE PROCEDURE delete_student(
-IN student_id varchar(5)
+IN student_id int
 )
 BEGIN
 DELETE FROM STUDENT
@@ -110,13 +110,13 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS create_section;
 DELIMITER //
 CREATE PROCEDURE create_section(
-IN section_course_id VARCHAR(8),
-IN section_sec_id VARCHAR(8),
+IN section_course_id int,
+IN section_sec_id int,
 IN section_semester VARCHAR(6),
 IN section_year NUMERIC(4,0),
 IN section_building VARCHAR(15),
 IN section_room_number VARCHAR(7),
-IN section_time_slot_id VARCHAR(4)
+IN section_time_slot_id int
 )
 BEGIN
 INSERT INTO SECTION (
@@ -151,13 +151,13 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS update_section;
 DELIMITER //
 CREATE PROCEDURE update_section(
-IN section_course_id VARCHAR(8),
-IN section_sec_id VARCHAR(8),
+IN section_course_id int,
+IN section_sec_id int,
 IN section_semester VARCHAR(6),
 IN section_year NUMERIC(4,0),
 IN new_building VARCHAR(15),
 IN new_room_number VARCHAR(7),
-IN new_time_slot_id VARCHAR(4)
+IN new_time_slot_id int
 )
 BEGIN
 UPDATE SECTION
@@ -174,8 +174,8 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS delete_section;
 DELIMITER //
 CREATE PROCEDURE delete_section(
-IN section_course_id VARCHAR(8),
-IN section_sec_id VARCHAR(8),
+IN section_course_id int,
+IN section_sec_id int,
 IN section_semester VARCHAR(6),
 IN section_year NUMERIC(4,0)
 )
@@ -193,8 +193,8 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS enroll_in_section;
 DELIMITER //
 CREATE PROCEDURE enroll_in_section(
-IN student_id varchar(5),
-IN p_course_id
+IN student_id int,
+IN p_course_id int,
 IN section_id varchar(8),
 IN section_semester varchar(6),
 IN section_year NUMERIC(4,0)
