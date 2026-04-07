@@ -3,6 +3,7 @@
 
 --CRUD Instructor
 
+DROP PROCEDURE IF EXISTS create_instructor;
 DELIMITER //
 CREATE PROCEDURE create_instructor(
 IN id varchar(5),
@@ -16,6 +17,7 @@ VALUES (id, instructor_name, department_name, salary);
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS get_instructors;
 DELIMITER //
 CREATE PROCEDURE get_instructors()
 BEGIN
@@ -23,6 +25,8 @@ SELECT * FROM INSTRUCTOR;
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS update_instructor;
+DELIMITER //
 CREATE PROCEDURE update_instructor(
 IN instructor_id varchar(5),
 IN instructor_name varchar(20),
@@ -38,6 +42,8 @@ WHERE id = instructor_id;
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS delete_instructor;
+DELIMITER //
 CREATE PROCEDURE delete_instructor(
 IN instructor_id varchar(5)
 )
@@ -49,6 +55,7 @@ DELIMITER ;
 
 --CRUD Student
 
+DROP PROCEDURE IF EXISTS create_student;
 DELIMITER //
 CREATE PROCEDURE create_student(
 IN id varchar(5),
@@ -62,6 +69,7 @@ VALUES (id, student_name, department_name, total_credits);
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS get_students;
 DELIMITER //
 CREATE PROCEDURE get_students()
 BEGIN
@@ -69,6 +77,8 @@ SELECT * FROM STUDENT;
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS update_student;
+DELIMITER //
 CREATE PROCEDURE update_student(
 IN student_id varchar(5),
 IN student_name varchar(20),
@@ -84,6 +94,8 @@ WHERE id = student_id;
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS delete_student;
+DELIMITER //
 CREATE PROCEDURE delete_student(
 IN student_id varchar(5)
 )
@@ -93,8 +105,87 @@ WHERE  id = student_id;
 END //
 DELIMITER ;
 
---CRUDT Section
+--CRUD Section
 
+DROP PROCEDURE IF EXISTS create_section;
+DELIMITER //
+CREATE PROCEDURE create_section(
+IN section_course_id VARCHAR(8),
+IN section_sec_id VARCHAR(8),
+IN section_semester VARCHAR(6),
+IN section_year NUMERIC(4,0),
+IN section_building VARCHAR(15),
+IN section_room_number VARCHAR(7),
+IN section_time_slot_id VARCHAR(4)
+)
+BEGIN
+INSERT INTO SECTION (
+    course_id,
+    sec_id,
+    semester,
+    year,
+    building,
+    room_number,
+    time_slot_id
+)
+VALUES (
+    section_course_id,
+    section_sec_id,
+    section_semester,
+    section_year,
+    section_building,
+    section_room_number,
+    section_time_slot_id
+);
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS get_sections;
+DELIMITER //
+CREATE PROCEDURE get_sections()
+BEGIN
+SELECT * FROM SECTION;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS update_section;
+DELIMITER //
+CREATE PROCEDURE update_section(
+IN section_course_id VARCHAR(8),
+IN section_sec_id VARCHAR(8),
+IN section_semester VARCHAR(6),
+IN section_year NUMERIC(4,0),
+IN new_building VARCHAR(15),
+IN new_room_number VARCHAR(7),
+IN new_time_slot_id VARCHAR(4)
+)
+BEGIN
+UPDATE SECTION
+SET building = new_building,
+    room_number = new_room_number,
+    time_slot_id = new_time_slot_id
+WHERE course_id = section_course_id
+  AND sec_id = section_sec_id
+  AND semester = section_semester
+  AND year = section_year;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS delete_section;
+DELIMITER //
+CREATE PROCEDURE delete_section(
+IN section_course_id VARCHAR(8),
+IN section_sec_id VARCHAR(8),
+IN section_semester VARCHAR(6),
+IN section_year NUMERIC(4,0)
+)
+BEGIN
+DELETE FROM SECTION
+WHERE course_id = section_course_id
+  AND sec_id = section_sec_id
+  AND semester = section_semester
+  AND year = section_year;
+END //
+DELIMITER ;
 
 -- Major transactions e.g. enroll in class, assign instructor to course, drop a section, give a grade to section
-
