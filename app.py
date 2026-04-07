@@ -12,7 +12,7 @@ cursor = dbserver.cursor() # Creates cursor (never recreate)
 runSQL(cursor, dbserver, "schema.sql") # Inputs schema
 # generateSeedData()
 runSQL(cursor, dbserver, "seed-data.sql") # Inputs seed data
-# runSQL(cursor, dbserver, "queries.sql") # Sets up procedure queries
+runSQL(cursor, dbserver, "queries.sql") # Sets up procedure queries
 
 @app.route("/")
 def hello_world():
