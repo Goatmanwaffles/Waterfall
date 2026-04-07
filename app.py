@@ -1,9 +1,20 @@
 from flask import Flask
+from setup import makeDatabase, runSQL, generateSeedData
 import config
+import pymysql
 
 app = Flask(__name__)
 
-db = config.dbserver
+# Creates the database server object
+dbserver = makeDatabase(config.HOST, config.USER, config.PASSWORD, config.DB_NAME)
+
+cursor = dbserver.cursor() # Creates cursor (never recreate)
+
+generateSeedData(config.schema, config.seed) # Generates seed data
+
+runSQL(cursor, dbserver, config.schema ) # Inputs schema
+runSQL(cursor, dbserver, config.seed   ) # Inputs seed data
+runSQL(cursor, dbserver, config.queries) # Sets up procedure queries
 
 @app.route("/")
 def hello_world():
