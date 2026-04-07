@@ -1,4 +1,5 @@
 import pymysql
+from pathlib import Path
 
 # Returns the pymysql.connect object
 def makeDatabase(hostname, username, password, database_name):
@@ -28,8 +29,14 @@ def makeDatabase(hostname, username, password, database_name):
     return dbserver
 
 # Runs any sql file input into it
-def runSQL(cursor, dbserver, sql_file):
-    # Builds schema
+def runSQL(cursor, dbserver, sql_filename):
+
+    # All .sql files need to be in the sql folder
+    # use pathlib for compatibility on Mac
+    PROJECT_ROOT = Path(__file__).resolve().parent.parent
+    sql_file = f"{PROJECT_ROOT / "sql" / sql_filename}"
+
+    # Runs the SQL file
     with open(file=sql_file, encoding="utf-8") as file:
         sql = file.read()
         for command in sql.split(";"):
@@ -39,3 +46,4 @@ def runSQL(cursor, dbserver, sql_file):
                 x = cursor.execute(command)
     
     dbserver.commit()
+

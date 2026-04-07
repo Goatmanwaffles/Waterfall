@@ -1,4 +1,3 @@
-from pathlib import Path
 import pymysql
 from setup import makeDatabase, runSQL
 
@@ -17,31 +16,20 @@ PASSWORD = ""
 ########
 
 # Creates the database server object
-dbserver = makeDatabase(
-    hostname = HOST,
-    username = USER,
-    password = PASSWORD,
-    database_name = DB_NAME
-)
+dbserver = makeDatabase(HOST, USER, PASSWORD, DB_NAME)
 
 # This creates and selects the database if it does not exist
 cursor = dbserver.cursor()
 
-# Prints the selected database
-# print(f"Selected database: {dbserver.db}")
-
-# SQL files to run (in order)
-# use pathlib for compatibility on Mac
-PROJECT_ROOT = Path(__file__).resolve().parent
-# sql_files = [
-schema = f"{PROJECT_ROOT / "sql" / "schema.sql"}"
-seed_data = f"{PROJECT_ROOT / "sql" / "seed-data.sql"}"
-# ]
 # Puts the schema into the database
-runSQL(cursor, dbserver, schema)
+runSQL(cursor, dbserver, "schema.sql")
 
 # generateSeedData()
 
 # Puts the seed data into the database
-runSQL(cursor, dbserver, seed_data)
+runSQL(cursor, dbserver, "seed-data.sql")
+
+# Sets up procedure queries
+# If you uncomment this you can test ur sql!
+# runSQL(cursor, dbserver, "queries.sql")
 
