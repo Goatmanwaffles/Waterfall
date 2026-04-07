@@ -29,3 +29,7 @@ runSQL(cursor, dbserver, "schema.sql")
 # Puts the seed data into the database
 runSQL(cursor, dbserver, "seed-data.sql")
 
+# Sets up procedure queries
+# If you uncomment this you can test ur sql!
+# runSQL(cursor, dbserver, "queries.sql")
+
