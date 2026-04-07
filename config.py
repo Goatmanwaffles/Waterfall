@@ -8,3 +8,8 @@ DB_NAME = "waterfall"
 HOST = "localhost"
 USER = "root"
 PASSWORD = ""
+
+# SQL file names (Must be in sql/ directory)
+schema = "schema.sql"
+seed = "seed-data.sql"
+queries = "queries.sql"
