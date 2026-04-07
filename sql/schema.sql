@@ -6,52 +6,57 @@ CREATE TABLE IF NOT EXISTS classroom (
 );;
 
 CREATE TABLE IF NOT EXISTS department (
-    dept_name       varchar(20), 
-    building        varchar(15), 
-    budget          numeric(12,2) check (budget > 0),
+    dept_name        varchar(20), 
+    building         varchar(15), 
+    budget           numeric(12,2) check (budget > 0),
     primary key (dept_name)
 );;
 
 CREATE TABLE IF NOT EXISTS course (
-    course_id        varchar(8), 
+    course_id        int AUTO_INCREMENT, 
     title            varchar(50), 
     dept_name        varchar(20),
     credits          numeric(2,0) check (credits > 0),
+    prereq_id        int AUTO_INCREMENT,
     primary key (course_id),
-    foreign key (dept_name) references department (dept_name)
+    foreign key (dept_name) references department (dept_name),
+    on delete set null,
+    foreign key (prereq_id) references prereq (prereq_id),
     on delete set null
 );;
 
 CREATE TABLE IF NOT EXISTS instructor (
-    ID               varchar(5), 
-    name             varchar(20) not null, 
-    dept_name        varchar(20), 
-    salary           numeric(8,2) check (salary > 29000),
+    ID                int AUTO_INCREMENT, 
+    name              varchar(20) not null, 
+    dept_name         varchar(20), 
+    salary            numeric(8,2) check (salary > 29000),
     primary key (ID),
     foreign key (dept_name) references department (dept_name)
     on delete set null
 );;
 
 CREATE TABLE IF NOT EXISTS section (
-    course_id        varchar(8), 
-    sec_id           varchar(8),
-    semester         varchar(6)
+    course_id          int AUTO_INCREMENT, 
+    sec_id             int AUTO_INCREMENT,
+    semester           varchar(6)
     check (semester in ('Fall', 'Winter', 'Spring', 'Summer')), 
-    year             numeric(4,0) check (year > 1701 and year < 2100), 
-    building         varchar(15),
-    room_number      varchar(7),
-    time_slot_id     varchar(4),
+    year               numeric(4,0) check (year > 1701 and year < 2100), 
+    building           varchar(15),
+    room_number        varchar(7),
+    time_slot_id       int AUTO_INCREMENT,
     primary key (course_id, sec_id, semester, year),
     foreign key (course_id) references course (course_id)
     on delete cascade,
     foreign key (building, room_number) references classroom (building, room_number)
+    on delete set null,
+    foreign key (time_slot_id) references time_slot (time_slot_id)
     on delete set null
 );;
 
 CREATE TABLE IF NOT EXISTS teaches (
-    ID              varchar(5), 
-    course_id       varchar(8),
-    sec_id          varchar(8), 
+    ID              int AUTO_INCREMENT, 
+    course_id       int AUTO_INCREMENT,
+    sec_id          int AUTO_INCREMENT, 
     semester        varchar(6),
     year            numeric(4,0),
     primary key (ID, course_id, sec_id, semester, year),
@@ -62,22 +67,26 @@ CREATE TABLE IF NOT EXISTS teaches (
 );;
 
 CREATE TABLE IF NOT EXISTS student (
-    ID               varchar(5), 
-    name             varchar(20) not null, 
-    dept_name        varchar(20), 
-    tot_cred         numeric(3,0) check (tot_cred >= 0),
+    ID              int AUTO_INCREMENT, 
+    first_name      varchar(20) not null,
+    last_name       varchar(20) not null, 
+    dept_name       varchar(20), 
+    tot_cred        numeric(3,0) check (tot_cred >= 0),
+    advisor_id      int AUTO_INCREMENT,
     primary key (ID),
     foreign key (dept_name) references department (dept_name)
-    on delete set null
-);;
+    on delete set null,
+    foreign key (advisor_id) references advisor (advisor_id)
+    on delete set null,
+);
 
 CREATE TABLE IF NOT EXISTS takes (
-    ID               varchar(5), 
-    course_id        varchar(8),
-    sec_id           varchar(8), 
-    semester         varchar(6),
-    year             numeric(4,0),
-    grade            varchar(2),
+    ID            int AUTO_INCREMENT, 
+    course_id        int AUTO_INCREMENT,
+    sec_id            int AUTO_INCREMENT, 
+    semester        varchar(6),
+    year            numeric(4,0),
+    grade                varchar(2),
     primary key (ID, course_id, sec_id, semester, year),
     foreign key (course_id, sec_id, semester, year) references section (course_id, sec_id, semester, year)
     on delete cascade,
@@ -85,9 +94,9 @@ CREATE TABLE IF NOT EXISTS takes (
     on delete cascade
 );;
 
-CREATE TABLE IF NOT EXISTS advisor (
-    s_ID            varchar(5),
-    i_ID            varchar(5),
+CREATE TABLE IF NOT EXISTS advises (
+    s_ID            int AUTO_INCREMENT,
+    i_ID            int AUTO_INCREMENT,
     primary key (s_ID),
     foreign key (i_ID) references instructor (ID)
     on delete set null,
@@ -96,21 +105,30 @@ CREATE TABLE IF NOT EXISTS advisor (
 );;
 
 CREATE TABLE IF NOT EXISTS time_slot (
-    time_slot_id      varchar(4),
-    day               varchar(1),
-    start_hr          numeric(2) check (start_hr >= 0 and start_hr < 24),
-    start_min         numeric(2) check (start_min >= 0 and start_min < 60),
+    time_slot_id        int AUTO_INCREMENT,
+    day            varchar(1),
+    start_hr        numeric(2) check (start_hr >= 0 and start_hr < 24),
+    start_min        numeric(2) check (start_min >= 0 and start_min < 60),
     end_hr            numeric(2) check (end_hr >= 0 and end_hr < 24),
     end_min           numeric(2) check (end_min >= 0 and end_min < 60),
     primary key (time_slot_id, day, start_hr, start_min)
 );;
 
 CREATE TABLE IF NOT EXISTS prereq (
-    course_id        varchar(8), 
-    prereq_id        varchar(8),
+    course_id        int AUTO_INCREMENT, 
+    prereq_id        int AUTO_INCREMENT,
     primary key (course_id, prereq_id),
     foreign key (course_id) references course (course_id)
     on delete cascade,
     foreign key (prereq_id) references course (course_id)
 );;
 
+CREATE TABLE IF NOT EXISTS advisor (
+    ID              int AUTO_INCREMENT,
+    first_name      varchar(20),
+    last_name       varchar(20),
+    department      varchar(20),
+    primary key (ID, department),
+    foreign key (department) references department (dept_name)
+    on delete set null
+)
