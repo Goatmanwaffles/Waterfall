@@ -1,24 +1,22 @@
 from pathlib import Path
-
 import pymysql
 
 # The DB_NAME of the database and other info
 # You need to create the database manually, I could not figure out
 #    how to do it for you
 DB_NAME = "waterfall"
-host = "localhost"
-user = "root"
-password = ""
+HOST = "localhost"
+USER = "root"
+PASSWORD = ""
 
 #######################
 # Builds the database
 ########
-
 # Makes the database if it does not exist
 make_db = pymysql.connect(
-    host=host,
-    user=user,
-    password=password,
+    host=HOST,
+    user=USER,
+    password=PASSWORD,
 )
 cursor = make_db.cursor()
 
@@ -32,9 +30,9 @@ make_db.commit()
 
 # This connects to the local host
 dbserver = pymysql.connect(
-    host=host,
-    user=user,
-    password=password,
+    host=HOST,
+    user=USER,
+    password=PASSWORD,
     database=DB_NAME
 )
 
