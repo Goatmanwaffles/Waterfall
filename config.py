@@ -1,6 +1,6 @@
 from pathlib import Path
 import pymysql
-from setup import makeDatabase
+from setup import makeDatabase, buildSchema
 
 # The DB_NAME of the database and other info
 # You need to create the database manually, I could not figure out
@@ -16,7 +16,13 @@ PASSWORD = ""
 # Builds the database
 ########
 
-dbserver = makeDatabase(HOST, USER, PASSWORD, DB_NAME)
+# Creates the database server object
+dbserver = makeDatabase(
+    hostname = HOST,
+    username = USER,
+    password = PASSWORD,
+    database_name = DB_NAME
+)
 
 # This creates and selects the database if it does not exist
 cursor = dbserver.cursor()
@@ -32,13 +38,7 @@ sql_files = [
     PROJECT_ROOT / "sql" / "seed-data.sql",
 ]
 
-# Builds schema
-for sql_file in sql_files:
-    with sql_file.open(encoding="utf-8") as file:
-        sql = file.read()
-        for command in sql.split(";"):
-            command = command.strip()
-            if command:
-                # print(f"Executed: {command}")
-                x = cursor.execute(command)
-dbserver.commit()
+buildSchema(cursor, dbserver, sql_files)
+# generateSeedData()
+# insertSeedData()
+

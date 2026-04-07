@@ -1,6 +1,7 @@
-from .setup import makeDatabase
+from .setup import makeDatabase, buildSchema
 
 __all__ = [
-    "makeDatabase"
+    "makeDatabase",
+    "buildSchema"
 ]
 
