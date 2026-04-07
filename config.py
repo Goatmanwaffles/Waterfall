@@ -1,6 +1,6 @@
 from pathlib import Path
 import pymysql
-from setup import makeDatabase, buildSchema
+from setup import makeDatabase, runSQL
 
 # The DB_NAME of the database and other info
 # You need to create the database manually, I could not figure out
@@ -33,12 +33,15 @@ cursor = dbserver.cursor()
 # SQL files to run (in order)
 # use pathlib for compatibility on Mac
 PROJECT_ROOT = Path(__file__).resolve().parent
-sql_files = [
-    PROJECT_ROOT / "sql" / "schema.sql",
-    PROJECT_ROOT / "sql" / "seed-data.sql",
-]
+# sql_files = [
+schema = f"{PROJECT_ROOT / "sql" / "schema.sql"}"
+seed_data = f"{PROJECT_ROOT / "sql" / "seed-data.sql"}"
+# ]
+# Puts the schema into the database
+runSQL(cursor, dbserver, schema)
 
-buildSchema(cursor, dbserver, sql_files)
 # generateSeedData()
-# insertSeedData()
+
+# Puts the seed data into the database
+runSQL(cursor, dbserver, seed_data)
 
