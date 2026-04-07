@@ -189,3 +189,18 @@ END //
 DELIMITER ;
 
 -- Major transactions e.g. enroll in class, assign instructor to course, drop a section, give a grade to section
+
+DROP PROCEDURE IF EXISTS enroll_in_section;
+DELIMITER //
+CREATE PROCEDURE enroll_in_section(
+IN student_id varchar(5),
+IN p_course_id
+IN section_id varchar(8),
+IN section_semester varchar(6),
+IN section_year NUMERIC(4,0)
+)
+BEGIN
+INSERT INTO TAKES(ID, course_id, sec_id, semester, year)
+VALUES (student_id, p_course_id, section_id, section_semester, section_year);
+END //
+DELIMITER ;
