@@ -66,6 +66,8 @@ def randomNumeric(table, column, datatype):
     right = datatype.split("(")[1] 
     commas = right.split(")")[0]
 
+    
+
     # Gets the precision and scale
     if "," in commas:
         length = commas.split(",")
@@ -76,14 +78,16 @@ def randomNumeric(table, column, datatype):
         scale = 0
 
     # Gets the randomization 
-    digits = precision - scale
-    minMax = pow(10, digits)
-    integer = str(randint(0, minMax))
+    minimum = 0
+    maximum = pow(10, precision)
+
+    integer = str(randint(0, maximum))
     data = integer
 
+    beforeDecimal = precision - scale
     if scale != 0:
-        data = integer[:scale] + "." + integer[scale:]
-    
+        data = integer[:beforeDecimal] + "." + integer[:scale]
+
     return data
 
 def generateSeedData(tables, schema_filename, seed_filename, rows=5):
