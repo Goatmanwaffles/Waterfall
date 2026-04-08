@@ -14,6 +14,12 @@ SCHEMA  = "schema.sql"
 SEED    = "seed-data.sql"
 QUERIES = "queries.sql"
 
+# Seed data generator for testing
+student_first_names    = ["Logan", "Andrew", "Caleb"]
+student_last_names     = ["Senol", "Roddy", "Stanberry"]
+instructor_first_names = ["Javed", "Giovanni", "Mikhail"]
+instructor_last_names  = ["Kahn", "Phares", "Nesterenko"]
+
 # This is the schema used to make the test data
 TABLES = {
     "classroom":  {

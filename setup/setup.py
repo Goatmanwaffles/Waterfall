@@ -2,6 +2,7 @@ import pymysql
 from pathlib import Path
 from random import randint, choice
 from string import ascii_letters
+import config
 
 # Returns the pymysql.connect object
 def makeDatabase(hostname, username, password, database_name):
@@ -55,43 +56,41 @@ def randomInteger(table, column, datatype):
     return data
 
 def randomVarchar(table, column, datatype):
-    #DATA TO GEN FROM
-    student_first_names = ["Logan", "Andrew", "Caleb"]
-    student_last_names = ["Senol", "Roddy", "Stanberry"]
-    instructor_first_names = ["Javed", "Giovanni", "Mikhail"]
-    instructor_last_names = ["Kahn", "Phares", "Nesterenko"]
+    # Starts the string
+    data = "\""
 
-    data = ""
-    #right = datatype.split("(")[1] 
-    #length = right.split(")")[0]
-    #for _ in range(int(length)):
     #STUDENT FIRST NAME HANDLER
     if column == "first_name" and table == "student":
-        data += f"{choice(student_first_names)}"
+        data += f"{choice(config.student_first_names)}"
 
     #STUDENT FIRST NAME HANDLER
     if column == "last_name" and table == "student":
-        data += f"{choice(student_last_names)}"
+        data += f"{choice(config.student_last_names)}"
     
 
     #INSTRUCTOR FIRST NAME HANDLER
     if column == "first_name" and table == "instructor":
-        data += f"{choice(instructor_first_names)}"
+        data += f"{choice(config.instructor_first_names)}"
 
     #INSTRUCTOR LAST NAME HANDLER
     if column == "last_name" and table == "instructor":
-        data += f"{choice(instructor_last_names)}"
+        data += f"{choice(config.instructor_last_names)}"
+
+    # Random character fallback
+    right = datatype.split("(")[1] 
+    length = right.split(")")[0]
+    if data == "\"":
+        for _ in range(int(length)):
+            data += choice(ascii_letters)
+
+    # Closes off the string
+    data += "\""
 
     return data
-
-
-    
 
 def randomNumeric(table, column, datatype):
     right = datatype.split("(")[1] 
     commas = right.split(")")[0]
-
-    
 
     # Gets the precision and scale
     if "," in commas:
@@ -131,7 +130,7 @@ def randomNumeric(table, column, datatype):
     
     return data
 
-def generateSeedData(tables, schema_filename, seed_filename, rows=5):
+def generateSeedData(tables, schema_filename, seed_filename):
     
     schema_path = makePath(schema_filename) # Makes absolute file path
     seed_path = makePath(seed_filename)
@@ -139,7 +138,7 @@ def generateSeedData(tables, schema_filename, seed_filename, rows=5):
     seed.truncate(0) # Clears the file
 
     for table, columns in tables.items():
-        for _ in range(rows): # Creates that many rows per table
+        for _ in range(3): # Creates that many rows per table
 
             values = "" # Everything to be inserted
 
