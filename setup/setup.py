@@ -48,20 +48,8 @@ def runSQL(cursor, dbserver, sql_filename):
     
     dbserver.commit()
 
-def generateSeedData(schema_filename, seed_filename):
-    tables = {
-        "classroom":  ["varchar(15)", "varchar(7)",  "numeric(4,0)"],
-        "department": ["varchar(20)", "varchar(15)", "numeric(12,2)"],
-        "course":     ["varchar(8)",  "varchar(50)", "varchar(20)", "numeric(2,0)"],
-        "instructor": ["varchar(5)", "varchar(20)", "varchar(20)", "numeric(8,2)"],
-        "section":    ["varchar(8)", "varchar(8)", "varchar(6)", "numeric(4,0)", "varchar(15)", "varchar(7)", "varchar(4)"],
-        "teaches":    ["varchar(5)", "varchar(8)", "varchar(8)", "varchar(6)", "numeric(4,0)"],
-        "student":    ["varchar(5)", "varchar(20)", "varchar(20)", "numeric(3,0)"],
-        "takes":      ["varchar(5)", "varchar(8)", "varchar(8)", "varchar(6)", "numeric(4,0)", "varchar(2)"],
-        "advisor":    ["varchar(5)", "varchar(5)"],
-        "time_slot":  ["varchar(4)", "varchar(1)", "numeric(2)", "numeric(2)", "numeric(2)", "numeric(2)", "numeric(2)", "numeric(2)"],
-        "prereq":     ["varchar(8)", "varchar(8)"]
-    }
+def generateSeedData(tables, schema_filename, seed_filename):
+    print(tables)
 
     schema_path = makePath(schema_filename) # Makes absolute file path
     seed_path = makePath(seed_filename)

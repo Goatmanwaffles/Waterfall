@@ -10,7 +10,7 @@ dbserver = makeDatabase(config.HOST, config.USER, config.PASSWORD, config.DB_NAM
 
 cursor = dbserver.cursor() # Creates cursor (never recreate)
 
-generateSeedData(config.schema, config.seed) # Generates seed data
+generateSeedData(config.TABLES, config.schema, config.seed) # Generates seed data
 
 runSQL(cursor, dbserver, config.schema ) # Inputs schema
 runSQL(cursor, dbserver, config.seed   ) # Inputs seed data
