@@ -1,7 +1,8 @@
-from .setup import makeDatabase, runSQL
+from .setup import makeDatabase, runSQL, generateSeedData
 
 __all__ = [
     "makeDatabase",
-    "runSQL"
+    "runSQL",
+    "generateSeedData"
 ]
 
