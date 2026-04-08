@@ -1,5 +1,7 @@
 import pymysql
 from pathlib import Path
+from random import randint, choice
+from string import ascii_letters
 
 # Returns the pymysql.connect object
 def makeDatabase(hostname, username, password, database_name):
@@ -57,23 +59,31 @@ def generateSeedData(tables, schema_filename, seed_filename, rows=1):
 
     for table, columns in tables.items():
         for _ in range(rows): # Creates that many rows per table
+
             values = "" # Everything to be inserted
 
             # Iterate through every column and pull datatype
             for column, datatype in columns.items():
                 data = ""
+
                 if "int" in datatype:
-                    data = "1"
+                    data = f"{randint(1,999)}"
+                
                 elif "varchar" in datatype:
-                    data = "varchar"
+                    right = datatype.split("(")[1] 
+                    length = right.split(")")[0]
+                    for _ in range(int(length)):
+                        data += f"{choice(ascii_letters)}"
+            
                 elif "numeric" in datatype:
                     data = "0.1"
+                
                 else:
                     data = "??????"
                 
                 values += f"{data}, " # Actually inserts data
-                # print(f"    {column} | {datatype}")
-            values = values[:-2]
+            
+            values = values[:-2] # Cuts off extra ', '
 
             seed.write(f"-- INSERT INTO {table} VALUES ({values});;\n")
     #    for table in tables:
