@@ -60,6 +60,8 @@ def randomVarchar(table, column, datatype):
     student_last_names = ["Senol", "Roddy", "Stanberry"]
     instructor_first_names = ["Javed", "Giovanni", "Mikhail"]
     instructor_last_names = ["Kahn", "Phares", "Nesterenko"]
+    dept_names = ["CS", "BIO", "MATH", "CHEM"]
+    buildings = ["Smith", "MSB", "DI", "White"]
 
     data = ""
     #right = datatype.split("(")[1] 
@@ -81,6 +83,14 @@ def randomVarchar(table, column, datatype):
     #INSTRUCTOR LAST NAME HANDLER
     if column == "last_name" and table == "instructor":
         data += f"{choice(instructor_last_names)}"
+
+    #DEPT NAME HANDLER
+    if column == "dept_name" and table == "department":
+        data += f"{choice(dept_names)}"
+
+    #DEPT NAME HANDLER
+    if column == "building" and table == "department":
+        data += f"{choice(buildings)}"
 
     return data
 
