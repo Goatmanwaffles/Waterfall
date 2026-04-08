@@ -50,7 +50,46 @@ def runSQL(cursor, dbserver, sql_filename):
     
     dbserver.commit()
 
-def generateSeedData(tables, schema_filename, seed_filename, rows=1):
+def getRandomized(datatype):
+    data = ""
+    
+    if "int" in datatype:
+        data = f"{randint(1,999)}"
+    
+    elif "varchar" in datatype:
+        right = datatype.split("(")[1] 
+        length = right.split(")")[0]
+        for _ in range(int(length)):
+            data += f"{choice(ascii_letters)}"
+
+    elif "numeric" in datatype:
+        right = datatype.split("(")[1] 
+        commas = right.split(")")[0]
+
+        # Gets the precision and scale
+        if "," in commas:
+            length = commas.split(",")
+            precision = int(length[0])
+            scale = int(length[1])
+        else: # No scale defaults to zero
+            precision = int(commas)
+            scale = 0
+
+        # Gets the randomization 
+        digits = precision - scale
+        minMax = pow(10, digits)
+        integer = str(randint(0, minMax))
+        data = integer
+        
+        if scale != 0:
+            data = integer[:scale] + "." + integer[scale:]
+        
+    else:
+        data = "??????"
+
+    return data
+
+def generateSeedData(tables, schema_filename, seed_filename, rows=5):
     
     schema_path = makePath(schema_filename) # Makes absolute file path
     seed_path = makePath(seed_filename)
@@ -64,30 +103,13 @@ def generateSeedData(tables, schema_filename, seed_filename, rows=1):
 
             # Iterate through every column and pull datatype
             for column, datatype in columns.items():
-                data = ""
+                data = getRandomized(datatype)
 
-                if "int" in datatype:
-                    data = f"{randint(1,999)}"
-                
-                elif "varchar" in datatype:
-                    right = datatype.split("(")[1] 
-                    length = right.split(")")[0]
-                    for _ in range(int(length)):
-                        data += f"{choice(ascii_letters)}"
-            
-                elif "numeric" in datatype:
-                    data = "0.1"
-                
-                else:
-                    data = "??????"
-                
                 values += f"{data}, " # Actually inserts data
             
             values = values[:-2] # Cuts off extra ', '
 
             seed.write(f"-- INSERT INTO {table} VALUES ({values});;\n")
-    #    for table in tables:
-    #       values = "'Packard', '101', '500'"
 
     seed.close()
     
