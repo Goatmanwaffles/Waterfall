@@ -48,19 +48,38 @@ def runSQL(cursor, dbserver, sql_filename):
     
     dbserver.commit()
 
-def generateSeedData(tables, schema_filename, seed_filename):
-    print(tables)
-
+def generateSeedData(tables, schema_filename, seed_filename, rows=1):
+    
     schema_path = makePath(schema_filename) # Makes absolute file path
     seed_path = makePath(seed_filename)
- #   seed = open(file=seed_path, mode="w", encoding="utf-8")
- #   seed.truncate(0) # Clears the file
+    seed = open(file=seed_path, mode="w", encoding="utf-8")
+    seed.truncate(0) # Clears the file
 
-#    for table in tables:
- #       values = "'Packard', '101', '500'"
-  #      seed.write(f"INSERT INTO {table} VALUES ({values});;\n")
+    for table, columns in tables.items():
+        for _ in range(rows): # Creates that many rows per table
+            values = "" # Everything to be inserted
 
-#    seed.close()
+            # Iterate through every column and pull datatype
+            for column, datatype in columns.items():
+                data = ""
+                if "int" in datatype:
+                    data = "1"
+                elif "varchar" in datatype:
+                    data = "varchar"
+                elif "numeric" in datatype:
+                    data = "0.1"
+                else:
+                    data = "??????"
+                
+                values += f"{data}, " # Actually inserts data
+                # print(f"    {column} | {datatype}")
+            values = values[:-2]
+
+            seed.write(f"-- INSERT INTO {table} VALUES ({values});;\n")
+    #    for table in tables:
+    #       values = "'Packard', '101', '500'"
+
+    seed.close()
     
 
 

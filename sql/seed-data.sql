@@ -1,1 +1,12 @@
--- None for a bit
+-- INSERT INTO classroom VALUES (varchar, varchar, 0.1);;
+-- INSERT INTO department VALUES (varchar, varchar, 0.1);;
+-- INSERT INTO time_slot VALUES (1, varchar, 0.1, 0.1, 0.1, 0.1);;
+-- INSERT INTO advisor VALUES (1, varchar, varchar, varchar);;
+-- INSERT INTO course VALUES (1, varchar, varchar, 0.1);;
+-- INSERT INTO prereq VALUES (1, 1);;
+-- INSERT INTO instructor VALUES (1, varchar, varchar, 0.1);;
+-- INSERT INTO section VALUES (1, 1, varchar, 0.1, varchar, varchar, 1);;
+-- INSERT INTO student VALUES (1, varchar, varchar, varchar, 0.1, 1);;
+-- INSERT INTO teaches VALUES (1, 1, 1, varchar, 0.1);;
+-- INSERT INTO takes VALUES (1, 1, 1, varchar, 0.1, varchar);;
+-- INSERT INTO advises VALUES (1, 1);;
