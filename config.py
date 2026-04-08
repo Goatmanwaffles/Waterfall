@@ -15,10 +15,12 @@ SEED    = "seed-data.sql"
 QUERIES = "queries.sql"
 
 # Seed data generator for testing
-student_first_names    = ["Logan", "Andrew", "Caleb"]
-student_last_names     = ["Senol", "Roddy", "Stanberry"]
+student_first_names = ["Logan", "Andrew", "Caleb"]
+student_last_names = ["Senol", "Roddy", "Stanberry"]
 instructor_first_names = ["Javed", "Giovanni", "Mikhail"]
-instructor_last_names  = ["Kahn", "Phares", "Nesterenko"]
+instructor_last_names = ["Kahn", "Phares", "Nesterenko"]
+dept_names = ["CS", "BIO", "MATH", "CHEM"]
+buildings = ["Smith", "MSB", "DI", "White"]
 
 # This is the schema used to make the test data
 TABLES = {

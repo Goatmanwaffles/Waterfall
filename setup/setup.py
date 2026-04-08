@@ -76,6 +76,14 @@ def randomVarchar(table, column, datatype):
     if column == "last_name" and table == "instructor":
         data += f"{choice(config.instructor_last_names)}"
 
+    #DEPT NAME HANDLER
+    if column == "dept_name" and table == "department":
+        data += f"{choice(config.dept_names)}"
+
+    #DEPT NAME HANDLER
+    if column == "building" and table == "department":
+        data += f"{choice(config.buildings)}"
+
     # Random character fallback
     right = datatype.split("(")[1] 
     length = right.split(")")[0]
