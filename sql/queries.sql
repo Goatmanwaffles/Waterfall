@@ -3,13 +3,13 @@
 -- CRUD Instructor
 DROP PROCEDURE IF EXISTS create_instructor;;
 CREATE PROCEDURE create_instructor (
-    IN id VARCHAR(5),
+    IN id int,
     IN instructor_name VARCHAR(20),
     IN department_name VARCHAR(20),
     IN salary NUMERIC(8,2)
 )
 BEGIN
-    INSERT INTO INSTRUCTOR
+    INSERT INTO INSTRUCTOR (instructor_ID, name, dept_name, salary)
     VALUES (id, instructor_name, department_name, salary);
 END;;
 
@@ -31,7 +31,7 @@ UPDATE INSTRUCTOR
 SET name = instructor_name,
     dept_name = department_name, 
     salary = instructor_salary
-WHERE id = instructor_id;
+WHERE instructor_ID = instructor_id;
 END;;
 
 DROP PROCEDURE IF EXISTS delete_instructor;;
@@ -40,20 +40,21 @@ IN instructor_id int
 )
 BEGIN
 DELETE FROM INSTRUCTOR
-WHERE  id = instructor_id;
+WHERE  instructor_ID = instructor_id;
 END;;
 
 -- CRUD Student
 DROP PROCEDURE IF EXISTS create_student;;
 CREATE PROCEDURE create_student(
 IN id int,
-IN student_name varchar(20),
+IN student_first_name varchar(20),
+IN student_last_name varchar(20),
 IN department_name VARCHAR(20),
 IN total_credits NUMERIC (3,0)
 )
 BEGIN
-INSERT INTO STUDENT
-VALUES (id, student_name, department_name, total_credits);
+INSERT INTO STUDENT (student_ID, first_name, last_name, dept_name, tot_cred)
+VALUES (id, student_first_name, student_last_name, department_name, total_credits);
 END;;
 
 DROP PROCEDURE IF EXISTS get_students;;
@@ -65,16 +66,18 @@ END;;
 DROP PROCEDURE IF EXISTS update_student;;
 CREATE PROCEDURE update_student(
 IN student_id int,
-IN student_name varchar(20),
+IN student_first_name varchar(20),
+IN student_last_name varchar(20),
 IN department_name VARCHAR(20),
 IN total_credits NUMERIC (3,0)
 )
 BEGIN
 UPDATE STUDENT
-SET name = student_name,
-    dept_name = department_name, 
+SET first_name = student_first_name,
+    last_name = student_last_name,
+    dept_name = department_name,
     tot_cred = total_credits
-WHERE id = student_id;
+WHERE student_ID = student_id;
 END;;
 
 DROP PROCEDURE IF EXISTS delete_student;;
@@ -83,14 +86,14 @@ IN student_id int
 )
 BEGIN
 DELETE FROM STUDENT
-WHERE  id = student_id;
+WHERE  student_ID = student_id;
 END;;
 
 
 DROP PROCEDURE IF EXISTS create_section;;
 CREATE PROCEDURE create_section(
 IN section_course_id int,
-IN section_sec_id int,
+IN section_section_ID int,
 IN section_semester VARCHAR(6),
 IN section_year NUMERIC(4,0),
 IN section_building VARCHAR(15),
@@ -100,7 +103,7 @@ IN section_time_slot_id int
 BEGIN
 INSERT INTO SECTION (
     course_id,
-    sec_id,
+    section_ID,
     semester,
     year,
     building,
@@ -109,7 +112,7 @@ INSERT INTO SECTION (
 )
 VALUES (
     section_course_id,
-    section_sec_id,
+    section_section_ID,
     section_semester,
     section_year,
     section_building,
@@ -127,7 +130,7 @@ END;;
 DROP PROCEDURE IF EXISTS update_section;;
 CREATE PROCEDURE update_section(
 IN section_course_id int,
-IN section_sec_id int,
+IN section_section_ID int,
 IN section_semester VARCHAR(6),
 IN section_year NUMERIC(4,0),
 IN new_building VARCHAR(15),
@@ -140,7 +143,7 @@ SET building = new_building,
     room_number = new_room_number,
     time_slot_id = new_time_slot_id
 WHERE course_id = section_course_id
-  AND sec_id = section_sec_id
+  AND section_ID = section_section_ID
   AND semester = section_semester
   AND year = section_year;
 END;;
@@ -148,14 +151,14 @@ END;;
 DROP PROCEDURE IF EXISTS delete_section;;
 CREATE PROCEDURE delete_section(
 IN section_course_id int,
-IN section_sec_id int,
+IN section_section_ID int,
 IN section_semester VARCHAR(6),
 IN section_year NUMERIC(4,0)
 )
 BEGIN
 DELETE FROM SECTION
 WHERE course_id = section_course_id
-  AND sec_id = section_sec_id
+  AND section_ID = section_section_ID
   AND semester = section_semester
   AND year = section_year;
 END;;
@@ -171,7 +174,7 @@ IN section_semester VARCHAR(6),
 IN section_year NUMERIC(4,0)
 )
 BEGIN
-INSERT INTO TAKES(ID, course_id, sec_id, semester, year, grade)
+INSERT INTO TAKES(student_ID, course_ID, section_ID, semester, year, grade)
 VALUES (student_id, p_course_id, section_id, section_semester, section_year, NULL);
 END;;
 
@@ -184,7 +187,7 @@ IN section_semester VARCHAR(6),
 IN section_year NUMERIC(4,0)
 )
 BEGIN
-INSERT INTO TEACHES(ID, course_id, sec_id, semester, year)
+INSERT INTO TEACHES(instructor_ID, course_ID, section_ID, semester, year)
 VALUES (instructor_id, p_course_id, section_id, section_semester, section_year);
 END;;
 
@@ -198,7 +201,7 @@ IN section_year NUMERIC(4,0)
 BEGIN
 DELETE FROM SECTION
 WHERE course_id = p_course_id
-  AND sec_id = section_id
+  AND section_ID = section_id
   AND semester = section_semester
   AND year = section_year;
 END;;
@@ -215,9 +218,9 @@ IN section_grade VARCHAR(2)
 BEGIN
 UPDATE TAKES
 SET grade = section_grade
-WHERE ID = student_id
+WHERE student_ID = student_id
   AND course_id = p_course_id
-  AND sec_id = section_id
+  AND section_ID = section_id
   AND semester = section_semester
   AND year = section_year;
 END;;
