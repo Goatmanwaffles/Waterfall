@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS prereq (
     course_ID        INT, 
     PRIMARY KEY (prereq_ID, course_ID),
     FOREIGN KEY (course_ID) REFERENCES course (course_ID)
-    ON DELETE CASCADE,
+        ON DELETE CASCADE,
     FOREIGN KEY (prereq_ID) REFERENCES course (course_ID)
 );;
 
@@ -58,25 +58,25 @@ CREATE TABLE IF NOT EXISTS instructor (
     salary            NUMERIC(8,2) CHECK (salary > 29000),
     PRIMARY KEY (instructor_ID),
     FOREIGN KEY (dept_name) REFERENCES department (dept_name)
-    ON DELETE SET NULL
+        ON DELETE SET NULL
 );;
 
 CREATE TABLE IF NOT EXISTS section (
     section_ID         INT AUTO_INCREMENT,
     course_ID          INT, 
     semester           VARCHAR(6)
-    CHECK (semester in ('Fall', 'Winter', 'Spring', 'Summer')), 
+        CHECK (semester in ('Fall', 'Winter', 'Spring', 'Summer')), 
     year               NUMERIC(4,0) CHECK (year > 1701 and year < 2100), 
     building           VARCHAR(15),
     room_number        VARCHAR(7),
     time_slot_ID       INT,
     PRIMARY KEY (section_ID, course_ID, semester, year),
     FOREIGN KEY (course_ID) REFERENCES course (course_ID)
-    ON DELETE CASCADE,
+        ON DELETE CASCADE,
     FOREIGN KEY (building, room_number) REFERENCES classroom (building, room_number)
-    ON DELETE SET NULL,
+        ON DELETE SET NULL,
     FOREIGN KEY (time_slot_ID) REFERENCES time_slot (time_slot_ID)
-    ON DELETE SET NULL
+        ON DELETE SET NULL
 );;
 
 CREATE TABLE IF NOT EXISTS student (
@@ -88,9 +88,9 @@ CREATE TABLE IF NOT EXISTS student (
     advisor_ID      INT,
     PRIMARY KEY (student_ID),
     FOREIGN KEY (dept_name) REFERENCES department (dept_name)
-    ON DELETE SET NULL,
+        ON DELETE SET NULL,
     FOREIGN KEY (advisor_ID) REFERENCES advisor (advisor_ID)
-    ON DELETE SET NULL
+        ON DELETE SET NULL
 );;
 
 CREATE TABLE IF NOT EXISTS teaches (
@@ -101,9 +101,9 @@ CREATE TABLE IF NOT EXISTS teaches (
     year            NUMERIC(4,0),
     PRIMARY KEY (instructor_ID, course_ID, section_ID, semester, year),
     FOREIGN KEY (course_ID, section_ID, semester, year) REFERENCES section (course_ID, section_ID, semester, year)
-    ON DELETE CASCADE,
+        ON DELETE CASCADE,
     FOREIGN KEY (instructor_ID) REFERENCES instructor (instructor_ID)
-    ON DELETE CASCADE
+        ON DELETE CASCADE
 );;
 
 CREATE TABLE IF NOT EXISTS takes (
@@ -115,9 +115,9 @@ CREATE TABLE IF NOT EXISTS takes (
     grade            VARCHAR(2),
     PRIMARY KEY (student_ID, course_ID, section_ID, semester, year),
     FOREIGN KEY (course_ID, section_ID, semester, year) REFERENCES section (course_ID, section_ID, semester, year)
-    ON DELETE CASCADE,
+        ON DELETE CASCADE,
     FOREIGN KEY (student_ID) REFERENCES student (student_ID)
-    ON DELETE CASCADE
+        ON DELETE CASCADE
 );;
 
 CREATE TABLE IF NOT EXISTS advises (
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS advises (
     advisor_ID            INT,
     PRIMARY KEY (student_ID),
     FOREIGN KEY (advisor_ID) REFERENCES advisor (advisor_ID)
-    ON DELETE SET NULL,
+        ON DELETE SET NULL,
     FOREIGN KEY (student_ID) REFERENCES student (student_ID)
-    ON DELETE CASCADE
+        ON DELETE CASCADE
 );;
