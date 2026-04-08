@@ -14,7 +14,7 @@ def makeDatabase(hostname, username, password, database_name):
 
     cursor = make_db.cursor()
 
-    # DROPS THE ENTIRE DATABASE
+    # DROPS THE ENTIRE DATABASE 
     # THIS IS ONLY FOR TESTING PURPOSES!!!!!
     cursor.execute(f"DROP DATABASE IF EXISTS {database_name};")
     cursor.execute(f"CREATE DATABASE IF NOT EXISTS {database_name};")
@@ -55,12 +55,37 @@ def randomInteger(table, column, datatype):
     return data
 
 def randomVarchar(table, column, datatype):
+    #DATA TO GEN FROM
+    student_first_names = ["Logan", "Andrew", "Caleb"]
+    student_last_names = ["Senol", "Roddy", "Stanberry"]
+    instructor_first_names = ["Javed", "Giovanni", "Mikhail"]
+    instructor_last_names = ["Kahn", "Phares", "Nesterenko"]
+
     data = ""
-    right = datatype.split("(")[1] 
-    length = right.split(")")[0]
-    for _ in range(int(length)):
-        data += f"{choice(ascii_letters)}"
+    #right = datatype.split("(")[1] 
+    #length = right.split(")")[0]
+    #for _ in range(int(length)):
+    #STUDENT FIRST NAME HANDLER
+    if column == "first_name" and table == "student":
+        data += f"{choice(student_first_names)}"
+
+    #STUDENT FIRST NAME HANDLER
+    if column == "last_name" and table == "student":
+        data += f"{choice(student_last_names)}"
+    
+
+    #INSTRUCTOR FIRST NAME HANDLER
+    if column == "first_name" and table == "instructor":
+        data += f"{choice(instructor_first_names)}"
+
+    #INSTRUCTOR LAST NAME HANDLER
+    if column == "last_name" and table == "instructor":
+        data += f"{choice(instructor_last_names)}"
+
     return data
+
+
+    
 
 def randomNumeric(table, column, datatype):
     right = datatype.split("(")[1] 

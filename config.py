@@ -52,7 +52,8 @@ TABLES = {
     },
     "instructor": {
         "instructor_ID": "int", 
-        "name":          "varchar(20)", 
+        "first_name":          "varchar(20)",
+        "last_name":     "varchar(20)",
         "dept_name":     "varchar(20)", 
         "salary":        "numeric(8,2)"
     },

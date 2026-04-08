@@ -53,7 +53,8 @@ CREATE TABLE IF NOT EXISTS prereq (
 
 CREATE TABLE IF NOT EXISTS instructor (
     instructor_ID     INT AUTO_INCREMENT, 
-    name              VARCHAR(20) NOT NULL, 
+    first_name        VARCHAR(20) NOT NULL,
+    last_name         VARCHAR(20) NOT NULL, 
     dept_name         VARCHAR(20), 
     salary            NUMERIC(8,2) CHECK (salary > 29000),
     PRIMARY KEY (instructor_ID),
