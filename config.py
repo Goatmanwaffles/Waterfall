@@ -25,65 +25,71 @@ TABLES = {
         "dept_name": "varchar(20)", 
         "building":  "varchar(15)", 
         "budget":    "numeric(12,2)"
-    }
-    # "time_slot": {
-    #     "time_Slot_ID": "int", 
-    #     "varchar(1)", 
-    #     "numeric(2)", 
-    #     "numeric(2)", 
-    #     "numeric(2)", 
-    #     "numeric(2)", 
-    #     "numeric(2)", 
-    #     "numeric(2)"
-    # },
-    # "course": {
-    #     "varchar(8)",  
-    #     "varchar(50)", 
-    #     "varchar(20)", 
-    #     "numeric(2,0)"
-    # },
-    # "instructor": {
-    #     "varchar(5)", 
-    #     "varchar(20)", 
-    #     "varchar(20)", 
-    #     "numeric(8,2)"
-    # },
-    # "section": {
-    #     "varchar(8)", 
-    #     "varchar(8)", 
-    #     "varchar(6)", 
-    #     "numeric(4,0)", 
-    #     "varchar(15)", 
-    #     "varchar(7)", 
-    #     "varchar(4)"
-    # },
-    # "teaches": {
-    #     "varchar(5)", 
-    #     "varchar(8)", 
-    #     "varchar(8)", 
-    #     "varchar(6)", 
-    #     "numeric(4,0)"
-    # },
-    # "student": {
-    #     "varchar(5)", 
-    #     "varchar(20)", 
-    #     "varchar(20)", 
-    #     "numeric(3,0)"
-    # },
-    # "takes": {
-    #     "varchar(5)", 
-    #     "varchar(8)", 
-    #     "varchar(8)", 
-    #     "varchar(6)", 
-    #     "numeric(4,0)", 
-    #     "varchar(2)"
-    # },
-    # "advisor": {
-    #     "varchar(5)", 
-    #     "varchar(5)"
-    # },
-    # "prereq": {
-    #     "varchar(8)", 
-    #     "varchar(8)"
-    # }
+    },
+    "time_slot": {
+        "time_Slot_ID": "int", 
+        "day":          "varchar(1)", 
+        "start_hr":     "numeric(2)", 
+        "start_min":    "numeric(2)", 
+        "end_hr":       "numeric(2)", 
+        "end_min":      "numeric(2)", 
+    },
+    "advisor": {
+        "advisor_ID": "int", 
+        "first_name": "varchar(20)",
+        "last_name":  "varchar(20)",
+        "department": "varchar(20)"
+    },
+    "course": {
+        "course_ID": "int",  
+        "title":     "varchar(50)", 
+        "dept_name": "varchar(20)", 
+        "credits":   "numeric(2,0)"
+    },
+    "prereq": {
+        "prereq_ID": "int", 
+        "course_ID": "int"
+    },
+    "instructor": {
+        "instructor_ID": "int", 
+        "name":          "varchar(20)", 
+        "dept_name":     "varchar(20)", 
+        "salary":        "numeric(8,2)"
+    },
+    "section": {
+        "section_ID": "int", 
+        "course_ID": "int", 
+        "semester": "varchar(6)", 
+        "year": "numeric(4,0)", 
+        "building": "varchar(15)", 
+        "room_number": "varchar(7)", 
+        "time_slot_ID": "int"
+    },
+    "student": {
+        "student_ID": "int", 
+        "first_name": "varchar(20)", 
+        "last_name": "varchar(20)", 
+        "dept_name": "varchar(20)", 
+        "total_cred": "numeric(3,0)",
+        "advisor_ID": "int"
+    },
+    "teaches": {
+        "instructor_ID": "int", 
+        "course_ID": "int", 
+        "section_ID": "int", 
+        "semester": "varchar(6)", 
+        "year": "numeric(4,0)"
+    },
+    "takes": {
+        "student_ID": "int", 
+        "course_ID": "int", 
+        "section_ID": "int", 
+        "semester": "varchar(6)", 
+        "year": "numeric(4,0)", 
+        "grade": "varchar(2)"
+    },
+    "advises": {
+        "student_ID": "int", 
+        "advisor_ID": "int", 
+    },
 }
