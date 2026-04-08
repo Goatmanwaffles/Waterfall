@@ -5,14 +5,14 @@
 DB_NAME = "waterfall"
 
 # Other general configuration stuff
-HOST = "localhost"
-USER = "root"
+HOST     = "localhost"
+USER     = "root"
 PASSWORD = ""
 
 # SQL file names (Must be in sql/ directory)
-schema = "schema.sql"
-seed = "seed-data.sql"
-queries = "queries.sql"
+SCHEMA  = "schema.sql"
+SEED    = "seed-data.sql"
+QUERIES = "queries.sql"
 
 # This is the schema used to make the test data
 TABLES = {
