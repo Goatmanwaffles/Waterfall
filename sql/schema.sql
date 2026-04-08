@@ -1,131 +1,131 @@
 CREATE TABLE IF NOT EXISTS classroom (
-    building        varchar(15),
-    room_number     varchar(7),
-    capacity        numeric(4,0),
-    primary key (building, room_number)
+    building        VARCHAR(15),
+    room_number     VARCHAR(7),
+    capacity        NUMERIC(4,0),
+    PRIMARY KEY (building, room_number)
 );;
 
 CREATE TABLE IF NOT EXISTS department (
-    dept_name        varchar(20), 
-    building         varchar(15), 
-    budget           numeric(12,2) check (budget > 0),
-    primary key (dept_name)
+    dept_name       VARCHAR(20), 
+    building        VARCHAR(15), 
+    budget          NUMERIC(12,2) CHECK (budget > 0),
+    PRIMARY KEY (dept_name)
 );;
 
 CREATE TABLE IF NOT EXISTS time_slot (
-    time_slot_ID        int AUTO_INCREMENT,
-    day            varchar(1),
-    start_hr        numeric(2) check (start_hr >= 0 and start_hr < 24),
-    start_min        numeric(2) check (start_min >= 0 and start_min < 60),
-    end_hr            numeric(2) check (end_hr >= 0 and end_hr < 24),
-    end_min           numeric(2) check (end_min >= 0 and end_min < 60),
-    primary key (time_slot_ID, day, start_hr, start_min)
+    time_slot_ID     INT AUTO_INCREMENT,
+    day              VARCHAR(1),
+    start_hr         NUMERIC(2) CHECK (start_hr >= 0 and start_hr < 24),
+    start_min        NUMERIC(2) CHECK (start_min >= 0 and start_min < 60),
+    end_hr           NUMERIC(2) CHECK (end_hr >= 0 and end_hr < 24),
+    end_min          NUMERIC(2) CHECK (end_min >= 0 and end_min < 60),
+    PRIMARY KEY (time_slot_ID, day, start_hr, start_min)
 );;
 
 CREATE TABLE IF NOT EXISTS advisor (
-    advisor_ID              int AUTO_INCREMENT,
-    first_name      varchar(20),
-    last_name       varchar(20),
-    department      varchar(20),
-    primary key (advisor_ID),
-    foreign key (department) references department (dept_name)
-        on delete set null
+    advisor_ID      INT AUTO_INCREMENT,
+    first_name      VARCHAR(20),
+    last_name       VARCHAR(20),
+    department      VARCHAR(20),
+    PRIMARY KEY (advisor_ID),
+    FOREIGN KEY (department) REFERENCES department (dept_name)
+        ON DELETE SET NULL
 );;
 
 CREATE TABLE IF NOT EXISTS course (
-    course_ID        int AUTO_INCREMENT, 
-    title            varchar(50), 
-    dept_name        varchar(20),
-    credits          numeric(2,0) check (credits > 0),
-    primary key (course_ID),
-    foreign key (dept_name) references department (dept_name)
-        on delete set null
+    course_ID        INT AUTO_INCREMENT, 
+    title            VARCHAR(50), 
+    dept_name        VARCHAR(20),
+    credits          NUMERIC(2,0) CHECK (credits > 0),
+    PRIMARY KEY (course_ID),
+    FOREIGN KEY (dept_name) REFERENCES department (dept_name)
+        ON DELETE SET NULL
 );;
 
 CREATE TABLE IF NOT EXISTS prereq (
-    prereq_ID        int AUTO_INCREMENT,
-    course_ID        int, 
-    primary key (prereq_ID, course_ID),
-    foreign key (course_ID) references course (course_ID)
-    on delete cascade,
-    foreign key (prereq_ID) references course (course_ID)
+    prereq_ID        INT AUTO_INCREMENT,
+    course_ID        INT, 
+    PRIMARY KEY (prereq_ID, course_ID),
+    FOREIGN KEY (course_ID) REFERENCES course (course_ID)
+    ON DELETE CASCADE,
+    FOREIGN KEY (prereq_ID) REFERENCES course (course_ID)
 );;
 
 CREATE TABLE IF NOT EXISTS instructor (
-    instructor_ID                int AUTO_INCREMENT, 
-    name              varchar(20) not null, 
-    dept_name         varchar(20), 
-    salary            numeric(8,2) check (salary > 29000),
-    primary key (instructor_ID),
-    foreign key (dept_name) references department (dept_name)
-    on delete set null
+    instructor_ID     INT AUTO_INCREMENT, 
+    name              VARCHAR(20) NOT NULL, 
+    dept_name         VARCHAR(20), 
+    salary            NUMERIC(8,2) CHECK (salary > 29000),
+    PRIMARY KEY (instructor_ID),
+    FOREIGN KEY (dept_name) REFERENCES department (dept_name)
+    ON DELETE SET NULL
 );;
 
 CREATE TABLE IF NOT EXISTS section (
-    section_ID             int AUTO_INCREMENT,
-    course_ID          int, 
-    semester           varchar(6)
-    check (semester in ('Fall', 'Winter', 'Spring', 'Summer')), 
-    year               numeric(4,0) check (year > 1701 and year < 2100), 
-    building           varchar(15),
-    room_number        varchar(7),
-    time_slot_ID       int,
-    primary key (section_ID, course_ID, semester, year),
-    foreign key (course_ID) references course (course_ID)
-    on delete cascade,
-    foreign key (building, room_number) references classroom (building, room_number)
-    on delete set null,
-    foreign key (time_slot_ID) references time_slot (time_slot_ID)
-    on delete set null
+    section_ID         INT AUTO_INCREMENT,
+    course_ID          INT, 
+    semester           VARCHAR(6)
+    CHECK (semester in ('Fall', 'Winter', 'Spring', 'Summer')), 
+    year               NUMERIC(4,0) CHECK (year > 1701 and year < 2100), 
+    building           VARCHAR(15),
+    room_number        VARCHAR(7),
+    time_slot_ID       INT,
+    PRIMARY KEY (section_ID, course_ID, semester, year),
+    FOREIGN KEY (course_ID) REFERENCES course (course_ID)
+    ON DELETE CASCADE,
+    FOREIGN KEY (building, room_number) REFERENCES classroom (building, room_number)
+    ON DELETE SET NULL,
+    FOREIGN KEY (time_slot_ID) REFERENCES time_slot (time_slot_ID)
+    ON DELETE SET NULL
 );;
 
 CREATE TABLE IF NOT EXISTS student (
-    student_ID              int AUTO_INCREMENT, 
-    first_name      varchar(20) not null,
-    last_name       varchar(20) not null, 
-    dept_name       varchar(20), 
-    tot_cred        numeric(3,0) check (tot_cred >= 0),
-    advisor_ID      int,
-    primary key (student_ID),
-    foreign key (dept_name) references department (dept_name)
-    on delete set null,
-    foreign key (advisor_ID) references advisor (advisor_ID)
-    on delete set null
+    student_ID      INT AUTO_INCREMENT, 
+    first_name      VARCHAR(20) NOT NULL,
+    last_name       VARCHAR(20) NOT NULL, 
+    dept_name       VARCHAR(20), 
+    tot_cred        NUMERIC(3,0) CHECK (tot_cred >= 0),
+    advisor_ID      INT,
+    PRIMARY KEY (student_ID),
+    FOREIGN KEY (dept_name) REFERENCES department (dept_name)
+    ON DELETE SET NULL,
+    FOREIGN KEY (advisor_ID) REFERENCES advisor (advisor_ID)
+    ON DELETE SET NULL
 );;
 
 CREATE TABLE IF NOT EXISTS teaches (
-    instructor_ID   int, 
-    course_ID       int,
-    section_ID          int, 
-    semester        varchar(6),
-    year            numeric(4,0),
-    primary key (instructor_ID, course_ID, section_ID, semester, year),
-    foreign key (course_ID, section_ID, semester, year) references section (course_ID, section_ID, semester, year)
-    on delete cascade,
-    foreign key (instructor_ID) references instructor (instructor_ID)
-    on delete cascade
+    instructor_ID   INT, 
+    course_ID       INT,
+    section_ID      INT, 
+    semester        VARCHAR(6),
+    year            NUMERIC(4,0),
+    PRIMARY KEY (instructor_ID, course_ID, section_ID, semester, year),
+    FOREIGN KEY (course_ID, section_ID, semester, year) REFERENCES section (course_ID, section_ID, semester, year)
+    ON DELETE CASCADE,
+    FOREIGN KEY (instructor_ID) REFERENCES instructor (instructor_ID)
+    ON DELETE CASCADE
 );;
 
 CREATE TABLE IF NOT EXISTS takes (
-    student_ID            int, 
-    course_ID        int,
-    section_ID            int, 
-    semester        varchar(6),
-    year            numeric(4,0),
-    grade                varchar(2),
-    primary key (student_ID, course_ID, section_ID, semester, year),
-    foreign key (course_ID, section_ID, semester, year) references section (course_ID, section_ID, semester, year)
-    on delete cascade,
-    foreign key (student_ID) references student (student_ID)
-    on delete cascade
+    student_ID       INT, 
+    course_ID        INT,
+    section_ID       INT, 
+    semester         VARCHAR(6),
+    year             NUMERIC(4,0),
+    grade            VARCHAR(2),
+    PRIMARY KEY (student_ID, course_ID, section_ID, semester, year),
+    FOREIGN KEY (course_ID, section_ID, semester, year) REFERENCES section (course_ID, section_ID, semester, year)
+    ON DELETE CASCADE,
+    FOREIGN KEY (student_ID) REFERENCES student (student_ID)
+    ON DELETE CASCADE
 );;
 
 CREATE TABLE IF NOT EXISTS advises (
-    student_ID            int,
-    advisor_ID            int,
-    primary key (student_ID),
-    foreign key (advisor_ID) references advisor (advisor_ID)
-    on delete set null,
-    foreign key (student_ID) references student (student_ID)
-    on delete cascade
+    student_ID            INT,
+    advisor_ID            INT,
+    PRIMARY KEY (student_ID),
+    FOREIGN KEY (advisor_ID) REFERENCES advisor (advisor_ID)
+    ON DELETE SET NULL,
+    FOREIGN KEY (student_ID) REFERENCES student (student_ID)
+    ON DELETE CASCADE
 );;
