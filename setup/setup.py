@@ -67,7 +67,6 @@ def randomVarchar(table, column, datatype):
     if column == "last_name" and table == "student":
         data += f"{choice(config.student_last_names)}"
     
-
     #INSTRUCTOR FIRST NAME HANDLER
     if column == "first_name" and table == "instructor":
         data += f"{choice(config.instructor_first_names)}"
@@ -166,7 +165,13 @@ def generateSeedData(tables, schema_filename, seed_filename):
             
             values = values[:-2] # Cuts off extra ', '
 
-            seed.write(f"-- INSERT INTO {table} VALUES ({values});;\n")
+
+            insert = ""
+            if (table != "classroom"):
+                insert += "-- "
+            insert += f"INSERT INTO {table} VALUES ({values});;\n"
+
+            seed.write(insert)
 
     seed.close()
     
