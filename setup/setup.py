@@ -81,13 +81,29 @@ def randomNumeric(table, column, datatype):
     minimum = 0
     maximum = pow(10, precision)
 
+    # Handling tables
+    if (table == "department" and column == "budget"):
+        minimum = 1
+    elif (table == "time_slot"):
+        if (column == "start_hr" or column == "end_hr"):
+            maximum = 23
+        elif (column == "start_min" or column == "end_min"):
+            maximum = 59
+    elif (table == "course" and column == "credits"):
+        minimum = 1
+    elif (table == "instructor" and column == "salary"):
+        minimum = 29001
+    elif (table == "section" and column == "year"):
+        minimum = 1701
+        maximum = 2100
+
     integer = str(randint(0, maximum))
     data = integer
 
     beforeDecimal = precision - scale
     if scale != 0:
         data = integer[:beforeDecimal] + "." + integer[:scale]
-
+    
     return data
 
 def generateSeedData(tables, schema_filename, seed_filename, rows=5):
