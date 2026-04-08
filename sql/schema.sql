@@ -51,9 +51,6 @@ CREATE TABLE IF NOT EXISTS prereq (
     foreign key (prereq_ID) references course (course_ID)
 );;
 
-ALTER TABLE course ADD COLUMN prereq_ID int;;
-ALTER TABLE course ADD FOREIGN KEY (prereq_ID) REFERENCES prereq(prereq_ID);;
-
 CREATE TABLE IF NOT EXISTS instructor (
     instructor_ID                int AUTO_INCREMENT, 
     name              varchar(20) not null, 
