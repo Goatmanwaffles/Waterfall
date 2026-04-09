@@ -76,7 +76,7 @@ def randomVarchar(table, column, datatype):
         data += f"{choice(config.instructor_last_names)}"
 
     #DEPT NAME HANDLER
-    if column == "dept_name" and table == "department":
+    if column == "department_name" and table == "department":
         data += f"{choice(config.dept_names)}"
 
     #DEPT NAME HANDLER
@@ -84,13 +84,31 @@ def randomVarchar(table, column, datatype):
         data += f"{choice(config.buildings)}"
 
     if table == "classroom":
-        if column == "building":
+        if column == "building_name":
             data += f"{choice(config.buildings)}"
 
     #SECTION SEMESTER HANDLER
     if table == "section":
         if column == "semester":
             data += f"{choice(config.semesters)}"
+
+    #GRADES HANDLER
+    if table == "takes":
+        if column == "grades":
+            data += f"{choice(config.grades)}"
+
+    #ADVISOR HANDLER
+    if table == "advisor":
+        if column == "first_name":
+            data += f"{choice(config.advisor_first_names)}"
+        if column == "last_name":
+            data += f"{choice(config.advisor_last_names)}"
+
+    #COURSE HANDLER
+    if table == "course":
+        if column == "title":
+            data += f"{choice(config.course_titles)}"
+
 
     # Random character fallback
     right = datatype.split("(")[1] 
