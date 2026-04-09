@@ -22,6 +22,10 @@ instructor_last_names = ["Kahn", "Phares", "Nesterenko"]
 dept_names = ["CS", "BIO", "MATH", "CHEM"]
 buildings = ["Smith", "MSB", "DI", "White"]
 semesters = ["Fall", "Winter", "Spring", "Summer"]
+grades = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"]
+advisor_first_names = ["Joseph", "Thomas", "Tommy", "Craig", "Leah", "TJ"]
+advisor_last_names = ["Raklovits", "Redy", "Morneweck", "Smith", "Johnson", "So"]
+course_titles = ["CS1", "CS2", "CS3", "Intro to Databases", "Discrete Structures", "CS4", "Elementary Japanese 1"]
 
 # This is the schema used to make the test data
 TABLES = {
