@@ -211,11 +211,11 @@ END;;
 -- Enroll In Section
 DROP PROCEDURE IF EXISTS enroll_in_section;;
 CREATE PROCEDURE enroll_in_section(
-    IN student_id int,
-    IN p_course_id int,
-    IN section_id int,
-    IN section_semester VARCHAR(6),
-    IN section_year NUMERIC(4,0)
+    IN temp_student_id int,
+    IN temp_p_course_id int,
+    IN temp_section_id int,
+    IN temp_section_semester VARCHAR(6),
+    IN temp_section_year NUMERIC(4,0)
 )
 BEGIN
     INSERT INTO TAKES(student_ID, course_ID, section_ID, semester, year, grade)
