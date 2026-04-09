@@ -122,7 +122,7 @@ BEGIN
         department_ID = (SELECT department_ID FROM department WHERE department_name = temp_department_name),
         total_cred = temp_total_credits,
         advisor_ID = temp_advisor_ID
-    WHERE student_ID = student_id;
+    WHERE student_ID = temp_student_ID;
 END;;
 
 -- Delete Student
@@ -132,7 +132,7 @@ DROP PROCEDURE IF EXISTS delete_student;;
 )
 BEGIN
     DELETE FROM STUDENT
-    WHERE  student_ID = temp_student_id;
+    WHERE  student_ID = temp_student_ID;
 END;;
 
 -- -- -- 
@@ -201,11 +201,11 @@ CREATE PROCEDURE delete_section(
     IN temp_year NUMERIC(4,0)
 )
 BEGIN
-DELETE FROM SECTION
-WHERE course_id = temp_course_ID
-  AND section_ID = temp_section_ID
-  AND semester = temp_semester
-  AND year = temp_year;
+    DELETE FROM SECTION
+    WHERE course_id = temp_course_ID
+        AND section_ID = temp_section_ID
+        AND semester = temp_semester
+        AND year = temp_year;
 END;;
 
 -- Enroll In Section
@@ -218,8 +218,8 @@ CREATE PROCEDURE enroll_in_section(
     IN section_year NUMERIC(4,0)
 )
 BEGIN
-INSERT INTO TAKES(student_ID, course_ID, section_ID, semester, year, grade)
-VALUES (student_id, p_course_id, section_id, section_semester, section_year, NULL);
+    INSERT INTO TAKES(student_ID, course_ID, section_ID, semester, year, grade)
+    VALUES (student_id, p_course_id, section_id, section_semester, section_year, NULL);
 END;;
 
 -- Assign Instructor to Section
@@ -232,8 +232,8 @@ CREATE PROCEDURE assign_instructor_to_section(
     IN section_year NUMERIC(4,0)
 )
 BEGIN
-INSERT INTO TEACHES(instructor_ID, course_ID, section_ID, semester, year)
-VALUES (instructor_id, p_course_id, section_id, section_semester, section_year);
+    INSERT INTO TEACHES(instructor_ID, course_ID, section_ID, semester, year)
+    VALUES (instructor_id, p_course_id, section_id, section_semester, section_year);
 END;;
 
 -- Drop Section Transaction
@@ -245,11 +245,11 @@ CREATE PROCEDURE drop_section_transaction(
     IN section_year NUMERIC(4,0)
 )
 BEGIN
-DELETE FROM SECTION
-WHERE course_id = p_course_id
-  AND section_ID = section_id
-  AND semester = section_semester
-  AND year = section_year;
+    DELETE FROM SECTION
+    WHERE course_id = p_course_id
+        AND section_ID = section_id
+        AND semester = section_semester
+        AND year = section_year;
 END;;
 
 -- Give Grade to Section
@@ -263,11 +263,11 @@ CREATE PROCEDURE give_grade_to_section(
     IN section_grade VARCHAR(2)
 )
 BEGIN
-UPDATE TAKES
-SET grade = section_grade
-WHERE student_ID = student_id
-  AND course_id = p_course_id
-  AND section_ID = section_id
-  AND semester = section_semester
-  AND year = section_year;
+    UPDATE TAKES
+    SET grade = section_grade
+    WHERE student_ID = student_id
+        AND course_id = p_course_id
+        AND section_ID = section_id
+        AND semester = section_semester
+        AND year = section_year;
 END;;
