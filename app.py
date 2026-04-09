@@ -14,7 +14,7 @@ generateSeedData(config.TABLES, config.SCHEMA, config.SEED) # Generates seed dat
 
 runSQL(cursor, dbserver, config.SCHEMA ) # Inputs schema
 runSQL(cursor, dbserver, config.SEED   ) # Inputs seed data
-# runSQL(cursor, dbserver, config.QUERIES) # Sets up procedure queries
+runSQL(cursor, dbserver, config.QUERIES) # Sets up procedure queries
 
 @app.route("/")
 def hello_world():

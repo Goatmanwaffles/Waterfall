@@ -21,12 +21,13 @@ instructor_first_names = ["Javed", "Giovanni", "Mikhail"]
 instructor_last_names = ["Kahn", "Phares", "Nesterenko"]
 dept_names = ["CS", "BIO", "MATH", "CHEM"]
 buildings = ["Smith", "MSB", "DI", "White"]
+semesters = ["Fall", "Winter", "Spring", "Summer"]
 
 # This is the schema used to make the test data
 TABLES = {
     "classroom":  {
         "building_ID": "int AUTO_INCREMENT PRIMARY KEY",
-        "building":    "varchar(15)", 
+        "building_name":    "varchar(15)", 
         "room_number": "numeric(3,0)",  
         "capacity":    "numeric(4,0)"
     },

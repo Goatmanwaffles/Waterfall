@@ -51,8 +51,8 @@ def runSQL(cursor, dbserver, sql_filename):
     
     dbserver.commit()
 
-def randomInteger(table, column, datatype):
-    data = f"{randint(1,999)}"
+def randomInteger(table, column, datatype, max):
+    data = f"{randint(1,max)}"
     return data
 
 def randomVarchar(table, column, datatype):
@@ -86,6 +86,11 @@ def randomVarchar(table, column, datatype):
     if table == "classroom":
         if column == "building":
             data += f"{choice(config.buildings)}"
+
+    #SECTION SEMESTER HANDLER
+    if table == "section":
+        if column == "semester":
+            data += f"{choice(config.semesters)}"
 
     # Random character fallback
     right = datatype.split("(")[1] 
@@ -126,13 +131,21 @@ def randomNumeric(table, column, datatype):
             maximum = 59
     elif (table == "course" and column == "credits"):
         minimum = 1
+        maximum = 99
     elif (table == "instructor" and column == "salary"):
         minimum = 29001
     elif (table == "section" and column == "year"):
         minimum = 1701
         maximum = 2100
-
-    integer = str(randint(0, maximum))
+    elif (table == "student" and column == "total_cred"):
+        minimum = 0
+        maximum = 240
+    elif (table == "classroom" and column == "room_number"):
+        minimum = 0
+        maximum = 999
+    
+    
+    integer = str(randint(minimum, maximum))
     data = integer
 
     beforeDecimal = precision - scale
@@ -149,7 +162,7 @@ def generateSeedData(tables, schema_filename, seed_filename):
     seed.truncate(0) # Clears the file
 
     for table, columns in tables.items():
-        for _ in range(3): # Creates that many rows per table
+        for i in range(10): # Creates that many rows per table
 
             values = "" # Everything to be inserted
             col_names = "" # Collumns to insert into
@@ -161,7 +174,9 @@ def generateSeedData(tables, schema_filename, seed_filename):
                     continue
     
                 if "int" in datatype:
-                    data = randomInteger(table, column, datatype)
+                    #DEPRECEATED FUNCTIONALITY
+                    #data = randomInteger(table, column, datatype, i+1)
+                    data = i+1
                 elif "varchar" in datatype:
                     data = randomVarchar(table, column, datatype)
                 elif "numeric" in datatype:
@@ -177,8 +192,8 @@ def generateSeedData(tables, schema_filename, seed_filename):
 
 
             insert = ""
-            if (table != "classroom"):
-                insert += "-- "
+            #if (table != "classroom"):
+            #    insert += "-- "
             insert += f"INSERT INTO {table} ({col_names}) VALUES ({values});;\n"
             print(insert)
             seed.write(insert)

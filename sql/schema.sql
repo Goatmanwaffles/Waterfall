@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS section (
     course_ID          INT, 
     semester           VARCHAR(6)
         CHECK (semester in ('Fall', 'Winter', 'Spring', 'Summer')), 
-    year               NUMERIC(4,0) CHECK (year > 1701 and year < 2100), 
+    year               NUMERIC(4,0) CHECK (year >= 1701 and year <= 2100), 
     building_ID        INT,
     time_slot_ID       INT,
     FOREIGN KEY (course_ID) REFERENCES course (course_ID)
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS student (
     first_name      VARCHAR(20) NOT NULL,
     last_name       VARCHAR(20) NOT NULL, 
     department_ID   INT,
-    tot_cred        NUMERIC(3,0) CHECK (tot_cred >= 0),
+    total_cred        NUMERIC(3,0) CHECK (total_cred >= 0),
     advisor_ID      INT,
     FOREIGN KEY (department_ID) REFERENCES department(department_ID)
         ON DELETE SET NULL,
