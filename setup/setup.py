@@ -109,6 +109,11 @@ def randomVarchar(table, column, datatype):
         if column == "title":
             data += f"{choice(config.course_titles)}"
 
+    #DAY HANDLER
+    if table == "time_slot":
+        if column == "day":
+            data += f"{choice(config.days)}"
+
 
     # Random character fallback
     right = datatype.split("(")[1] 
