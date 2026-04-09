@@ -8,6 +8,13 @@ sys.path.insert(0, str(PROJECT_ROOT))
 import config
 from setup import makeDatabase, runSQL
 
+# Prints a CALL query
+def printQuery(cursor, call):
+    cursor.execute(call)
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+
     
 if __name__ == "__main__":
     dbserver = makeDatabase(config.HOST, config.USER, config.PASSWORD, config.DB_NAME)
@@ -18,7 +25,9 @@ if __name__ == "__main__":
     runSQL(cursor, dbserver, config.QUERIES)
 
     # Student CRUD
-
+    print("--- Student Before ---")
+    printQuery(cursor, "CALL get_students()")
+        
     cursor.execute("CALL create_student('Jane', 'Doe', 'CS', 0, 'TJ', 'Smith', 'BIO')")
     dbserver.commit()
 
@@ -28,9 +37,7 @@ if __name__ == "__main__":
     cursor.execute("Call delete_student(3)")
     dbserver.commit()
 
-    cursor.execute("CALL get_students()")
-    rows = cursor.fetchall()
-    for row in rows:
-        print(row)
+    print("--- Student After ---")
+    printQuery(cursor, "CALL get_students()")
 
     
