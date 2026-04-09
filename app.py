@@ -21,6 +21,6 @@ if __name__ == '__main__':
 
     runSQL(cursor, dbserver, config.SCHEMA ) # Inputs schema
     runSQL(cursor, dbserver, config.SEED   ) # Inputs seed data
-    #runSQL(cursor, dbserver, config.QUERIES) # Sets up procedure queries
+    runSQL(cursor, dbserver, config.QUERIES) # Sets up procedure queries
 
     app.run(host="localhost", port=4500)

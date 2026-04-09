@@ -103,9 +103,9 @@ CREATE TABLE IF NOT EXISTS teaches (
     instructor_ID   INT, 
     section_ID       INT,
     PRIMARY KEY (instructor_ID, section_ID),
-    FOREIGN KEY (section_ID) REFERENCES section(section_ID)
-        ON DELETE CASCADE,
     FOREIGN KEY (instructor_ID) REFERENCES instructor(instructor_ID)
+        ON DELETE CASCADE,
+    FOREIGN KEY (section_ID) REFERENCES section(section_ID)
         ON DELETE CASCADE
 );;
 
