@@ -115,8 +115,10 @@ CREATE TABLE IF NOT EXISTS takes (
     section_ID       INT, 
     grades VARCHAR(2),
     PRIMARY KEY (student_ID, section_ID),
-    FOREIGN KEY (student_ID) REFERENCES student(student_ID),
+    FOREIGN KEY (student_ID) REFERENCES student(student_ID)
+        ON DELETE CASCADE,
     FOREIGN KEY (section_ID) REFERENCES section(section_ID)
+        ON DELETE CASCADE
 );;
 
 -- Advises
