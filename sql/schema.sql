@@ -1,3 +1,4 @@
+-- Classroom
 CREATE TABLE IF NOT EXISTS classroom (
     building_ID     INT AUTO_INCREMENT PRIMARY KEY,
     building_name   VARCHAR(15),
@@ -5,6 +6,7 @@ CREATE TABLE IF NOT EXISTS classroom (
     capacity        NUMERIC(4,0)
 );;
 
+-- Department
 CREATE TABLE IF NOT EXISTS department (
     department_ID   INT AUTO_INCREMENT PRIMARY KEY,
     department_name       VARCHAR(20) UNIQUE, 
@@ -12,6 +14,7 @@ CREATE TABLE IF NOT EXISTS department (
     budget          NUMERIC(12,2) CHECK (budget > 0)
 );;
 
+-- Time Slot
 CREATE TABLE IF NOT EXISTS time_slot (
     time_slot_ID     INT AUTO_INCREMENT PRIMARY KEY,
     day              VARCHAR(1),
@@ -32,6 +35,7 @@ CREATE TABLE IF NOT EXISTS advisor (
         ON DELETE SET NULL
 );;
 
+-- Course
 CREATE TABLE IF NOT EXISTS course (
     course_ID        INT AUTO_INCREMENT PRIMARY KEY,
     title            VARCHAR(50), 
@@ -41,6 +45,7 @@ CREATE TABLE IF NOT EXISTS course (
         ON DELETE SET NULL
 );;
 
+-- Prereq
 CREATE TABLE IF NOT EXISTS prereq (
     prereq_ID        INT AUTO_INCREMENT PRIMARY KEY,
     base_course_ID        INT, 
@@ -51,6 +56,7 @@ CREATE TABLE IF NOT EXISTS prereq (
         ON DELETE CASCADE
 );;
 
+-- Instructor 
 CREATE TABLE IF NOT EXISTS instructor (
     instructor_ID     INT AUTO_INCREMENT PRIMARY KEY,
     first_name        VARCHAR(20) NOT NULL,
@@ -61,6 +67,7 @@ CREATE TABLE IF NOT EXISTS instructor (
         ON DELETE SET NULL
 );;
 
+-- Section
 CREATE TABLE IF NOT EXISTS section (
     section_ID         INT AUTO_INCREMENT PRIMARY KEY,
     course_ID          INT, 
@@ -91,6 +98,7 @@ CREATE TABLE IF NOT EXISTS student (
         ON DELETE SET NULL
 );;
 
+-- Teaches
 CREATE TABLE IF NOT EXISTS teaches (
     instructor_ID   INT, 
     section_ID       INT,
@@ -101,6 +109,7 @@ CREATE TABLE IF NOT EXISTS teaches (
         ON DELETE CASCADE
 );;
 
+-- Takes
 CREATE TABLE IF NOT EXISTS takes (
     student_ID       INT, 
     section_ID       INT, 
@@ -110,6 +119,7 @@ CREATE TABLE IF NOT EXISTS takes (
     FOREIGN KEY (section_ID) REFERENCES section(section_ID)
 );;
 
+-- Advises
 CREATE TABLE IF NOT EXISTS advises (
     student_ID            INT,
     advisor_ID            INT,
