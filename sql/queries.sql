@@ -232,23 +232,15 @@ BEGIN
 END;;
 
 -- Drop Section Transaction
-DROP PROCEDURE IF EXISTS drop_section_transaction;;
-CREATE PROCEDURE drop_section_transaction(
-    IN temp_section_ID int,
-    IN temp_course_ID int,
-    IN temp_semester VARCHAR(6),
-    IN temp_year NUMERIC(4,0),
-    IN temp_building_ID INT,
-    IN temp_time_slot_ID INT
+DROP PROCEDURE IF EXISTS drop_section;;
+CREATE PROCEDURE drop_section(
+    IN temp_student_ID int,
+    IN temp_section_ID int
 )
 BEGIN
-    DELETE FROM SECTION
-    WHERE course_ID = temp_course_ID
-        AND section_ID = temp_section_ID
-        AND semester = temp_semester
-        AND year = temp_year
-        AND building_ID = temp_building_ID
-        AND time_slot_ID = temp_time_slot_ID;
+    DELETE FROM TAKES
+    WHERE section_ID = temp_section_ID
+        AND student_ID = temp_student_ID;
 END;;
 
 -- Give Grade to Section

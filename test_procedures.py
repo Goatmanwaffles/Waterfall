@@ -24,8 +24,9 @@ if __name__ == "__main__":
     runSQL(cursor, dbserver, config.SEED)
     runSQL(cursor, dbserver, config.QUERIES)
 
+
     # Student CRUD
-    print("--- Student Before ---")
+    print("\n--- Students Before ---")
     printQuery(cursor, "CALL get_students()")
         
     cursor.execute("CALL create_student('Jane', 'Doe', 'CS', 0, 'TJ', 'Smith', 'BIO')")
@@ -37,7 +38,73 @@ if __name__ == "__main__":
     cursor.execute("Call delete_student(3)")
     dbserver.commit()
 
-    print("--- Student After ---")
+    print("\n--- Students After ---")
     printQuery(cursor, "CALL get_students()")
 
+
+    # Instructor CRUD
+    print("\n--- Instructors Before ---")
+    printQuery(cursor, "CALL get_instructors()")
+        
+    cursor.execute("CALL create_instructor('John', 'Doe', 'CS', 72000)")
+    dbserver.commit()
+
+    cursor.execute("Call update_instructor(1,'Mik','Khan','MATH', 900000.00)")
+    dbserver.commit()
+
+    cursor.execute("Call delete_instructor(3)")
+    dbserver.commit()
+
+    print("\n--- Instructors After ---")
+    printQuery(cursor, "CALL get_instructors()")
+
+
+    # Section CRUD
+    print("\n--- Sections Before ---")
+    printQuery(cursor, "CALL get_sections()")
+        
+    cursor.execute("CALL create_section(3, 'Spring', 2026, 2, 1)")
+    dbserver.commit()
+
+    cursor.execute("Call update_section(1, 1,'Summer',1764, 1, 2)")
+    dbserver.commit()
+
+    cursor.execute("Call delete_section(3, 3, 'Summer', 1923)")
+    dbserver.commit()
+
+    print("\n--- Sections After ---")
+    printQuery(cursor, "CALL get_sections()")
+
+
+    # Major Stored Procedures
+
+    print("\n--- Takes Table Before ---")
+    printQuery(cursor, "SELECT * FROM TAKES")
+    
+    # Enroll in a section
+    cursor.execute("CALL enroll_in_section(1, 11, 'A')")
+    dbserver.commit()
+
+    # Student Drops Section
+    cursor.execute("CALL drop_section(2,2)")
+    dbserver.commit()
+
+    # Give grade to section
+    cursor.execute("CALL give_grade_to_section(2, 2, 'B')")
+    dbserver.commit()
+
+    print("\n--- Takes Table After ---")
+    printQuery(cursor, "SELECT * FROM TAKES")
+
+    # Assign Instructor to Section
+    print("\n--- TEACHES Table Before ---")
+    printQuery(cursor, "SELECT * FROM TEACHES")
+
+    cursor.execute("CALL assign_instructor_to_section(1,11)")
+    dbserver.commit()
+
+    print("\n--- TEACHES Table After ---")
+    printQuery(cursor, "SELECT * FROM TEACHES")
+        
+    
     
