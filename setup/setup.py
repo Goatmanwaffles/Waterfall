@@ -77,7 +77,16 @@ def randomVarchar(table, column, datatype):
 
     #DEPT NAME HANDLER
     if column == "department_name" and table == "department":
-        data += f"{choice(config.dept_names)}"
+        used = []
+        dept = config.dept_names[config.count];
+        if dept not in used:
+            data += f"{dept}"
+            used.append(dept)
+        else:
+            dept = config.dept_names[config.count];
+            data += f"{dept}"
+            used.append(dept)
+        config.count += 1
 
     #DEPT NAME HANDLER
     if column == "building" and table == "department":

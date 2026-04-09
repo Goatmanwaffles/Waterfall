@@ -19,7 +19,7 @@ student_first_names = ["Logan", "Andrew", "Caleb"]
 student_last_names = ["Senol", "Roddy", "Stanberry"]
 instructor_first_names = ["Javed", "Giovanni", "Mikhail"]
 instructor_last_names = ["Kahn", "Phares", "Nesterenko"]
-dept_names = ["CS", "BIO", "MATH", "CHEM"]
+dept_names = ["CS", "BIO", "MATH", "CHEM", "NURS", "PHYS", "ENGL", "FRNC", "JAPN", "BOTN"]
 buildings = ["Smith", "MSB", "DI", "White"]
 semesters = ["Fall", "Winter", "Spring", "Summer"]
 grades = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"]
@@ -27,6 +27,7 @@ advisor_first_names = ["Joseph", "Thomas", "Tommy", "Craig", "Leah", "TJ"]
 advisor_last_names = ["Raklovits", "Redy", "Morneweck", "Smith", "Johnson", "So"]
 course_titles = ["CS1", "CS2", "CS3", "Intro to Databases", "Discrete Structures", "CS4", "Elementary Japanese 1"]
 days = ["M", "T", "W", "H", "F"]
+count = 0
 
 # This is the schema used to make the test data
 TABLES = {
