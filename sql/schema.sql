@@ -41,8 +41,11 @@ CREATE TABLE IF NOT EXISTS course (
 
 CREATE TABLE IF NOT EXISTS prereq (
     prereq_ID        INT AUTO_INCREMENT PRIMARY KEY,
-    course_ID        INT, 
-    FOREIGN KEY (course_ID) REFERENCES course(course_ID)
+    base_course_ID        INT, 
+    requires_course_ID INT,
+    FOREIGN KEY (base_course_ID) REFERENCES course(course_ID)
+        ON DELETE CASCADE,
+    FOREIGN KEY (requires_course_ID) REFERENCES course(course_ID)
         ON DELETE CASCADE
 );;
 
