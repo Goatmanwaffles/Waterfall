@@ -63,7 +63,6 @@ CREATE TABLE IF NOT EXISTS section (
         CHECK (semester in ('Fall', 'Winter', 'Spring', 'Summer')), 
     year               NUMERIC(4,0) CHECK (year > 1701 and year < 2100), 
     building_ID        INT,
-    room_number        NUMERIC(3,0),
     time_slot_ID       INT,
     FOREIGN KEY (course_ID) REFERENCES course (course_ID)
         ON DELETE CASCADE,
@@ -100,6 +99,7 @@ CREATE TABLE IF NOT EXISTS teaches (
 CREATE TABLE IF NOT EXISTS takes (
     student_ID       INT, 
     section_ID       INT, 
+    grades VARCHAR(2),
     PRIMARY KEY (student_ID, section_ID),
     FOREIGN KEY (student_ID) REFERENCES student(student_ID),
     FOREIGN KEY (section_ID) REFERENCES section(section_ID)
