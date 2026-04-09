@@ -195,7 +195,7 @@ def generateSeedData(tables, schema_filename, seed_filename):
             #if (table != "classroom"):
             #    insert += "-- "
             insert += f"INSERT INTO {table} ({col_names}) VALUES ({values});;\n"
-            print(insert)
+            # print(insert)
             seed.write(insert)
 
     seed.close()

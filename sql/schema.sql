@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS classroom (
 
 CREATE TABLE IF NOT EXISTS department (
     department_ID   INT AUTO_INCREMENT PRIMARY KEY,
-    department_name       VARCHAR(20), 
+    department_name       VARCHAR(20) UNIQUE, 
     building        VARCHAR(15), 
     budget          NUMERIC(12,2) CHECK (budget > 0)
 );;
