@@ -26,7 +26,7 @@ buildings = ["Smith", "MSB", "DI", "White"]
 TABLES = {
     "classroom":  {
         "building":    "varchar(15)", 
-        "room_number": "varchar(7)",  
+        "room_number": "numeric(3,0)",  
         "capacity":    "numeric(4,0)"
     },
     "department": {
@@ -71,7 +71,7 @@ TABLES = {
         "semester": "varchar(6)", 
         "year": "numeric(4,0)", 
         "building": "varchar(15)", 
-        "room_number": "varchar(7)", 
+        "room_number": "numeric(3,0)", 
         "time_slot_ID": "int"
     },
     "student": {

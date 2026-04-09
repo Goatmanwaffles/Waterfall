@@ -83,6 +83,10 @@ def randomVarchar(table, column, datatype):
     if column == "building" and table == "department":
         data += f"{choice(config.buildings)}"
 
+    if table == "classroom":
+        if column == "building":
+            data += f"{choice(config.buildings)}"
+
     # Random character fallback
     right = datatype.split("(")[1] 
     length = right.split(")")[0]
@@ -174,15 +178,3 @@ def generateSeedData(tables, schema_filename, seed_filename):
             seed.write(insert)
 
     seed.close()
-    
-
-
-
-
-
-
-
-
-
-
-
