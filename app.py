@@ -10,10 +10,10 @@ dbserver = makeDatabase(config.HOST, config.USER, config.PASSWORD, config.DB_NAM
 
 cursor = dbserver.cursor() # Creates cursor (never recreate)
 
-# generateSeedData(config.TABLES, config.SCHEMA, config.SEED) # Generates seed data
+generateSeedData(config.TABLES, config.SCHEMA, config.SEED) # Generates seed data
 
 runSQL(cursor, dbserver, config.SCHEMA ) # Inputs schema
-# runSQL(cursor, dbserver, config.SEED   ) # Inputs seed data
+runSQL(cursor, dbserver, config.SEED   ) # Inputs seed data
 # runSQL(cursor, dbserver, config.QUERIES) # Sets up procedure queries
 
 @app.route("/")

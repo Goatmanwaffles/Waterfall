@@ -25,17 +25,19 @@ buildings = ["Smith", "MSB", "DI", "White"]
 # This is the schema used to make the test data
 TABLES = {
     "classroom":  {
+        "building_ID": "int AUTO_INCREMENT PRIMARY KEY",
         "building":    "varchar(15)", 
         "room_number": "numeric(3,0)",  
         "capacity":    "numeric(4,0)"
     },
     "department": {
-        "dept_name": "varchar(20)", 
+        "department_ID": "int AUTO_INCREMENT PRIMARY KEY",
+        "department_name": "varchar(20)", 
         "building":  "varchar(15)", 
         "budget":    "numeric(12,2)"
     },
     "time_slot": {
-        "time_Slot_ID": "int", 
+        "time_slot_ID": "int AUTO_INCREMENT PRIMARY KEY", 
         "day":          "varchar(1)", 
         "start_hr":     "numeric(2)", 
         "start_min":    "numeric(2)", 
@@ -43,59 +45,53 @@ TABLES = {
         "end_min":      "numeric(2)", 
     },
     "advisor": {
-        "advisor_ID": "int", 
+        "advisor_ID": "int AUTO_INCREMENT PRIMARY KEY", 
         "first_name": "varchar(20)",
         "last_name":  "varchar(20)",
-        "department": "varchar(20)"
+        "department_ID": "int"
     },
     "course": {
-        "course_ID": "int",  
+        "course_ID": "int AUTO_INCREMENT PRIMARY KEY",  
         "title":     "varchar(50)", 
-        "dept_name": "varchar(20)", 
+        "department_ID": "int", 
         "credits":   "numeric(2,0)"
     },
     "prereq": {
-        "prereq_ID": "int", 
-        "course_ID": "int"
+        "prereq_ID": "int AUTO_INCREMENT PRIMARY KEY", 
+        "base_course_ID": "int",
+        "requires_course_ID" : "int"
     },
     "instructor": {
-        "instructor_ID": "int", 
+        "instructor_ID": "int AUTO_INCREMENT PRIMARY KEY", 
         "first_name":          "varchar(20)",
         "last_name":     "varchar(20)",
-        "dept_name":     "varchar(20)", 
+        "department_ID":     "int", 
         "salary":        "numeric(8,2)"
     },
     "section": {
-        "section_ID": "int", 
+        "section_ID": "int AUTO_INCREMENT PRIMARY KEY", 
         "course_ID": "int", 
         "semester": "varchar(6)", 
         "year": "numeric(4,0)", 
-        "building": "varchar(15)", 
-        "room_number": "numeric(3,0)", 
+        "building_ID": "int", 
         "time_slot_ID": "int"
     },
     "student": {
-        "student_ID": "int", 
+        "student_ID": "int AUTO_INCREMENT PRIMARY KEY", 
         "first_name": "varchar(20)", 
         "last_name": "varchar(20)", 
-        "dept_name": "varchar(20)", 
+        "department_ID": "int", 
         "total_cred": "numeric(3,0)",
         "advisor_ID": "int"
     },
     "teaches": {
         "instructor_ID": "int", 
-        "course_ID": "int", 
-        "section_ID": "int", 
-        "semester": "varchar(6)", 
-        "year": "numeric(4,0)"
+        "section_ID": "int",
     },
     "takes": {
-        "student_ID": "int", 
-        "course_ID": "int", 
+        "student_ID": "int",
         "section_ID": "int", 
-        "semester": "varchar(6)", 
-        "year": "numeric(4,0)", 
-        "grade": "varchar(2)"
+        "grades": "varchar(2)"
     },
     "advises": {
         "student_ID": "int", 

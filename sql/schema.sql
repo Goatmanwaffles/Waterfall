@@ -76,13 +76,12 @@ CREATE TABLE IF NOT EXISTS section (
 );;
 
 CREATE TABLE IF NOT EXISTS student (
-    student_ID      INT AUTO_INCREMENT, 
+    student_ID      INT AUTO_INCREMENT PRIMARY KEY, 
     first_name      VARCHAR(20) NOT NULL,
     last_name       VARCHAR(20) NOT NULL, 
     department_ID   INT,
     tot_cred        NUMERIC(3,0) CHECK (tot_cred >= 0),
     advisor_ID      INT,
-    PRIMARY KEY (student_ID),
     FOREIGN KEY (department_ID) REFERENCES department(department_ID)
         ON DELETE SET NULL,
     FOREIGN KEY (advisor_ID) REFERENCES advisor (advisor_ID)

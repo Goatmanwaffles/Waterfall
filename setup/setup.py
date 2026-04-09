@@ -152,9 +152,13 @@ def generateSeedData(tables, schema_filename, seed_filename):
         for _ in range(3): # Creates that many rows per table
 
             values = "" # Everything to be inserted
+            col_names = "" # Collumns to insert into
 
             # Iterate through every column and pull datatype
             for column, datatype in columns.items():
+
+                if "PRIMARY KEY" in datatype:
+                    continue
     
                 if "int" in datatype:
                     data = randomInteger(table, column, datatype)
@@ -166,15 +170,17 @@ def generateSeedData(tables, schema_filename, seed_filename):
                     data = "??????"
                 
                 values += f"{data}, " # Actually inserts data
+                col_names += f"{column}, "
             
             values = values[:-2] # Cuts off extra ', '
+            col_names = col_names[:-2]
 
 
             insert = ""
             if (table != "classroom"):
                 insert += "-- "
-            insert += f"INSERT INTO {table} VALUES ({values});;\n"
-
+            insert += f"INSERT INTO {table} ({col_names}) VALUES ({values});;\n"
+            print(insert)
             seed.write(insert)
 
     seed.close()
