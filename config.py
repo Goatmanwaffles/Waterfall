@@ -56,11 +56,6 @@ TABLES = {
         "department_ID": "int", 
         "credits":   "numeric(2,0)"
     },
-    "prereq": {
-        "prereq_ID": "int AUTO_INCREMENT PRIMARY KEY", 
-        "base_course_ID": "int",
-        "requires_course_ID" : "int"
-    },
     "instructor": {
         "instructor_ID": "int AUTO_INCREMENT PRIMARY KEY", 
         "first_name":          "varchar(20)",
@@ -96,5 +91,10 @@ TABLES = {
     "advises": {
         "student_ID": "int", 
         "advisor_ID": "int", 
+    },
+    "prereq": {
+        "prereq_ID": "int AUTO_INCREMENT PRIMARY KEY", 
+        "base_course_ID": "int",
+        "requires_course_ID" : "int"
     },
 }
