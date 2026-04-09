@@ -211,63 +211,55 @@ END;;
 -- Enroll In Section
 DROP PROCEDURE IF EXISTS enroll_in_section;;
 CREATE PROCEDURE enroll_in_section(
-    IN temp_student_id int,
-    IN temp_p_course_id int,
-    IN temp_section_id int,
-    IN temp_section_semester VARCHAR(6),
-    IN temp_section_year NUMERIC(4,0)
+    IN temp_student_ID int,
+    IN temp_section_ID int,
 )
 BEGIN
-    INSERT INTO TAKES(student_ID, course_ID, section_ID, semester, year, grade)
-    VALUES (student_id, p_course_id, section_id, section_semester, section_year, NULL);
+    INSERT INTO TAKES(student_ID, course_ID)
+    VALUES (temp_student_ID, temp_section_ID);
 END;;
 
 -- Assign Instructor to Section
 DROP PROCEDURE IF EXISTS assign_instructor_to_section;;
 CREATE PROCEDURE assign_instructor_to_section(
-    IN instructor_id int,
-    IN p_course_id int,
-    IN section_id int,
-    IN section_semester VARCHAR(6),
-    IN section_year NUMERIC(4,0)
+    IN temp_instructor_ID int,
+    IN temp_section_ID int,
 )
 BEGIN
-    INSERT INTO TEACHES(instructor_ID, course_ID, section_ID, semester, year)
-    VALUES (instructor_id, p_course_id, section_id, section_semester, section_year);
+    INSERT INTO TEACHES(instructor_ID, section_ID)
+    VALUES (temp_instructor_ID, temp_section_ID);
 END;;
 
 -- Drop Section Transaction
 DROP PROCEDURE IF EXISTS drop_section_transaction;;
 CREATE PROCEDURE drop_section_transaction(
-    IN p_course_id int,
-    IN section_id int,
-    IN section_semester VARCHAR(6),
-    IN section_year NUMERIC(4,0)
+    IN temp_section_ID int,
+    IN temp_course_ID int,
+    IN temp_semester VARCHAR(6),
+    IN temp_year NUMERIC(4,0),
+    IN temp_building_ID INT,
+    IN temp_time_slot_ID INT
 )
 BEGIN
     DELETE FROM SECTION
-    WHERE course_id = p_course_id
-        AND section_ID = section_id
-        AND semester = section_semester
-        AND year = section_year;
+    WHERE course_ID = temp_course_ID,
+        AND section_ID = temp_section_ID,
+        AND semester = temp_semester,
+        AND year = temp_year,
+        AND building_ID = temp_building_ID,
+        AND time_slot_ID = temp_time_slot_ID,
 END;;
 
 -- Give Grade to Section
 DROP PROCEDURE IF EXISTS give_grade_to_section;;
 CREATE PROCEDURE give_grade_to_section(
-    IN student_id int,
-    IN p_course_id int,
-    IN section_id int,
-    IN section_semester VARCHAR(6),
-    IN section_year NUMERIC(4,0),
-    IN section_grade VARCHAR(2)
+    IN temp_student_ID int,
+    IN temp_section_ID int,
+    IN temp_grades VARCHAR(2),
 )
 BEGIN
     UPDATE TAKES
-    SET grade = section_grade
-    WHERE student_ID = student_id
-        AND course_id = p_course_id
-        AND section_ID = section_id
-        AND semester = section_semester
-        AND year = section_year;
+    SET grade = temp_grade
+    WHERE student_ID = temp_student_ID
+        AND section_ID = temp_section_ID
 END;;
