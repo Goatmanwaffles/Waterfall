@@ -1,6 +1,11 @@
 
--- CRUD operations for all major tables (Stored procedures)
--- CRUD Instructor
+-- CRUD operations for all major tables
+
+-- -- -- 
+-- INSTRUCTOR CRUD
+-- -- --
+
+-- Create Instructor
 DROP PROCEDURE IF EXISTS create_instructor;;
 CREATE PROCEDURE create_instructor (
     IN temp_first_name VARCHAR(20),
@@ -18,35 +23,40 @@ BEGIN
     );
 END;;
 
+-- Get Instructors
 DROP PROCEDURE IF EXISTS get_instructors;;
 CREATE PROCEDURE get_instructors()
 BEGIN
     SELECT * FROM INSTRUCTOR;
 END;;
 
--- DROP PROCEDURE IF EXISTS update_instructor;;
--- CREATE PROCEDURE update_instructor(
---     IN instructor_id int,
---     IN instructor_name varchar(20),
---     IN department_name VARCHAR(20),
---     IN instructor_salary NUMERIC (8,2)
--- )
--- BEGIN
--- UPDATE INSTRUCTOR
--- SET name = instructor_name,
---     dept_name = department_name, 
---     salary = instructor_salary
--- WHERE instructor_ID = instructor_id;
--- END;;
+-- Update Instructor
+DROP PROCEDURE IF EXISTS update_instructor;;
+CREATE PROCEDURE update_instructor(
+    IN temp_instructor_ID int,
+    IN temp_first_name varchar(20),
+    IN temp_last_name varchar(20),
+    IN temp_department_name VARCHAR(20),
+    IN temp_salary NUMERIC (8,2)
+)
+BEGIN
+    UPDATE INSTRUCTOR
+    SET first_name = temp_first_name,
+        last_name = temp_last_name,
+        department_ID = (SELECT department_ID FROM department WHERE department_name = temp_dept_name),
+        salary = temp_salary
+    WHERE instructor_ID = temp_instructor_ID;
+END;;
 
--- DROP PROCEDURE IF EXISTS delete_instructor;;
--- CREATE PROCEDURE delete_instructor(
--- IN instructor_id int
--- )
--- BEGIN
--- DELETE FROM INSTRUCTOR
--- WHERE  instructor_ID = instructor_id;
--- END;;
+-- Delete Instructor
+DROP PROCEDURE IF EXISTS delete_instructor;;
+CREATE PROCEDURE delete_instructor(
+    IN temp_instructor_ID int
+)
+BEGIN
+    DELETE FROM INSTRUCTOR
+    WHERE  instructor_ID = temp_instructor_ID;
+END;;
 
 -- -- CRUD Student
 -- DROP PROCEDURE IF EXISTS create_student;;
