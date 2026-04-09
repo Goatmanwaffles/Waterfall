@@ -21,11 +21,13 @@ CREATE TABLE IF NOT EXISTS time_slot (
     end_min          NUMERIC(2) CHECK (end_min >= 0 and end_min < 60)
 );;
 
+-- Advisor
 CREATE TABLE IF NOT EXISTS advisor (
     advisor_ID      INT AUTO_INCREMENT PRIMARY KEY,
     first_name      VARCHAR(20),
     last_name       VARCHAR(20),
     department_ID   INT,
+    UNIQUE(first_name, last_name, department_ID), -- Makes sure the queries work
     FOREIGN KEY (department_ID) REFERENCES department(department_ID)
         ON DELETE SET NULL
 );;
@@ -75,6 +77,7 @@ CREATE TABLE IF NOT EXISTS section (
         ON DELETE SET NULL
 );;
 
+-- Student
 CREATE TABLE IF NOT EXISTS student (
     student_ID      INT AUTO_INCREMENT PRIMARY KEY, 
     first_name      VARCHAR(20) NOT NULL,
