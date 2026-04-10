@@ -2,7 +2,7 @@
 -- CRUD operations for all major tables
 
 -- -- -- 
--- INSTRUCTOR CRUD
+-- instructor CRUD
 -- -- --
 
 -- Create Instructor
@@ -14,7 +14,7 @@ CREATE PROCEDURE create_instructor (
     IN temp_salary NUMERIC(8,2)
 )
 BEGIN
-    INSERT INTO INSTRUCTOR (first_name, last_name, department_ID, salary)
+    INSERT INTO instructor (first_name, last_name, department_ID, salary)
     VALUES (
         temp_first_name,
         temp_last_name,
@@ -27,7 +27,7 @@ END;;
 DROP PROCEDURE IF EXISTS get_instructors;;
 CREATE PROCEDURE get_instructors()
 BEGIN
-    SELECT * FROM INSTRUCTOR;
+    SELECT * FROM instructor;
 END;;
 
 -- Update Instructor
@@ -40,7 +40,7 @@ CREATE PROCEDURE update_instructor(
     IN temp_salary NUMERIC (8,2)
 )
 BEGIN
-    UPDATE INSTRUCTOR
+    UPDATE instructor
     SET first_name = temp_first_name,
         last_name = temp_last_name,
         department_ID = (SELECT department_ID FROM department WHERE department_name = temp_department_name),
@@ -54,12 +54,12 @@ CREATE PROCEDURE delete_instructor(
     IN temp_instructor_ID int
 )
 BEGIN
-    DELETE FROM INSTRUCTOR
+    DELETE FROM instructor
     WHERE  instructor_ID = temp_instructor_ID;
 END;;
 
 -- -- -- 
--- STUDENT CRUD
+-- student CRUD
 -- -- --
 
 -- Create student
@@ -74,7 +74,7 @@ CREATE PROCEDURE create_student(
     IN temp_advisor_department_name varchar(20)
 )
 BEGIN
-    INSERT INTO STUDENT (
+    INSERT INTO student (
         first_name, 
         last_name, 
         department_ID, 
@@ -102,7 +102,7 @@ END;;
 DROP PROCEDURE IF EXISTS get_students;;
 CREATE PROCEDURE get_students()
 BEGIN
-    SELECT * FROM STUDENT;
+    SELECT * FROM student;
 END;;
 
 -- Update Student
@@ -116,7 +116,7 @@ CREATE PROCEDURE update_student(
     IN temp_advisor_ID int
 )
 BEGIN
-    UPDATE STUDENT
+    UPDATE student
     SET first_name = temp_first_name,
         last_name = temp_last_name,
         department_ID = (SELECT department_ID FROM department WHERE department_name = temp_department_name),
@@ -131,12 +131,12 @@ DROP PROCEDURE IF EXISTS delete_student;;
     IN temp_student_ID int
 )
 BEGIN
-    DELETE FROM STUDENT
+    DELETE FROM student
     WHERE  student_ID = temp_student_ID;
 END;;
 
 -- -- -- 
--- SECTION CRUD
+-- section CRUD
 -- -- --
 
 -- Create Section
@@ -149,7 +149,7 @@ CREATE PROCEDURE create_section(
     IN temp_time_slot_ID int
 )
 BEGIN
-INSERT INTO SECTION (
+INSERT INTO section (
     course_ID,
     semester,
     year,
@@ -169,7 +169,7 @@ END;;
 DROP PROCEDURE IF EXISTS get_sections;;
 CREATE PROCEDURE get_sections()
 BEGIN
-    SELECT * FROM SECTION;
+    SELECT * FROM section;
 END;;
 
 -- Update Section
@@ -183,7 +183,7 @@ CREATE PROCEDURE update_section(
     IN temp_time_slot_ID int
 )
 BEGIN
-UPDATE SECTION
+UPDATE section
 SET building_ID = temp_building_ID,
     time_slot_ID = temp_time_slot_ID
     WHERE course_ID = temp_course_ID
@@ -201,7 +201,7 @@ CREATE PROCEDURE delete_section(
     IN temp_year NUMERIC(4,0)
 )
 BEGIN
-    DELETE FROM SECTION
+    DELETE FROM section
     WHERE course_id = temp_course_ID
         AND section_ID = temp_section_ID
         AND semester = temp_semester
@@ -209,7 +209,7 @@ BEGIN
 END;;
 
 -- -- -- 
--- ACCOUNT CRUD
+-- account CRUD
 -- -- --
 
 -- Create Account
@@ -220,7 +220,7 @@ CREATE PROCEDURE create_account(
     IN temp_role varchar(20)    
 )
 BEGIN
-    INSERT INTO ACCOUNT (username, password, role)
+    INSERT INTO account (username, password, role)
     VALUES (
         temp_username,
         temp_password,
@@ -232,7 +232,7 @@ END;;
 DROP PROCEDURE IF EXISTS get_accounts;;
 CREATE PROCEDURE get_accounts()
 BEGIN
-    SELECT * FROM ACCOUNT;
+    SELECT * FROM account;
 END;;   
 
 -- Update Account
@@ -244,7 +244,7 @@ CREATE PROCEDURE update_account(
     IN temp_role varchar(20)
 )
 BEGIN
-UPDATE ACCOUNT
+UPDATE account
 SET username = temp_username,
     password = temp_password,
     role = temp_role
@@ -257,7 +257,7 @@ CREATE PROCEDURE delete_account(
     IN temp_account_ID int
 )
 BEGIN
-    DELETE FROM ACCOUNT
+    DELETE FROM account
     WHERE account_ID = temp_account_ID;
 END;;
 
@@ -273,7 +273,7 @@ CREATE PROCEDURE enroll_in_section(
     IN temp_grades VARCHAR(2)
 )
 BEGIN
-    INSERT INTO TAKES(student_ID, section_ID, grades)
+    INSERT INTO takes(student_ID, section_ID, grades)
     VALUES (temp_student_ID, temp_section_ID, temp_grades);
 END;;
 
@@ -284,7 +284,7 @@ CREATE PROCEDURE assign_instructor_to_section(
     IN temp_section_ID int
 )
 BEGIN
-    INSERT INTO TEACHES(instructor_ID, section_ID)
+    INSERT INTO teaches(instructor_ID, section_ID)
     VALUES (temp_instructor_ID, temp_section_ID);
 END;;
 
@@ -295,7 +295,7 @@ CREATE PROCEDURE drop_section(
     IN temp_section_ID int
 )
 BEGIN
-    DELETE FROM TAKES
+    DELETE FROM takes
     WHERE section_ID = temp_section_ID
         AND student_ID = temp_student_ID;
 END;;
@@ -308,7 +308,7 @@ CREATE PROCEDURE give_grade_to_section(
     IN temp_grades VARCHAR(2)
 )
 BEGIN
-    UPDATE TAKES
+    UPDATE takes
     SET grades = temp_grades
     WHERE student_ID = temp_student_ID
         AND section_ID = temp_section_ID;

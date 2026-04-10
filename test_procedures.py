@@ -90,8 +90,8 @@ if __name__ == "__main__":
 
     # Major Stored Procedures
 
-    print("\n--- Takes Table Before ---")
-    printQuery(cursor, "SELECT * FROM TAKES")
+    print("\n--- takes Table Before ---")
+    printQuery(cursor, "SELECT * FROM takes")
     
     # Enroll in a section
     cursor.execute("CALL enroll_in_section(1, 11, 'A')")
@@ -105,18 +105,18 @@ if __name__ == "__main__":
     cursor.execute("CALL give_grade_to_section(2, 2, 'B')")
     dbserver.commit()
 
-    print("\n--- Takes Table After ---")
-    printQuery(cursor, "SELECT * FROM TAKES")
+    print("\n--- takes Table After ---")
+    printQuery(cursor, "SELECT * FROM takes")
 
     # Assign Instructor to Section
-    print("\n--- TEACHES Table Before ---")
-    printQuery(cursor, "SELECT * FROM TEACHES")
+    print("\n--- teaches Table Before ---")
+    printQuery(cursor, "SELECT * FROM teaches")
 
     cursor.execute("CALL assign_instructor_to_section(1,11)")
     dbserver.commit()
 
-    print("\n--- TEACHES Table After ---")
-    printQuery(cursor, "SELECT * FROM TEACHES")
+    print("\n--- teaches Table After ---")
+    printQuery(cursor, "SELECT * FROM teaches")
         
     
     

@@ -273,7 +273,7 @@ CREATE PROCEDURE enroll_in_section(
     IN temp_grades VARCHAR(2)
 )
 BEGIN
-    INSERT INTO TAKES(student_ID, section_ID, grades)
+    INSERT INTO takes(student_ID, section_ID, grades)
     VALUES (temp_student_ID, temp_section_ID, temp_grades);
 END;;
 
@@ -295,7 +295,7 @@ CREATE PROCEDURE drop_section(
     IN temp_section_ID int
 )
 BEGIN
-    DELETE FROM TAKES
+    DELETE FROM takes
     WHERE section_ID = temp_section_ID
         AND student_ID = temp_student_ID;
 END;;
@@ -308,7 +308,7 @@ CREATE PROCEDURE give_grade_to_section(
     IN temp_grades VARCHAR(2)
 )
 BEGIN
-    UPDATE TAKES
+    UPDATE takes
     SET grades = temp_grades
     WHERE student_ID = temp_student_ID
         AND section_ID = temp_section_ID;
