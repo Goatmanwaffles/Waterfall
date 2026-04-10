@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS building (
 -- Classroom
 CREATE TABLE IF NOT EXISTS classroom (
     clasroom_ID     INT AUTO_INCREMENT PRIMARY KEY,    
-    building_ID     INT
+    building_ID     INT,
     room_number     NUMERIC(3,0),
     capacity        NUMERIC(4,0),
     FOREIGN KEY (building_ID) REFERENCES building(building_ID)
@@ -18,8 +18,10 @@ CREATE TABLE IF NOT EXISTS classroom (
 CREATE TABLE IF NOT EXISTS department (
     department_ID   INT AUTO_INCREMENT PRIMARY KEY,
     department_name       VARCHAR(20) UNIQUE, 
-    building        VARCHAR(15), 
-    budget          NUMERIC(12,2) CHECK (budget > 0)
+    building_ID        INT, 
+    budget          NUMERIC(12,2) CHECK (budget > 0),
+    FOREIGN KEY (building_ID) REFERENCES building(building_ID)
+        ON DELETE SET NULL
 );;
 
 -- Time Slot
@@ -30,6 +32,16 @@ CREATE TABLE IF NOT EXISTS time_slot (
     start_min        NUMERIC(2) CHECK (start_min >= 0 and start_min < 60),
     end_hr           NUMERIC(2) CHECK (end_hr >= 0 and end_hr < 24),
     end_min          NUMERIC(2) CHECK (end_min >= 0 and end_min < 60)
+);;
+
+-- Account
+CREATE TABLE IF NOT EXISTS account (
+    account_ID INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(20),
+    password VARCHAR(20),
+    UNIQUE(username, password),
+    role VARCHAR(20)
+        CHECK (role in ('Administrator', 'Instructor', 'Student'))
 );;
 
 -- Advisor
