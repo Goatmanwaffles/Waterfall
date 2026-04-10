@@ -8,7 +8,6 @@ CREATE TABLE IF NOT EXISTS building (
 CREATE TABLE IF NOT EXISTS classroom (
     clasroom_ID     INT AUTO_INCREMENT PRIMARY KEY,    
     building_ID     INT
-    building_name   VARCHAR(15),
     room_number     NUMERIC(3,0),
     capacity        NUMERIC(4,0),
     FOREIGN KEY (building_ID) REFERENCES building(building_ID)
