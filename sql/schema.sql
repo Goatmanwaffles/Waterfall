@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS building (
 
 -- Classroom
 CREATE TABLE IF NOT EXISTS classroom (
-    clasroom_ID     INT AUTO_INCREMENT PRIMARY KEY,    
+    classroom_ID     INT AUTO_INCREMENT PRIMARY KEY,    
     building_ID     INT,
     room_number     NUMERIC(3,0),
     capacity        NUMERIC(4,0),
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS section (
     time_slot_ID       INT,
     FOREIGN KEY (course_ID) REFERENCES course (course_ID)
         ON DELETE CASCADE,
-    FOREIGN KEY (building_ID) REFERENCES classroom (building_ID)
+    FOREIGN KEY (building_ID) REFERENCES building (building_ID)
         ON DELETE SET NULL,
     FOREIGN KEY (time_slot_ID) REFERENCES time_slot (time_slot_ID)
         ON DELETE SET NULL
