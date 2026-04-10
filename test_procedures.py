@@ -75,6 +75,22 @@ if __name__ == "__main__":
     print("\n--- Sections After ---")
     printQuery(cursor, "CALL get_sections()")
 
+    # Account CRUD
+    print("\n--- Accounts Before ---")
+    printQuery(cursor, "CALL get_accounts()")
+        
+    cursor.execute("CALL create_account('gioGamer99', 'superSecure', 'Instructor')")
+    dbserver.commit()
+
+    cursor.execute("Call update_account(11, 'gioGamer98', 'moreSuperSecure', 'Instructor')")
+    dbserver.commit()
+
+    cursor.execute("Call delete_account(1)")
+    dbserver.commit()
+
+    print("\n--- Accounts After ---")
+    printQuery(cursor, "CALL get_accounts()")
+
 
     # Major Stored Procedures
 
