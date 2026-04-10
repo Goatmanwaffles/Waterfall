@@ -121,9 +121,12 @@ def randomVarchar(table, column, datatype):
             data += f"{choice(config.days)}"
 
     if table == "account":
+        if column == "username":
+            data += f"{choice(config.usernames)}"
+        if column == "password":
+            data += f"{choice(config.passwords)}"
         if column == "role":
             data += f"{choice(config.roles)}"
-
     # Random character fallback
     right = datatype.split("(")[1] 
     length = right.split(")")[0]
