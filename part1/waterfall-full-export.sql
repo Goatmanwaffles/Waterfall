@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2026 at 05:03 AM
+-- Generation Time: Apr 10, 2026 at 05:45 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -26,12 +26,12 @@ DELIMITER $$
 -- Procedures
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `assign_instructor_to_section` (IN `temp_instructor_ID` INT, IN `temp_section_ID` INT)   BEGIN
-    INSERT INTO TEACHES(instructor_ID, section_ID)
+    INSERT INTO teaches(instructor_ID, section_ID)
     VALUES (temp_instructor_ID, temp_section_ID);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `create_account` (IN `temp_username` VARCHAR(20), IN `temp_password` VARCHAR(20), IN `temp_role` VARCHAR(20))   BEGIN
-    INSERT INTO ACCOUNT (username, password, role)
+    INSERT INTO account (username, password, role)
     VALUES (
         temp_username,
         temp_password,
@@ -40,7 +40,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `create_account` (IN `temp_username`
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `create_instructor` (IN `temp_first_name` VARCHAR(20), IN `temp_last_name` VARCHAR(20), IN `temp_dept_name` VARCHAR(20), IN `temp_salary` NUMERIC(8,2))   BEGIN
-    INSERT INTO INSTRUCTOR (first_name, last_name, department_ID, salary)
+    INSERT INTO instructor (first_name, last_name, department_ID, salary)
     VALUES (
         temp_first_name,
         temp_last_name,
@@ -50,7 +50,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `create_instructor` (IN `temp_first_
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `create_section` (IN `temp_course_ID` INT, IN `temp_semester` VARCHAR(6), IN `temp_year` NUMERIC(4,0), IN `temp_building_ID` INT, IN `temp_time_slot_ID` INT)   BEGIN
-INSERT INTO SECTION (
+INSERT INTO section (
     course_ID,
     semester,
     year,
@@ -67,7 +67,7 @@ VALUES (
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `create_student` (IN `temp_first_name` VARCHAR(20), IN `temp_last_name` VARCHAR(20), IN `temp_department_name` VARCHAR(20), IN `temp_total_credits` NUMERIC(3,0), IN `temp_advisor_first_name` VARCHAR(20), IN `temp_advisor_last_name` VARCHAR(20), IN `temp_advisor_department_name` VARCHAR(20))   BEGIN
-    INSERT INTO STUDENT (
+    INSERT INTO student (
         first_name, 
         last_name, 
         department_ID, 
@@ -92,17 +92,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `create_student` (IN `temp_first_nam
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_account` (IN `temp_account_ID` INT)   BEGIN
-    DELETE FROM ACCOUNT
+    DELETE FROM account
     WHERE account_ID = temp_account_ID;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_instructor` (IN `temp_instructor_ID` INT)   BEGIN
-    DELETE FROM INSTRUCTOR
+    DELETE FROM instructor
     WHERE  instructor_ID = temp_instructor_ID;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_section` (IN `temp_course_ID` INT, IN `temp_section_ID` INT, IN `temp_semester` VARCHAR(6), IN `temp_year` NUMERIC(4,0))   BEGIN
-    DELETE FROM SECTION
+    DELETE FROM section
     WHERE course_id = temp_course_ID
         AND section_ID = temp_section_ID
         AND semester = temp_semester
@@ -110,46 +110,46 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_section` (IN `temp_course_ID
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_student` (IN `temp_student_ID` INT)   BEGIN
-    DELETE FROM STUDENT
+    DELETE FROM student
     WHERE  student_ID = temp_student_ID;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `drop_section` (IN `temp_student_ID` INT, IN `temp_section_ID` INT)   BEGIN
-    DELETE FROM TAKES
+    DELETE FROM takes
     WHERE section_ID = temp_section_ID
         AND student_ID = temp_student_ID;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `enroll_in_section` (IN `temp_student_ID` INT, IN `temp_section_ID` INT, IN `temp_grades` VARCHAR(2))   BEGIN
-    INSERT INTO TAKES(student_ID, section_ID, grades)
+    INSERT INTO takes(student_ID, section_ID, grades)
     VALUES (temp_student_ID, temp_section_ID, temp_grades);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_accounts` ()   BEGIN
-    SELECT * FROM ACCOUNT;
+    SELECT * FROM account;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_instructors` ()   BEGIN
-    SELECT * FROM INSTRUCTOR;
+    SELECT * FROM instructor;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_sections` ()   BEGIN
-    SELECT * FROM SECTION;
+    SELECT * FROM section;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_students` ()   BEGIN
-    SELECT * FROM STUDENT;
+    SELECT * FROM student;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `give_grade_to_section` (IN `temp_student_ID` INT, IN `temp_section_ID` INT, IN `temp_grades` VARCHAR(2))   BEGIN
-    UPDATE TAKES
+    UPDATE takes
     SET grades = temp_grades
     WHERE student_ID = temp_student_ID
         AND section_ID = temp_section_ID;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_account` (IN `temp_account_ID` INT, IN `temp_username` VARCHAR(20), IN `temp_password` VARCHAR(20), IN `temp_role` VARCHAR(20))   BEGIN
-UPDATE ACCOUNT
+UPDATE account
 SET username = temp_username,
     password = temp_password,
     role = temp_role
@@ -157,7 +157,7 @@ SET username = temp_username,
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_instructor` (IN `temp_instructor_ID` INT, IN `temp_first_name` VARCHAR(20), IN `temp_last_name` VARCHAR(20), IN `temp_department_name` VARCHAR(20), IN `temp_salary` NUMERIC(8,2))   BEGIN
-    UPDATE INSTRUCTOR
+    UPDATE instructor
     SET first_name = temp_first_name,
         last_name = temp_last_name,
         department_ID = (SELECT department_ID FROM department WHERE department_name = temp_department_name),
@@ -166,7 +166,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `update_instructor` (IN `temp_instru
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_section` (IN `temp_section_ID` INT, IN `temp_course_ID` INT, IN `temp_semester` VARCHAR(6), IN `temp_year` NUMERIC(4,0), IN `temp_building_ID` INT, IN `temp_time_slot_ID` INT)   BEGIN
-UPDATE SECTION
+UPDATE section
 SET building_ID = temp_building_ID,
     time_slot_ID = temp_time_slot_ID
     WHERE course_ID = temp_course_ID
@@ -176,7 +176,7 @@ SET building_ID = temp_building_ID,
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_student` (IN `temp_student_ID` INT, IN `temp_first_name` VARCHAR(20), IN `temp_last_name` VARCHAR(20), IN `temp_department_name` VARCHAR(20), IN `temp_total_credits` NUMERIC(3,0), IN `temp_advisor_ID` INT)   BEGIN
-    UPDATE STUDENT
+    UPDATE student
     SET first_name = temp_first_name,
         last_name = temp_last_name,
         department_ID = (SELECT department_ID FROM department WHERE department_name = temp_department_name),
@@ -205,16 +205,16 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`account_ID`, `username`, `password`, `role`) VALUES
-(1, 'Drew2000', 'TrulyCool2003', 'Administrator'),
-(2, 'Link', 'GannonGannon88', 'Administrator'),
-(3, 'dropKick2000', 'CalebCalebCaleb', 'Instructor'),
-(4, 'aroddy', 'Coolest!', 'Instructor'),
-(5, 'Ganondworf', '123892138', 'Administrator'),
-(6, 'OrangeMan', 'Drop73Drop12!', 'Instructor'),
-(7, 'SuperCool', 'RealDoctor3626', 'Student'),
-(8, 'DrMario', 'Linkus', 'Administrator'),
-(9, 'coolGuy77', 'DrewPass99', 'Instructor'),
-(10, 'Caleb999', 'FavoriteColor', 'Administrator');
+(1, 'Link', 'Coolest!', 'Instructor'),
+(2, 'coolGuy77', 'FavoriteColor', 'Instructor'),
+(3, 'aroddy', 'DrewPass99', 'Instructor'),
+(4, 'Drew2000', 'RealDoctor3626', 'Student'),
+(5, 'SuperCool', 'Drop73Drop12!', 'Student'),
+(6, 'Ganondworf', 'GannonGannon88', 'Student'),
+(7, 'Caleb999', 'CalebCalebCaleb', 'Instructor'),
+(8, 'dropKick2000', '123892138', 'Student'),
+(9, 'OrangeMan', 'TrulyCool2003', 'Instructor'),
+(10, 'DrMario', 'Linkus', 'Instructor');
 
 -- --------------------------------------------------------
 
@@ -261,16 +261,16 @@ CREATE TABLE `advisor` (
 --
 
 INSERT INTO `advisor` (`advisor_ID`, `first_name`, `last_name`, `department_ID`) VALUES
-(7, 'Craig', 'Raklovits', 7),
-(5, 'Craig', 'Smith', 5),
-(9, 'Joseph', 'Morneweck', 9),
-(1, 'Leah', 'Johnson', 1),
-(2, 'Leah', 'Morneweck', 2),
-(8, 'Thomas', 'Morneweck', 8),
-(6, 'TJ', 'Redy', 6),
-(4, 'Tommy', 'Redy', 4),
-(10, 'Tommy', 'Smith', 10),
-(3, 'Tommy', 'So', 3);
+(7, 'Craig', 'Morneweck', 7),
+(9, 'Craig', 'Morneweck', 9),
+(6, 'Craig', 'Raklovits', 6),
+(8, 'Thomas', 'Johnson', 8),
+(5, 'Thomas', 'Redy', 5),
+(4, 'Thomas', 'So', 4),
+(2, 'TJ', 'Raklovits', 2),
+(1, 'Tommy', 'Morneweck', 1),
+(3, 'Tommy', 'Morneweck', 3),
+(10, 'Tommy', 'So', 10);
 
 -- --------------------------------------------------------
 
@@ -288,16 +288,16 @@ CREATE TABLE `building` (
 --
 
 INSERT INTO `building` (`building_ID`, `building_name`) VALUES
-(1, 'White'),
-(2, 'MSB'),
+(1, 'MSB'),
+(2, 'DI'),
 (3, 'Smith'),
 (4, 'DI'),
-(5, 'MSB'),
-(6, 'DI'),
-(7, 'DI'),
-(8, 'Smith'),
-(9, 'Smith'),
-(10, 'White');
+(5, 'DI'),
+(6, 'MSB'),
+(7, 'MSB'),
+(8, 'DI'),
+(9, 'MSB'),
+(10, 'MSB');
 
 -- --------------------------------------------------------
 
@@ -317,16 +317,16 @@ CREATE TABLE `classroom` (
 --
 
 INSERT INTO `classroom` (`classroom_ID`, `building_ID`, `room_number`, `capacity`) VALUES
-(1, 1, 819, 6670),
-(2, 2, 364, 4059),
-(3, 3, 220, 1461),
-(4, 4, 193, 9230),
-(5, 5, 409, 3178),
-(6, 6, 271, 5025),
-(7, 7, 547, 1058),
-(8, 8, 5, 5406),
-(9, 9, 379, 9211),
-(10, 10, 447, 7602);
+(1, 1, 452, 4449),
+(2, 2, 376, 1038),
+(3, 3, 7, 8215),
+(4, 4, 183, 2498),
+(5, 5, 262, 4400),
+(6, 6, 51, 4899),
+(7, 7, 887, 9607),
+(8, 8, 941, 4465),
+(9, 9, 881, 890),
+(10, 10, 791, 6108);
 
 -- --------------------------------------------------------
 
@@ -346,16 +346,16 @@ CREATE TABLE `course` (
 --
 
 INSERT INTO `course` (`course_ID`, `title`, `department_ID`, `credits`) VALUES
-(1, 'Elementary Japanese 1', 1, 15),
-(2, 'CS2', 2, 87),
-(3, 'Elementary Japanese 1', 3, 37),
-(4, 'Elementary Japanese 1', 4, 46),
-(5, 'Elementary Japanese 1', 5, 94),
-(6, 'Discrete Structures', 6, 49),
-(7, 'Discrete Structures', 7, 96),
-(8, 'CS2', 8, 5),
-(9, 'Elementary Japanese 1', 9, 27),
-(10, 'Discrete Structures', 10, 41);
+(1, 'Discrete Structures', 1, 59),
+(2, 'Discrete Structures', 2, 29),
+(3, 'CS1', 3, 92),
+(4, 'CS4', 4, 45),
+(5, 'Elementary Japanese 1', 5, 84),
+(6, 'CS1', 6, 77),
+(7, 'CS3', 7, 30),
+(8, 'Discrete Structures', 8, 4),
+(9, 'Elementary Japanese 1', 9, 42),
+(10, 'CS2', 10, 94);
 
 -- --------------------------------------------------------
 
@@ -375,16 +375,16 @@ CREATE TABLE `department` (
 --
 
 INSERT INTO `department` (`department_ID`, `department_name`, `building_ID`, `budget`) VALUES
-(1, 'CS', 1, 5464129400.54),
-(2, 'BIO', 2, 4539722553.45),
-(3, 'MATH', 3, 8515428389.85),
-(4, 'CHEM', 4, 5497251449.54),
-(5, 'NURS', 5, 2975414960.29),
-(6, 'PHYS', 6, 2423345625.24),
-(7, 'ENGL', 7, 2679870595.26),
-(8, 'FRNC', 8, 8059187066.80),
-(9, 'JAPN', 9, 7427061707.74),
-(10, 'BOTN', 10, 6808284235.68);
+(1, 'CS', 1, 2054361050.20),
+(2, 'BIO', 2, 1749280865.17),
+(3, 'MATH', 3, 7591906070.75),
+(4, 'CHEM', 4, 650046354.65),
+(5, 'NURS', 5, 5215156452.52),
+(6, 'PHYS', 6, 1942310204.19),
+(7, 'ENGL', 7, 7041512423.70),
+(8, 'FRNC', 8, 8438776297.84),
+(9, 'JAPN', 9, 3036567662.30),
+(10, 'BOTN', 10, 3625575837.36);
 
 -- --------------------------------------------------------
 
@@ -405,16 +405,16 @@ CREATE TABLE `instructor` (
 --
 
 INSERT INTO `instructor` (`instructor_ID`, `first_name`, `last_name`, `department_ID`, `salary`) VALUES
-(1, 'Giovanni', 'Kahn', 1, 340357.34),
-(2, 'Mikhail', 'Nesterenko', 2, 403061.40),
-(3, 'Giovanni', 'Nesterenko', 3, 365719.36),
-(4, 'Giovanni', 'Phares', 4, 817309.81),
-(5, 'Giovanni', 'Phares', 5, 706234.70),
-(6, 'Javed', 'Kahn', 6, 526419.52),
-(7, 'Mikhail', 'Kahn', 7, 600338.60),
-(8, 'Giovanni', 'Kahn', 8, 195888.19),
-(9, 'Mikhail', 'Kahn', 9, 814884.81),
-(10, 'Javed', 'Kahn', 10, 476612.47);
+(1, 'Javed', 'Nesterenko', 1, 306689.30),
+(2, 'Giovanni', 'Kahn', 2, 817203.81),
+(3, 'Mikhail', 'Kahn', 3, 661799.66),
+(4, 'Javed', 'Nesterenko', 4, 192660.19),
+(5, 'Javed', 'Kahn', 5, 830632.83),
+(6, 'Javed', 'Nesterenko', 6, 496002.49),
+(7, 'Giovanni', 'Kahn', 7, 860395.86),
+(8, 'Javed', 'Nesterenko', 8, 394589.39),
+(9, 'Javed', 'Phares', 9, 584583.58),
+(10, 'Javed', 'Kahn', 10, 199672.19);
 
 -- --------------------------------------------------------
 
@@ -464,16 +464,16 @@ CREATE TABLE `section` (
 --
 
 INSERT INTO `section` (`section_ID`, `course_ID`, `semester`, `year`, `building_ID`, `time_slot_ID`) VALUES
-(1, 1, 'Spring', 1971, 1, 1),
-(2, 2, 'Spring', 1826, 2, 2),
-(3, 3, 'Fall', 1789, 3, 3),
-(4, 4, 'Fall', 1895, 4, 4),
-(5, 5, 'Winter', 1827, 5, 5),
-(6, 6, 'Fall', 1749, 6, 6),
-(7, 7, 'Fall', 2038, 7, 7),
-(8, 8, 'Summer', 1930, 8, 8),
-(9, 9, 'Fall', 1872, 9, 9),
-(10, 10, 'Fall', 1762, 10, 10);
+(1, 1, 'Fall', 1966, 1, 1),
+(2, 2, 'Winter', 1892, 2, 2),
+(3, 3, 'Summer', 2098, 3, 3),
+(4, 4, 'Summer', 1993, 4, 4),
+(5, 5, 'Winter', 1869, 5, 5),
+(6, 6, 'Summer', 2070, 6, 6),
+(7, 7, 'Winter', 1719, 7, 7),
+(8, 8, 'Summer', 2000, 8, 8),
+(9, 9, 'Spring', 1904, 9, 9),
+(10, 10, 'Spring', 1967, 10, 10);
 
 -- --------------------------------------------------------
 
@@ -495,16 +495,16 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`student_ID`, `first_name`, `last_name`, `department_ID`, `total_cred`, `advisor_ID`) VALUES
-(1, 'Logan', 'Roddy', 1, 45, 1),
-(2, 'Logan', 'Roddy', 2, 227, 2),
-(3, 'Andrew', 'Roddy', 3, 163, 3),
-(4, 'Logan', 'Roddy', 4, 86, 4),
-(5, 'Logan', 'Roddy', 5, 190, 5),
-(6, 'Caleb', 'Senol', 6, 106, 6),
-(7, 'Caleb', 'Roddy', 7, 71, 7),
-(8, 'Caleb', 'Senol', 8, 81, 8),
-(9, 'Andrew', 'Roddy', 9, 181, 9),
-(10, 'Andrew', 'Stanberry', 10, 237, 10);
+(1, 'Caleb', 'Roddy', 1, 127, 1),
+(2, 'Logan', 'Senol', 2, 25, 2),
+(3, 'Logan', 'Stanberry', 3, 148, 3),
+(4, 'Caleb', 'Senol', 4, 82, 4),
+(5, 'Caleb', 'Senol', 5, 105, 5),
+(6, 'Logan', 'Senol', 6, 160, 6),
+(7, 'Andrew', 'Senol', 7, 217, 7),
+(8, 'Logan', 'Stanberry', 8, 161, 8),
+(9, 'Caleb', 'Stanberry', 9, 46, 9),
+(10, 'Caleb', 'Roddy', 10, 11, 10);
 
 -- --------------------------------------------------------
 
@@ -523,16 +523,16 @@ CREATE TABLE `takes` (
 --
 
 INSERT INTO `takes` (`student_ID`, `section_ID`, `grades`) VALUES
-(1, 1, 'F'),
-(2, 2, 'A-'),
-(3, 3, 'A+'),
-(4, 4, 'B'),
-(5, 5, 'B-'),
-(6, 6, 'B+'),
-(7, 7, 'C+'),
-(8, 8, 'B+'),
-(9, 9, 'F'),
-(10, 10, 'A-');
+(1, 1, 'D-'),
+(2, 2, 'D'),
+(3, 3, 'B-'),
+(4, 4, 'C+'),
+(5, 5, 'D+'),
+(6, 6, 'B-'),
+(7, 7, 'D+'),
+(8, 8, 'A'),
+(9, 9, 'D+'),
+(10, 10, 'C+');
 
 -- --------------------------------------------------------
 
@@ -581,16 +581,16 @@ CREATE TABLE `time_slot` (
 --
 
 INSERT INTO `time_slot` (`time_slot_ID`, `day`, `start_hr`, `start_min`, `end_hr`, `end_min`) VALUES
-(1, 'W', 20, 58, 2, 33),
-(2, 'F', 7, 52, 12, 52),
-(3, 'H', 5, 2, 22, 36),
-(4, 'F', 13, 39, 14, 7),
-(5, 'M', 21, 18, 0, 37),
-(6, 'H', 16, 53, 22, 35),
-(7, 'M', 11, 45, 15, 13),
-(8, 'F', 8, 3, 8, 11),
-(9, 'F', 12, 40, 3, 3),
-(10, 'F', 20, 38, 17, 49);
+(1, 'T', 8, 56, 14, 56),
+(2, 'T', 12, 13, 17, 50),
+(3, 'H', 16, 52, 15, 16),
+(4, 'M', 13, 46, 11, 54),
+(5, 'T', 18, 12, 11, 25),
+(6, 'T', 13, 14, 18, 44),
+(7, 'H', 10, 13, 13, 36),
+(8, 'H', 14, 52, 4, 35),
+(9, 'F', 18, 51, 1, 28),
+(10, 'W', 23, 42, 20, 28);
 
 --
 -- Indexes for dumped tables
