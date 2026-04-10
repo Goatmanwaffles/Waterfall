@@ -138,16 +138,6 @@ INSERT INTO prereq (base_course_ID, requires_course_ID) VALUES (7, 7);;
 INSERT INTO prereq (base_course_ID, requires_course_ID) VALUES (8, 8);;
 INSERT INTO prereq (base_course_ID, requires_course_ID) VALUES (9, 9);;
 INSERT INTO prereq (base_course_ID, requires_course_ID) VALUES (10, 10);;
-INSERT INTO account (account_ID, username, password, role) VALUES (1, "calebstanberry", "password","Administrator");;
-INSERT INTO account (account_ID, username, password, role) VALUES (2, "andrewroddy", "password","Administrator");;
-INSERT INTO account (account_ID, username, password, role) VALUES (3, "logansenol", "password","Administrator");;
-INSERT INTO account (account_ID, username, password, role) VALUES (4, "teacher", "password","Instructor");;
-INSERT INTO account (account_ID, username, password, role) VALUES (5, "student", "password","Student");;
-INSERT INTO account (account_ID, username, password, role) VALUES (6, "cstan", "password","Administrator");;
-INSERT INTO account (account_ID, username, password, role) VALUES (7, "tj", "password","Instructor");;
-INSERT INTO account (account_ID, username, password, role) VALUES (8, "admin", "password","Administrator");;
-INSERT INTO account (account_ID, username, password, role) VALUES (9, "james", "123","Student");;
-INSERT INTO account (account_ID, username, password, role) VALUES (10, "john", "abcdefg","Student");;
 
 
 
