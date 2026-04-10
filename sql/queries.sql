@@ -208,6 +208,63 @@ BEGIN
         AND year = temp_year;
 END;;
 
+-- -- -- 
+-- ACCOUNT CRUD
+-- -- --
+
+-- Create Account
+DROP PROCEDURE IF EXISTS create_account;;
+CREATE PROCEDURE create_account(
+    IN temp_username varchar(20),
+    IN temp_password varchar(20),
+    IN temp_role varchar(20)    
+)
+BEGIN
+    INSERT INTO ACCOUNT (username, password, role)
+    VALUES (
+        temp_username,
+        temp_password,
+        temp_role
+    );
+END;;
+
+-- Read Accounts
+DROP PROCEDURE IF EXISTS get_accounts;;
+CREATE PROCEDURE get_accounts()
+BEGIN
+    SELECT * FROM ACCOUNT;
+END;;   
+
+-- Update Account
+DROP PROCEDURE IF EXISTS update_account;;
+CREATE PROCEDURE update_account(
+    IN temp_account_ID int,
+    IN temp_username varchar(20),
+    IN temp_password varchar(20),
+    IN temp_role varchar(20)
+)
+BEGIN
+UPDATE ACCOUNT
+SET username = temp_username,
+    password = temp_password,
+    role = temp_role
+    WHERE account_ID = temp_account_ID;
+END;;
+
+-- Delete Account
+DROP PROCEDURE IF EXISTS delete_account;;
+CREATE PROCEDURE delete_account(
+    IN temp_account_ID int
+)
+BEGIN
+    DELETE FROM ACCOUNT
+    WHERE account_ID = temp_account_ID;
+END;;
+
+-- -- -- 
+-- OTHER MAJOR STUFF
+-- -- --
+
 -- Enroll In Section
 DROP PROCEDURE IF EXISTS enroll_in_section;;
 CREATE PROCEDURE enroll_in_section(
