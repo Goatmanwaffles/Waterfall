@@ -123,6 +123,9 @@ def randomVarchar(table, column, datatype):
         if column == "day":
             data += f"{choice(config.days)}"
 
+    if table == "account":
+        if column == "role":
+            data += f"{choice(config.roles)}"
 
     # Random character fallback
     right = datatype.split("(")[1] 

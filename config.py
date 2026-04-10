@@ -27,20 +27,25 @@ advisor_first_names = ["Joseph", "Thomas", "Tommy", "Craig", "Leah", "TJ"]
 advisor_last_names = ["Raklovits", "Redy", "Morneweck", "Smith", "Johnson", "So"]
 course_titles = ["CS1", "CS2", "CS3", "Intro to Databases", "Discrete Structures", "CS4", "Elementary Japanese 1"]
 days = ["M", "T", "W", "H", "F"]
+roles = ["Administrator", "Instructor", "Student"]
 count = 0
 
 # This is the schema used to make the test data
 TABLES = {
-    "classroom":  {
+    "building": {
         "building_ID": "int AUTO_INCREMENT PRIMARY KEY",
-        "building_name":    "varchar(15)", 
+        "building_name": "varchar(15)"
+    },
+    "classroom":  {
+        "classroom_ID": "int AUTO_INCREMENT PRIMARY KEY",
+        "building_ID":    "int", 
         "room_number": "numeric(3,0)",  
         "capacity":    "numeric(4,0)"
     },
     "department": {
         "department_ID": "int AUTO_INCREMENT PRIMARY KEY",
         "department_name": "varchar(20)", 
-        "building":  "varchar(15)", 
+        "building_ID":  "int", 
         "budget":    "numeric(12,2)"
     },
     "time_slot": {
@@ -50,6 +55,12 @@ TABLES = {
         "start_min":    "numeric(2)", 
         "end_hr":       "numeric(2)", 
         "end_min":      "numeric(2)", 
+    },
+    "account": {
+        "account_ID": "int AUTO_INCREMENT PRIMARY KEY",
+        "username": "varchar(20)",
+        "password": "varchar(20)",
+        "role": "varchar(20)"
     },
     "advisor": {
         "advisor_ID": "int AUTO_INCREMENT PRIMARY KEY", 
