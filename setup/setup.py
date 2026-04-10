@@ -88,11 +88,8 @@ def randomVarchar(table, column, datatype):
             used.append(dept)
         config.count += 1
 
-    #DEPT NAME HANDLER
-    if column == "building" and table == "department":
-        data += f"{choice(config.buildings)}"
-
-    if table == "classroom":
+    #Building NAME HANDLER
+    if table == "building":
         if column == "building_name":
             data += f"{choice(config.buildings)}"
 
