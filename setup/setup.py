@@ -20,6 +20,7 @@ def makeDatabase(hostname, username, password, database_name):
     cursor.execute(f"DROP DATABASE IF EXISTS {database_name};")
     cursor.execute(f"CREATE DATABASE IF NOT EXISTS {database_name};")
     make_db.commit()
+    make_db.close()
 
     # This connects to the local host
     dbserver = pymysql.connect(
@@ -122,11 +123,16 @@ def randomVarchar(table, column, datatype):
 
     if table == "account":
         if column == "username":
-            data += f"{choice(config.usernames)}"
+            user = choice(config.usernames)
+            config.usernames.remove(user)
+            data += f"{user}"
         if column == "password":
-            data += f"{choice(config.passwords)}"
+            password = choice(config.passwords)
+            config.passwords.remove(password)
+            data += f"{password}"
         if column == "role":
             data += f"{choice(config.roles)}"
+    
     # Random character fallback
     right = datatype.split("(")[1] 
     length = right.split(")")[0]
