@@ -1,14 +1,13 @@
-<head>
-    <link href="{{url_for('static',filename='dist/output.css')}}" rel="stylesheet">
-</head>
-
+{% extends "index.html" %}
+{% block content %}
 <body>
     <!--Login Card-->
-    <div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="flex flex-col gap-4 items-center justify-center min-h-screen bg-gray-100">
+        <h1 class="text-4xl text-blue-600 font-bold">WaterFall</h1>
         <div class="flex flex-col p-8 rounded-xl bg-white w-full max-w-md ">
             <h1 class="text-center font-bold text-2xl">Login</h1>
             <!--Login Form-->
-            <form class="flex justify-center flex-col w-full">
+            <form class="flex justify-center flex-col w-full" method="POST">
                 <label for="username" class="font-semibold text-md">Username: </label>
                 <input type="text" id="username" name="username" class="border rounded-lg border-2 border-gray-400 mb-4">
 
@@ -17,6 +16,8 @@
 
                 <input type="submit" class="self-center rounded-lg w-32 max-w-32 text-gray-50 bg-blue-600 cursor-pointer scale-100 transition-all duration-300 hover:bg-blue-400 hover:scale-105">
             </form>
+            <p class="text-xs">Or click <a class="text-sky-400" href="/signup">here</a> to sign up</p>
         </div>
     </div>
 </body>
+{% endblock %}
