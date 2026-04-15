@@ -265,7 +265,6 @@ END;;
 -- OTHER MAJOR STUFF
 -- -- --
 
--- Enroll In Section
 DROP PROCEDURE IF EXISTS enroll_in_section;;
 CREATE PROCEDURE enroll_in_section(
     IN temp_student_ID INT,
