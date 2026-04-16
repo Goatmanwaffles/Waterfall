@@ -36,9 +36,33 @@ def login():
             print("ERROR")
             return render_template("login.html", error="Invalid Username or Password")
         
+        #THIS SHOULD PROB BE A SEPERATE FUNCTION AT SOME POINT AND WE SHOULD MAYBE HASH PASSWORDS IF WE WANT SECURITY
         #Valid Login
         if row and (password == row[1]):
             return redirect(url_for('dash'))
+
+@app.route("/signup", methods=['POST', 'GET'])
+def signup():
+    if request.method == "GET":
+        return render_template("signup.html")
+#Handle Signup
+    if request.method =="POST":
+        username = request.form['username']
+        password = request.form['password']
+        confirmPassword = request.form['confirmPassword']
+
+        if not username or not password or not confirmPassword:
+            return render_template("signup.html", error="Missing Field")
+        
+        if password != confirmPassword:
+            return render_template("signup.html", error="Passwords do not match")
+        
+        cursor = dbserver.cursor()
+        cursor.execute(f"CALL create_account(%s, %s, 'Student')", (username, password))
+        cursor.close()
+        dbserver.commit()
+
+        return redirect(url_for('login'))
 
 @app.route("/dashboard")
 def dash():
