@@ -17,7 +17,7 @@ def makeDatabase(hostname, username, password, database_name):
 
     # DROPS THE ENTIRE DATABASE 
     # THIS IS ONLY FOR TESTING PURPOSES!!!!!
-    #cursor.execute(f"DROP DATABASE IF EXISTS {database_name};")
+    cursor.execute(f"DROP DATABASE IF EXISTS {database_name};")
     cursor.execute(f"CREATE DATABASE IF NOT EXISTS {database_name};")
     make_db.commit()
     make_db.close()
