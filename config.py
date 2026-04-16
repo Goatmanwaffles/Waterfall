@@ -61,7 +61,7 @@ TABLES = {
     "account": {
         "account_ID": "int AUTO_INCREMENT PRIMARY KEY",
         "username": "varchar(20)",
-        "password": "varchar(20)",
+        "password": "varchar(2000)",
         "role": "varchar(20)"
     },
     "advisor": {

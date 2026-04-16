@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from setup import makeDatabase, runSQL, generateSeedData
 import config
 import pymysql
+import bcrypt
 
 app = Flask(__name__)
 
@@ -30,15 +31,17 @@ def login():
         cursor = dbserver.cursor()
         cursor.execute("SELECT username, password, role FROM account WHERE username = %s", (username))
         row = cursor.fetchone()
-        print(row)
 
-        if not row or not (password == row[1]):
+        #Convert password into bytes for check
+        password = password.encode('utf-8')
+        hashedPW = row[1].encode('utf-8')
+        if not row or not (bcrypt.checkpw(password, hashedPW)):
             print("ERROR")
             return render_template("login.html", error="Invalid Username or Password")
         
         #THIS SHOULD PROB BE A SEPERATE FUNCTION AT SOME POINT AND WE SHOULD MAYBE HASH PASSWORDS IF WE WANT SECURITY
         #Valid Login
-        if row and (password == row[1]):
+        if row and (bcrypt.checkpw(password, hashedPW)):
             return redirect(url_for('dash'))
 
 @app.route("/signup", methods=['POST', 'GET'])
@@ -57,8 +60,14 @@ def signup():
         if password != confirmPassword:
             return render_template("signup.html", error="Passwords do not match")
         
+        #Salt and Hash password
+        password_bytes = password.encode('utf-8')
+        s = bcrypt.gensalt()
+        h = bcrypt.hashpw(password_bytes, s)
+        print(h)
+
         cursor = dbserver.cursor()
-        cursor.execute(f"CALL create_account(%s, %s, 'Student')", (username, password))
+        cursor.execute(f"CALL create_account(%s, %s, 'Student')", (username, h))
         cursor.close()
         dbserver.commit()
 

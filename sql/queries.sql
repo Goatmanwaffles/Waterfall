@@ -216,7 +216,7 @@ END;;
 DROP PROCEDURE IF EXISTS create_account;;
 CREATE PROCEDURE create_account(
     IN temp_username varchar(20),
-    IN temp_password varchar(20),
+    IN temp_password varchar(200),
     IN temp_role varchar(20)    
 )
 BEGIN
