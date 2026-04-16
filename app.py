@@ -64,7 +64,6 @@ def signup():
         password_bytes = password.encode('utf-8')
         s = bcrypt.gensalt()
         h = bcrypt.hashpw(password_bytes, s)
-        print(h)
 
         cursor = dbserver.cursor()
         cursor.execute(f"CALL create_account(%s, %s, 'Student')", (username, h))
