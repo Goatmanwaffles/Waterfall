@@ -4,6 +4,8 @@ import config
 import pymysql
 import bcrypt
 
+ACCOUNT_ID = ""
+
 app = Flask(__name__)
 
 # Creates the database server object
@@ -42,6 +44,8 @@ def login():
         #THIS SHOULD PROB BE A SEPERATE FUNCTION AT SOME POINT AND WE SHOULD MAYBE HASH PASSWORDS IF WE WANT SECURITY
         #Valid Login
         if row and (bcrypt.checkpw(password, hashedPW)):
+            cursor.execute("SELECT account_ID FROM account WHERE username = %s", (username))
+            ACCOUNT_ID = cursor.fetchone()
             return redirect(url_for('dash'))
 
 @app.route("/signup", methods=['POST', 'GET'])
@@ -75,6 +79,24 @@ def signup():
 @app.route("/dashboard")
 def dash():
     return render_template("dash.html")
+    
+@app.route("/unauthorized")
+def unauthorized():
+    return render_template("unauthorized.html")
+
+@app.route("/edit_student")
+def edit_student():
+    cursor = dbserver.cursor()
+    cursor.execute("SELECT role FROM account WHERE account_ID = %s", (ACCOUNT_ID))
+    role = cursor.fetchone()
+    if(role == "Instructor"):
+        return render_template("edit_student.html")
+    else:
+        return redirect(url_for('unauthorized'))
+
+
+
+
 
 if __name__ == '__main__':
     app.run(host="localhost", port=4500, debug=True)
