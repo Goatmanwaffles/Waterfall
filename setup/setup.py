@@ -204,7 +204,7 @@ def generateSeedData(tables, schema_filename, seed_filename):
     seed.truncate(0) # Clears the file
 
     for table, columns in tables.items():
-        for i in range(10): # Creates that many rows per table
+        for i in range(100): # Creates that many rows per table
 
             values = "" # Everything to be inserted
             col_names = "" # Collumns to insert into
