@@ -77,4 +77,4 @@ def dash():
     return render_template("dash.html")
 
 if __name__ == '__main__':
-    app.run(host="localhost", port=4500, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
