@@ -9,6 +9,7 @@ services:
         volumes:
          - .:/app
          - /app/.venv
+         - /app/static/dist
         environment:
          - DATABASE_HOST=db
 
