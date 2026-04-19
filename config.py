@@ -1,3 +1,10 @@
+import os
+
+# Checks if the system is running inside docker or not
+if os.path.exists("/.dockerenv"):
+    HOST = "db"
+else:
+    HOST = "localhost"
 
 # The DB_NAME of the database and other info
 # You need to create the database manually, I could not figure out
@@ -5,7 +12,6 @@
 DB_NAME = "waterfall"
 
 # Other general configuration stuff
-HOST     = "localhost"
 USER     = "root"
 PASSWORD = ""
 
