@@ -1,22 +1,22 @@
 from flask import Flask, render_template, request, redirect, url_for
-from setup import makeDatabase, runSQL, generateSeedData
+from setup import makeDatabase, runSQL, generateSeedData, resetDatabase
 import config
 import pymysql
 import bcrypt
 
 app = Flask(__name__)
 
-# Creates the database server object
-dbserver = makeDatabase(config.HOST, config.USER, config.PASSWORD, config.DB_NAME)
-cursor = dbserver.cursor()
-# I moved it here so it only runs once bc that was giving me trouble
-generateSeedData(config.TABLES, config.SCHEMA, config.SEED) # Generates seed data
+# This code will reset the database on run
+resetDatabase()
 
-runSQL(cursor, dbserver, config.SCHEMA ) # Inputs schema
-runSQL(cursor, dbserver, config.SEED   ) # Inputs seed data
-runSQL(cursor, dbserver, config.QUERIES) # Sets up procedure queries
-cursor.close()
-dbserver.commit()
+dbserver = pymysql.connect(
+    host     = config.HOST,
+    user     = config.USER,
+    password = config.PASSWORD,
+    database = config.DB_NAME
+)
+
+cursor = dbserver.cursor()
 
 @app.route("/", methods=['POST', 'GET'])
 def login():
