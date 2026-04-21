@@ -20,24 +20,6 @@ SCHEMA  = "schema.sql"
 SEED    = "seed-data.sql"
 QUERIES = "queries.sql"
 
-# Seed data generator for testing
-student_first_names = ["Logan", "Andrew", "Caleb"]
-student_last_names = ["Senol", "Roddy", "Stanberry"]
-instructor_first_names = ["Javed", "Giovanni", "Mikhail"]
-instructor_last_names = ["Kahn", "Phares", "Nesterenko"]
-dept_names = ["CS", "BIO", "MATH", "CHEM", "NURS", "PHYS", "ENGL", "FRNC", "JAPN", "BOTN"]
-buildings = ["Smith", "MSB", "DI", "White"]
-semesters = ["Fall", "Winter", "Spring", "Summer"]
-grades = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"]
-advisor_first_names = ["Joseph", "Thomas", "Tommy", "Craig", "Leah", "TJ"]
-advisor_last_names = ["Raklovits", "Redy", "Morneweck", "Smith", "Johnson", "So"]
-course_titles = ["CS1", "CS2", "CS3", "Intro to Databases", "Discrete Structures", "CS4", "Elementary Japanese 1"]
-days = ["M", "T", "W", "H", "F"]
-usernames = ["Drew2000", "Caleb999", "aroddy", "coolGuy77", "dropKick2000", "OrangeMan", "DrMario", "Link", "Ganondworf", "SuperCool"]
-passwords = ["DrewPass99", "CalebCalebCaleb", "123892138", "Coolest!", "Drop73Drop12!", "FavoriteColor", "RealDoctor3626", "Linkus", "GannonGannon88", "TrulyCool2003"]
-roles = ["Administrator", "Instructor", "Student"]
-count = 0
-
 # This is the schema used to make the test data
 TABLES = {
     "building": {
