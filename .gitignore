@@ -1,4 +1,5 @@
 __pycache__
 .venv
 sql/seed-data.sql
+*/seed-data.sql
 node_modules

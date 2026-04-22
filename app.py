@@ -20,10 +20,10 @@ cursor = dbserver.cursor()
 
 @app.route("/", methods=['POST', 'GET'])
 def login():
-#Handle getting page
+    #Handle getting page
     if request.method == "GET":
         return render_template("login.html")
-#Handle Login
+    #Handle Login
     if request.method == "POST":
         #Get username and password
         username = request.form['username']
@@ -48,7 +48,7 @@ def login():
 def signup():
     if request.method == "GET":
         return render_template("signup.html")
-#Handle Signup
+    #Handle Signup
     if request.method =="POST":
         username = request.form['username']
         password = request.form['password']
@@ -75,6 +75,80 @@ def signup():
 @app.route("/dashboard")
 def dash():
     return render_template("dash.html")
+
+# Student Search
+@app.route("/student_search", methods=["GET", "POST"])
+@app.route("/student_search/<string:id>", methods=["GET", "POST"])
+def student_search(id="", first="", last=""):
+
+    if request.method == "POST":
+        id    = request.form.get("id")
+        first = request.form.get("first")
+        last  = request.form.get("last")
+
+    # Gets list of all students
+    all_stu = ""
+    sql = "SELECT * FROM student"
+    cursor.execute(sql)
+    all_stu = cursor.fetchall()
+
+    # Converts Department ID into Department Name
+    students = []
+    sql = "SELECT department_name FROM department WHERE department_ID = %s"
+    for y in range(len(all_stu)):
+        one_student = []
+        
+        # All variables used in search
+        checks = [
+            [ id,    all_stu[y][0] ],
+            [ first, all_stu[y][1] ],
+            [ last,  all_stu[y][2] ]
+        ]
+
+        # Lowercases all variables and turns them into strings
+        for c_y in range(len(checks)):
+            for c_x in range(len(checks[0])):
+                checks[c_y][c_x] = str(checks[c_y][c_x]).lower()
+        
+        # If the variable isn't empty and the student doesn't have it, skip
+        present = True
+        for var in checks:
+            if var[0] != "" and var[0] not in var[1]:
+                present = False
+        
+        if present == False: 
+            continue
+
+        # Iterates through all students
+        for x in range(len(all_stu[0])):
+
+            # Gets default data
+            data = all_stu[y][x]
+
+            # If we are in the department ID column
+            if x == 3:
+                # The department ID
+                department_ID = all_stu[y][x]
+                # Gets name equal to the ID
+                cursor.execute(sql, [department_ID])
+                # Gets the first result
+                data = cursor.fetchone()[0]
+
+            # Removes the Advisor ID column
+            elif x == 5:
+                continue
+            
+            # Adds the modified data
+            one_student.append(data)
+        students.append(one_student)
+
+    return render_template(
+        "student_search.html",
+        students=students,
+        id=id,
+        first=first,
+        last=last
+    )
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
