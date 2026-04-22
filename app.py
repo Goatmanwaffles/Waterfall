@@ -208,7 +208,7 @@ def register():
 
 
 #Allows Dropping of classes
-#Also works just need real user ID and some polish
+#Also works just need real user ID and some polish like better year
 @app.route("/drop", methods=['POST', 'GET'])
 def dropClass():
     student_ID = "1"
