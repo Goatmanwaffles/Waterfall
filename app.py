@@ -163,7 +163,11 @@ def student_search(id="", first="", last=""):
 
 @app.route("/profile", methods=['POST', 'GET'])
 def profile():
-    return render_template("profile.html")
+    return render_template(
+        "profile.html",
+        first_name="bob",
+        last_name="LSbob"
+    )
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
