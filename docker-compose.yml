@@ -9,7 +9,7 @@ services:
         volumes:
          - .:/app
          - /app/.venv
-         - /app/static/dist
+         - /app/node_modules
         environment:
          - DATABASE_HOST=db
 
