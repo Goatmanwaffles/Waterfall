@@ -113,30 +113,14 @@ course_titles = [
     "Ethics", "Logic", "Political Theory", "American Government", "Comparative Politics", "Intro to Music Theory", "Art History", "Film Studies", "Intro to Nursing", "Pharmacology"
 ]
 days = ["M", "T", "W", "H", "F"]
-usernames = [
-    "Drew2000", "Caleb999", "aroddy", "coolGuy77", "dropKick2000", "OrangeMan", "DrMario", "Link", "Ganondworf", "SuperCool",
-    "PixelWizard", "ShadowHunter", "NinjaCoder", "CyberFox", "NeonKnight", "DigitalDragon", "QuantumLeap", "ByteMaster", "CodeSamurai", "NovaStar",
-    "ZeroHero", "MatrixMind", "SilverBullet", "GoldenEagle", "IronFist", "ThunderBolt", "LightningLord", "FrostBite", "FireFury", "StormBreaker",
-    "SteelTitan", "SkyWalker", "MoonRider", "SunChaser", "StarGazer", "CometTrail", "GalaxyExplorer", "NebulaSeeker", "VoidWanderer", "AstroNaut",
-    "AlphaOmega", "BetaTester", "GammaRay", "DeltaForce", "EpsilonEdge", "ZetaZone", "SigmaSolo", "OmegaPrime", "PhiPhoenix", "ChiChamp",
-    "MegaMan", "UltraViolet", "HyperDrive", "TurboBoost", "RocketRacer", "SpeedDemon", "BlazingFast", "SwiftStrike", "RapidRush", "QuickSilver",
-    "SlickShot", "SharpShooter", "EagleEye", "HawkEye", "OwlNight", "FalconWing", "RavenBlack", "CrowCaller", "SnakeEyes", "TigerClaw",
-    "LionHeart", "BearHug", "WolfPack", "FoxTrot", "DeerDash", "RabbitRun", "TurtleShell", "DolphinDive", "SharkBite", "WhaleSong",
-    "OctoTenta", "CrabCrawl", "LobsterLock", "JellyJolt", "SeaStar", "CoralReef", "KelpKing", "TideTurner", "WaveRider", "DeepDiver",
-    "IceBreaker", "SnowFlake", "FrostGiant", "GlacierGuard", "TundraTrack", "BlizzardBlast", "AvalancheArt", "HailHammer", "MistMaker", "FogFinder"
-]
-# 'passwords = [
-#     "DrewPass99", "CalebCalebCaleb", "123892138", "Coolest!", "Drop73Drop12!", "FavoriteColor", "RealDoctor3626", "Linkus", "GannonGannon88", "TrulyCool2003",
-#     "Password123!", "SecureP@ss", "MyK3ySt0ne", "TigerLily88", "BlueSky2024", "RedRose99", "GreenField", "YellowBird", "PurpleRain", "OrangePeel",
-#     "PinkPanther", "BlackCat13", "WhiteSnow", "GrayWolf42", "SilverSpoon", "GoldenGate", "IronMan88", "SteelBlade", "CopperCoin", "BronzeMedal",
-#     "DiamondEye", "RubyRed", "SapphireSea", "EmeraldIsle", "PearlWhite", "JadeDragon", "AmberGlow", "OnyxBlack", "OpalShimmer", "TopazTan",
-#     "CrystalClear", "GlassHouse", "MetalMouth", "StoneCold", "WoodPecker", "PaperPlane", "PlasticMan", "RubberBand", "LeatherBound", "SilkRoad",
-#     "CottonCandy", "WoolSweater", "DenimJeans", "VelvetTouch", "SatinSheets", "CanvasArt", "FleeceBlanket", "LinenShirt", "NylonRope", "PolyesterMix",
-#     "Summit9000", "Valley5678", "Ocean1234", "Mountain567", "RiverFlow12", "LakeSide34", "BeachDay89", "ForestGreen7", "DesertHeat6", "ArcticCold5",
-#     "Pineapple99", "BananaSplit7", "AppleCore42", "GrapeVine66", "LemonZest33", "LimeGreen44", "CherryPop55", "StrawBerry1", "BlueBerry2", "RaspberryJam",
-#     "PeachFuzz77", "PlumCrazy88", "MangoTango99", "KiwiGold12", "PapayaSun34", "CoconutMilk5", "PizzaSlice22", "BurgerTime33", "SushiRoll44", "TacoTuesday5",
-#     "PastaFagioli", "RiceBowl99", "SoupDuJour22", "SaladBowl42", "BreadBasket3", "CakeDay1111", "PieChart22", "CookieJar33", "IceCream44", "CandyLand55"
-# ]'
+
+usernames = ["Admin", "Instructor", "Student"]
 passwords = ["abc"]
 roles = ["Administrator", "Instructor", "Student"]
+accounts = [
+    {"username": "admin",      "password": "abc",      "role": "Administrator"},
+    {"username": "instructor", "password": "abc", "role": "Instructor"},
+    {"username": "student",    "password": "abc",    "role": "Student"},
+]
+account_index = 0
 count = 0

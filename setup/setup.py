@@ -123,22 +123,6 @@ def randomVarchar(table, column, datatype):
         if column == "day":
             data += f"{choice(seed_data.days)}"
 
-    if table == "account":
-        if column == "username":
-            user = choice(seed_data.usernames)
-            seed_data.usernames.remove(user)
-            data += f"{user}"
-        if column == "password":
-            password = choice(seed_data.passwords)
-            #Salt and Hash password
-            password_bytes = password.encode('utf-8')
-            s = bcrypt.gensalt()
-            h = bcrypt.hashpw(password_bytes, s)
-            #seed_data.passwords.remove(password)
-            data += h.decode('utf-8')
-        if column == "role":
-            data += f"{choice(seed_data.roles)}"
-    
     # Random character fallback
     right = datatype.split("(")[1] 
     length = right.split(")")[0]
@@ -209,7 +193,8 @@ def generateSeedData(tables, schema_filename, seed_filename):
     seed.truncate(0) # Clears the file
 
     for table, columns in tables.items():
-        for i in range(100): # Creates that many rows per table
+        row_count = 3 if table == "account" else 100
+        for i in range(row_count): # Creates that many rows per table
 
             values = "" # Everything to be inserted
             col_names = "" # Collumns to insert into
@@ -219,10 +204,18 @@ def generateSeedData(tables, schema_filename, seed_filename):
 
                 if "PRIMARY KEY" in datatype:
                     continue
-    
-                if "int" in datatype:
-                    #DEPRECEATED FUNCTIONALITY
-                    #data = randomInteger(table, column, datatype, i+1)
+
+                if table == "account":
+                    account = seed_data.accounts[i]
+                    if column == "username":
+                        data = f'"{account["username"]}"'
+                    elif column == "password":
+                        h = bcrypt.hashpw(account["password"].encode('utf-8'), bcrypt.gensalt())
+                        data = f'"{h.decode("utf-8")}"'
+                    elif column == "role":
+                        data = f'"{account["role"]}"'
+
+                elif "int" in datatype:
                     data = i+1
                 elif "varchar" in datatype:
                     data = randomVarchar(table, column, datatype)
