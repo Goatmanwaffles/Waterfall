@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from setup import makeDatabase, runSQL, generateSeedData, resetDatabase
+from flask_session import Session
 import config
 import pymysql
 import bcrypt
@@ -17,6 +18,13 @@ dbserver = pymysql.connect(
 )
 
 cursor = dbserver.cursor()
+
+app.config["SESSION_PERMANENT"] = False     # Sessions expire when the browser is closed
+app.config["SESSION_TYPE"] = "filesystem"     # Store session data in files
+
+# Initialize Flask-Session
+Session(app)
+
 
 @app.route("/", methods=['POST', 'GET'])
 def login():
@@ -39,9 +47,9 @@ def login():
             print("ERROR")
             return render_template("login.html", error="Invalid Username or Password")
         
-        #THIS SHOULD PROB BE A SEPERATE FUNCTION AT SOME POINT AND WE SHOULD MAYBE HASH PASSWORDS IF WE WANT SECURITY
         #Valid Login
         if row and (bcrypt.checkpw(password, hashedPW)):
+            session["role"] = row[2] #Store role in session
             return redirect(url_for('dash'))
 
 @app.route("/signup", methods=['POST', 'GET'])
@@ -74,7 +82,10 @@ def signup():
 
 @app.route("/dashboard")
 def dash():
-    return render_template("dash.html")
+    #Get User auth level
+    role = session.get("role")
+    print(role)
+    return render_template("dash.html", role=role)
 
 # Student Search
 @app.route("/student_search", methods=["GET", "POST"])
