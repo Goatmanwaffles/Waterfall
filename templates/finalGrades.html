@@ -1,0 +1,25 @@
+{% extends '/include/layout.html' %}
+{% include '/include/navbar.html' %}
+{% block content %}
+<div class="h-full w-full bg-blue-200">
+    {% if grades %}
+    <table class="w-full text-sm border-collapse table-fixed gap-4">
+        <thead>
+            <tr>
+                <th>Courses:</th>
+                <th>Final Grade:</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in grades %}
+            <tr>
+                {% for d in course %}
+                <td class="text-center">{{d}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

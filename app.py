@@ -86,7 +86,6 @@ def signup():
 def dash():
     #Get User auth level
     role = session.get("role")
-    print(role)
     return render_template("dash.html", role=role)
 
 # Student Search
@@ -256,10 +255,22 @@ def checkStudentCourses():
         #IDK WHAT THE RUBRIC MEANS BY STATUS
 
         cursor = dbserver.cursor()
-        cursor.execute("SELECT c.title, t.grades FROM takes t JOIN section s ON t.section_ID = s.section_ID JOIN course c on c.course_ID = s.course_ID WHERE t.student_ID = %s AND s.semester = %s AND s.year = %s AND t.grades != ''",[student_ID, semester, year])
+        cursor.execute("SELECT c.title, t.grades FROM takes t JOIN section s ON t.section_ID = s.section_ID JOIN course c on c.course_ID = s.course_ID WHERE t.student_ID = %s AND s.semester = %s AND s.year = %s ",[student_ID, semester, year])
         courses = cursor.fetchall()
 
         cursor.close()
         return render_template("checkCoursesResults.html", courses=courses)
+    
+#STUDENT CHECK FINAL GRADES
+#Probably should filter to only before this semester AKA final grades
+@app.route("/finalGrades", methods=['GET'])
+def getFinalGrades():
+    student_ID = "1"
+    cursor = dbserver.cursor()
+    cursor.execute("SELECT c.title, t.grades FROM takes t JOIN section s ON t.section_ID = s.section_ID JOIN course c on c.course_ID = s.course_ID WHERE t.student_ID = %s AND s.year < 2026 AND t.grades != ''", [student_ID])
+    grades = cursor.fetchall()
+    cursor.close()
+    return render_template("finalGrades.html", grades=grades)
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
