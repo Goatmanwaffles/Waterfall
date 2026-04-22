@@ -1,0 +1,13 @@
+{% extends '/include/layout.html' %}
+{% include '/include/navbar.html' %}
+{% block content %}
+<div class="h-full w-full bg-blue-200">
+    {% if semesters %}
+        <select>
+            {% for semester in semesters %}
+                <option value="{{ semester[0] }}">{{semester[0]}} {{semester[1]}}</option>
+            {% endfor %}
+        </select>
+    {% endif %}
+</div>
+{% endblock %}

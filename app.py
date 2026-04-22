@@ -228,7 +228,22 @@ def dropClass():
         if sec_ID and student_ID:
             cursor.execute("DELETE FROM takes WHERE section_ID = %s and student_ID = %s",[sec_ID,student_ID])
             dbserver.commit()
+        cursor.close()
         return render_template("dash.html")
+    
+@app.route("/checkCourses", methods=['POST', 'GET'])
+def checkStudentCourses():
+    #NEED TO CHANGE ONCE WE LINK ACCOUNTS AND ID'S
+    student_ID = "1"
+
+    #Initial Load to fetch semesters student is enrolled in
+    if request.method == 'GET':
+        cursor = dbserver.cursor()
+
+        cursor.execute("SELECT s.semester, s.year FROM takes t JOIN section s on t.section_ID = s.section_ID WHERE t.student_ID = %s",[student_ID])
+        semesters = cursor.fetchall()
+
+        return render_template("checkCourses.html", semesters=semesters)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
