@@ -252,8 +252,11 @@ def checkStudentCourses():
         semesterYear = request.form['semester']
         semester, year = semesterYear.split(',')
 
+
+        #IDK WHAT THE RUBRIC MEANS BY STATUS
+
         cursor = dbserver.cursor()
-        cursor.execute("SELECT c.title, t.grades FROM takes t JOIN section s ON t.section_ID = s.section_ID JOIN course c on c.course_ID = s.course_ID WHERE t.student_ID = %s AND s.semester = %s AND s.year = %s",[student_ID, semester, year])
+        cursor.execute("SELECT c.title, t.grades FROM takes t JOIN section s ON t.section_ID = s.section_ID JOIN course c on c.course_ID = s.course_ID WHERE t.student_ID = %s AND s.semester = %s AND s.year = %s AND t.grades != ''",[student_ID, semester, year])
         courses = cursor.fetchall()
 
         cursor.close()
