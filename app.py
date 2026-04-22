@@ -37,7 +37,7 @@ def login():
         username = request.form['username']
         password= request.form['password']
         cursor = dbserver.cursor()
-        cursor.execute("SELECT username, password, role FROM account WHERE username = %s", (username))
+        cursor.execute("SELECT username, password, role, account_ID FROM account WHERE username = %s", (username))
         row = cursor.fetchone()
 
         #Convert password into bytes for check
@@ -50,6 +50,7 @@ def login():
         #Valid Login
         if row and (bcrypt.checkpw(password, hashedPW)):
             session["role"] = row[2] #Store role in session
+            session["ID"] = row[3] #Store account ID
             return redirect(url_for('dash'))
 
 @app.route("/signup", methods=['POST', 'GET'])
@@ -169,5 +170,40 @@ def profile():
         last_name="LSbob"
     )
 
+
+#Okay so this works, besides for matching the ID and cleaning it up, in concept it works though
+#It creates a row in takes with no grade
+#TO DO:
+#More precise filtering on what classes it shows (Shold probobaly only show like next 2 or 3 semesters IDK)
+#Get User ID working so we can get actual users to use this and not whoever student ID 1 is
+@app.route("/register", methods=['POST', 'GET'])
+def register():
+    student_ID = "1"
+    
+    if request.method == 'GET':
+        cursor = dbserver.cursor()
+        cursor.execute("SELECT c.title, c.credits, s.semester, s.year, s.section_ID FROM section s JOIN course c on s.course_ID = c.course_ID WHERE s.year > 2025 AND NOT EXISTS (SELECT 1 FROM takes t WHERE t.section_ID = s.section_ID AND t.student_ID = %s)",[student_ID])
+        sections = cursor.fetchall()
+        cursor.close()
+        return render_template("register.html", sections=sections)
+    if request.method == 'POST':
+        #WE NEED TO RELATE ACCOUNTS AND STUDENTS/OTHER PEOPLE FOR THIS TO WORK, RIGHT NOW THIS WHOLE THING IS A PROOF OF CONECPT THAT I CAN GET THIS TO WORK
+        #-Logan
+        #student_ID = session.get("ID")
+        
+        sec_ID = request.form['section_ID']
+        cursor = dbserver.cursor()
+        if sec_ID and student_ID:
+            print("Executing")
+            cursor.execute("INSERT INTO takes (student_ID, section_ID) VALUES (%s, %s)", [student_ID, sec_ID])
+        cursor.close()
+        dbserver.commit()
+
+        #Gets Updated Courses List to filter out course just signed up for
+        cursor = dbserver.cursor()
+        cursor.execute("SELECT c.title, c.credits, s.semester, s.year, s.section_ID FROM section s JOIN course c on s.course_ID = c.course_ID WHERE s.year > 2025 AND NOT EXISTS (SELECT 1 FROM takes t WHERE t.section_ID = s.section_ID AND t.student_ID = %s)",[student_ID])
+        sections = cursor.fetchall()
+        cursor.close()
+        return render_template("register.html", sections=sections)
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
