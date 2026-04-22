@@ -69,7 +69,8 @@ TABLES = {
         "first_name":          "varchar(20)",
         "last_name":     "varchar(20)",
         "department_ID":     "int", 
-        "salary":        "numeric(8,2)"
+        "salary":        "numeric(8,2)",
+        "account_ID":    "int"
     },
     "section": {
         "section_ID": "int AUTO_INCREMENT PRIMARY KEY", 

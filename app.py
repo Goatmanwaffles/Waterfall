@@ -423,5 +423,23 @@ def account():
         return redirect(url_for('dash'))
     
 
+#INSTRUCTOR STUFF
+#--------------------------------------------------------------
+@app.route("/instructorGrades", methods=['POST', 'GET'])
+def instructorGrades():
+    if request.method == 'GET':
+        #Pull all taught sections and grades
+        cursor = dbserver.cursor()
+        cursor.execute("""
+            SELECT n.first_name, n.last_name, k.grades, c.title, s.semester, s.year, s.section_ID
+            FROM teaches t
+            JOIN section s ON s.section_ID = t.section_ID
+            JOIN course c ON s.course_ID = c.course_ID
+            JOIN takes k ON k.section_ID = s.section_ID
+            JOIN student n ON n.student_ID = k.student_ID
+            WHERE t.instructor_ID = %S
+""", [NULL])
+
+    return render_template("instructorGrades.html")
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)

@@ -83,7 +83,10 @@ CREATE TABLE IF NOT EXISTS instructor (
     last_name         VARCHAR(20) NOT NULL, 
     department_ID     INT,
     salary            NUMERIC(8,2) CHECK (salary > 29000),
-    FOREIGN KEY (department_ID) REFERENCES department(department_ID)
+    account_ID        INT,
+    FOREIGN KEY (department_ID) REFERENCES department (department_ID)
+        ON DELETE SET NULL,
+    FOREIGN KEY (account_ID) REFERENCES account (account_ID)
         ON DELETE SET NULL
 );;
 

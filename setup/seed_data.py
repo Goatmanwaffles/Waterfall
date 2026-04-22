@@ -135,6 +135,17 @@ accounts = [
     {"username": "lWood",    "password": "abc",    "role": "Student"},
     {"username": "eJames",    "password": "abc",    "role": "Student"},
     {"username": "eBrooks",    "password": "abc",    "role": "Student"},
+    {"username": "lPark",       "password": "abc", "role": "Instructor"},
+    {"username": "qTremblay",   "password": "abc", "role": "Instructor"},
+    {"username": "jZimmer",     "password": "abc", "role": "Instructor"},
+    {"username": "xBauer",      "password": "abc", "role": "Instructor"},
+    {"username": "gMehta",      "password": "abc", "role": "Instructor"},
+    {"username": "tEllis",      "password": "abc", "role": "Instructor"},
+    {"username": "gYildiz",     "password": "abc", "role": "Instructor"},
+    {"username": "aCortez",     "password": "abc", "role": "Instructor"},
+    {"username": "oDaher",      "password": "abc", "role": "Instructor"},
+    {"username": "nAndersson",  "password": "abc", "role": "Instructor"},
+
 ]
 
 advisors = [
@@ -170,6 +181,21 @@ students = [
     {"first_name": "Elijah",   "last_name": "James",    "department_ID": 13, "total_cred": 93,  "advisor_ID": 13, "account_ID": 16},
     {"first_name": "Evelyn",   "last_name": "Brooks",   "department_ID": 14, "total_cred": 184, "advisor_ID": 14, "account_ID": 17},
 ]
+
+instructors = [
+    {"first_name": "Lena",    "last_name": "Park",       "department_ID": 1,  "salary": 294534.29, "account_ID": 18},
+    {"first_name": "Quincy",  "last_name": "Tremblay",   "department_ID": 2,  "salary": 663261.66, "account_ID": 19},
+    {"first_name": "Javed",   "last_name": "Zimmer",     "department_ID": 3,  "salary": 802874.80, "account_ID": 20},
+    {"first_name": "Xavier",  "last_name": "Bauer",      "department_ID": 4,  "salary": 469090.46, "account_ID": 21},
+    {"first_name": "Gustavo", "last_name": "Mehta",      "department_ID": 5,  "salary": 434262.43, "account_ID": 22},
+    {"first_name": "Tariq",   "last_name": "Ellis",      "department_ID": 6,  "salary": 465903.46, "account_ID": 23},
+    {"first_name": "Gustavo", "last_name": "Yildiz",     "department_ID": 7,  "salary": 201988.20, "account_ID": 24},
+    {"first_name": "Alan",    "last_name": "Cortez",     "department_ID": 8,  "salary": 446818.44, "account_ID": 25},
+    {"first_name": "Oksana",  "last_name": "Daher",      "department_ID": 9,  "salary": 559553.55, "account_ID": 26},
+    {"first_name": "Nadia",   "last_name": "Andersson",  "department_ID": 10, "salary": 993400.99, "account_ID": 27},
+]
+
+
 
 account_index = 0
 count = 0

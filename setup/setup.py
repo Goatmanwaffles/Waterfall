@@ -186,11 +186,31 @@ def randomNumeric(table, column, datatype):
     return data
 
 def generateSeedData(tables, schema_filename, seed_filename):
-    
+    teaches = []
     schema_path = makePath(schema_filename) # Makes absolute file path
     seed_path = makePath(seed_filename)
     seed = open(file=seed_path, mode="w", encoding="utf-8")
     seed.truncate(0) # Clears the file
+
+    #Creates teaches logic
+    instructor_ids = list(range(1, len(seed_data.instructors) + 1))
+    section_ids = list(range(1, 101))
+
+    seed_data.teaches = []
+
+    section_index = 0
+
+    for instructor_id in instructor_ids:
+        for _ in range(10):  # each instructor teaches ~10 sections
+            if section_index >= len(section_ids):
+                break
+
+            seed_data.teaches.append({
+                "instructor_ID": instructor_id,
+                "section_ID": section_ids[section_index]
+            })
+
+            section_index += 1
 
     for table, columns in tables.items():
         if table == "account":
@@ -203,6 +223,10 @@ def generateSeedData(tables, schema_filename, seed_filename):
             row_count = len(seed_data.students)
         elif table == "takes":
             row_count = len(seed_data.students)
+        elif table == "instructor":
+            row_count = len(seed_data.instructors)
+        elif table == "teaches":
+            row_count = len(seed_data.teaches)
         else:
             row_count = 100
         for i in range(row_count): # Creates that many rows per table
@@ -234,6 +258,7 @@ def generateSeedData(tables, schema_filename, seed_filename):
                         data = f'"{advisor["last_name"]}"'
                     elif column == "department_ID":
                         data = advisor["department_ID"]
+
                 elif table == "student":
                     student = seed_data.students[i]
                     if column == "first_name":
@@ -248,6 +273,28 @@ def generateSeedData(tables, schema_filename, seed_filename):
                         data = student["advisor_ID"]
                     elif column == "account_ID":
                         data = student["account_ID"]
+                
+                elif table == "instructor":
+                    instructor = seed_data.instructors[i]
+
+                    if column == "first_name":
+                        data = f'"{instructor["first_name"]}"'
+                    elif column == "last_name":
+                        data = f'"{instructor["last_name"]}"'
+                    elif column == "department_ID":
+                        data = instructor["department_ID"]
+                    elif column == "salary":
+                        data = instructor["salary"]
+                    elif column == "account_ID":
+                        data = instructor["account_ID"]
+
+                elif table == "teaches":
+                    teach = seed_data.teaches[i]
+
+                    if column == "instructor_ID":
+                        data = teach["instructor_ID"]
+                    elif column == "section_ID":
+                        data = teach["section_ID"]
                 elif "int" in datatype:
                     data = i+1
                 elif "varchar" in datatype:
