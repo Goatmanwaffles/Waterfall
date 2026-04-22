@@ -193,7 +193,18 @@ def generateSeedData(tables, schema_filename, seed_filename):
     seed.truncate(0) # Clears the file
 
     for table, columns in tables.items():
-        row_count = 3 if table == "account" else 100
+        if table == "account":
+            row_count = len(seed_data.accounts)  
+        elif table == "advisor":
+            row_count = len(seed_data.advisors)
+        elif table == "advises":
+            row_count = len(seed_data.advisors)
+        elif table == "student":
+            row_count = len(seed_data.students)
+        elif table == "takes":
+            row_count = len(seed_data.students)
+        else:
+            row_count = 100
         for i in range(row_count): # Creates that many rows per table
 
             values = "" # Everything to be inserted
@@ -215,6 +226,28 @@ def generateSeedData(tables, schema_filename, seed_filename):
                     elif column == "role":
                         data = f'"{account["role"]}"'
 
+                elif table == "advisor":
+                    advisor = seed_data.advisors[i]
+                    if column == "first_name":
+                        data = f'"{advisor["first_name"]}"'
+                    elif column == "last_name":
+                        data = f'"{advisor["last_name"]}"'
+                    elif column == "department_ID":
+                        data = advisor["department_ID"]
+                elif table == "student":
+                    student = seed_data.students[i]
+                    if column == "first_name":
+                        data = f'"{student["first_name"]}"'
+                    elif column == "last_name":
+                        data = f'"{student["last_name"]}"'
+                    elif column == "department_ID":
+                        data = student["department_ID"]
+                    elif column == "total_cred":
+                        data = student["total_cred"]
+                    elif column == "advisor_ID":
+                        data = student["advisor_ID"]
+                    elif column == "account_ID":
+                        data = student["account_ID"]
                 elif "int" in datatype:
                     data = i+1
                 elif "varchar" in datatype:

@@ -63,8 +63,10 @@ def signup():
         username = request.form['username']
         password = request.form['password']
         confirmPassword = request.form['confirmPassword']
+        firstName = request.form['firstName']
+        lastName = request.form['lastName']
 
-        if not username or not password or not confirmPassword:
+        if not username or not password or not confirmPassword or not firstName or not lastName:
             return render_template("signup.html", error="Missing Field")
         
         if password != confirmPassword:
@@ -77,6 +79,7 @@ def signup():
 
         cursor = dbserver.cursor()
         cursor.execute(f"CALL create_account(%s, %s, 'Student')", (username, h))
+        cursor.execute("INSERT INTO student s(s.first_name, s.last_name)")
         cursor.close()
         dbserver.commit()
 
@@ -272,5 +275,19 @@ def getFinalGrades():
     cursor.close()
     return render_template("finalGrades.html", grades=grades)
 
+#STUDENT CHECK ADVISOR
+@app.route("/advisorInfo", methods=['GET'])
+def getAdvisorInfo():
+    student_ID = "1"
+    cursor = dbserver.cursor()
+    cursor.execute("SELECT a2.first_name, a2.last_name, d.department_name FROM advises a JOIN advisor a2 ON a.advisor_ID = a2.advisor_ID JOIN department d ON d.department_ID = a2.department_ID")
+    advisor = cursor.fetchone()
+    cursor.close()
+    return render_template("studentAdvisor.html", advisor=advisor)
+
+#MODIFY PERSONAL INFO FOR ALL
+#@app.route("/account", methods=['GET', 'POST'])
+#def account():
+    
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)

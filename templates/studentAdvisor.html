@@ -1,0 +1,11 @@
+{% extends '/include/layout.html' %}
+{% include '/include/navbar.html' %}
+{% block content %}
+<div class="h-full w-full bg-blue-200">
+    {% if advisor %}
+        <h2 class="font-semibold">Advisor Name: {{advisor[0]}} {{advisor[1]}}</h2>
+        <h2 class="font-semibold">Department:</h2>
+        <p>{{advisor[2]}}</p>
+    {% endif %}
+</div>
+{% endblock %}
