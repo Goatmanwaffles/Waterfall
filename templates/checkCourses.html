@@ -1,0 +1,19 @@
+{% extends '/include/layout.html' %}
+{% include '/include/navbar.html' %}
+{% block content %}
+<div class="h-full w-full bg-blue-200">
+    {% if semesters %}
+    <form method="POST">
+        <select name="semester" id="semester">
+            {% for semester in semesters %}
+                <option value="{{semester[0]}},{{semester[1]}}">{{semester[0]}}, {{semester[1]}}</option>
+            {% endfor %}
+        </select>
+        
+
+
+        <input type="submit">
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

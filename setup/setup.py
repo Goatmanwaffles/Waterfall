@@ -3,6 +3,8 @@ from pathlib import Path
 from random import randint, choice
 from string import ascii_letters
 import config
+from setup import seed_data
+import bcrypt
 
 # Returns the pymysql.connect object
 def makeDatabase(hostname, username, password, database_name):
@@ -62,77 +64,65 @@ def randomVarchar(table, column, datatype):
 
     #STUDENT FIRST NAME HANDLER
     if column == "first_name" and table == "student":
-        data += f"{choice(config.student_first_names)}"
+        data += f"{choice(seed_data.student_first_names)}"
 
     #STUDENT FIRST NAME HANDLER
     if column == "last_name" and table == "student":
-        data += f"{choice(config.student_last_names)}"
+        data += f"{choice(seed_data.student_last_names)}"
     
     #INSTRUCTOR FIRST NAME HANDLER
     if column == "first_name" and table == "instructor":
-        data += f"{choice(config.instructor_first_names)}"
+        data += f"{choice(seed_data.instructor_first_names)}"
 
     #INSTRUCTOR LAST NAME HANDLER
     if column == "last_name" and table == "instructor":
-        data += f"{choice(config.instructor_last_names)}"
+        data += f"{choice(seed_data.instructor_last_names)}"
 
     #DEPT NAME HANDLER
     if column == "department_name" and table == "department":
         used = []
-        dept = config.dept_names[config.count];
+        dept = seed_data.dept_names[seed_data.count];
         if dept not in used:
             data += f"{dept}"
             used.append(dept)
         else:
-            dept = config.dept_names[config.count];
+            dept = seed_data.dept_names[seed_data.count];
             data += f"{dept}"
             used.append(dept)
-        config.count += 1
+        seed_data.count += 1
 
     #Building NAME HANDLER
     if table == "building":
         if column == "building_name":
-            data += f"{choice(config.buildings)}"
+            data += f"{choice(seed_data.buildings)}"
 
     #SECTION SEMESTER HANDLER
     if table == "section":
         if column == "semester":
-            data += f"{choice(config.semesters)}"
+            data += f"{choice(seed_data.semesters)}"
 
     #GRADES HANDLER
     if table == "takes":
         if column == "grades":
-            data += f"{choice(config.grades)}"
+            data += f"{choice(seed_data.grades)}"
 
     #ADVISOR HANDLER
     if table == "advisor":
         if column == "first_name":
-            data += f"{choice(config.advisor_first_names)}"
+            data += f"{choice(seed_data.advisor_first_names)}"
         if column == "last_name":
-            data += f"{choice(config.advisor_last_names)}"
+            data += f"{choice(seed_data.advisor_last_names)}"
 
     #COURSE HANDLER
     if table == "course":
         if column == "title":
-            data += f"{choice(config.course_titles)}"
+            data += f"{choice(seed_data.course_titles)}"
 
     #DAY HANDLER
     if table == "time_slot":
         if column == "day":
-            data += f"{choice(config.days)}"
+            data += f"{choice(seed_data.days)}"
 
-    if table == "account":
-        if column == "username":
-            user = choice(config.usernames)
-            config.usernames.remove(user)
-            data += f"{user}"
-        if column == "password":
-            password = choice(config.passwords)
-            config.passwords.remove(password)
-            data += f"{password}"
-        if column == "role":
-            data += f"{choice(config.roles)}"
-    
     # Random character fallback
     right = datatype.split("(")[1] 
     length = right.split(")")[0]
@@ -176,8 +166,8 @@ def randomNumeric(table, column, datatype):
     elif (table == "instructor" and column == "salary"):
         minimum = 29001
     elif (table == "section" and column == "year"):
-        minimum = 1701
-        maximum = 2100
+        minimum = 2015
+        maximum = 2029
     elif (table == "student" and column == "total_cred"):
         minimum = 0
         maximum = 240
@@ -203,7 +193,8 @@ def generateSeedData(tables, schema_filename, seed_filename):
     seed.truncate(0) # Clears the file
 
     for table, columns in tables.items():
-        for i in range(10): # Creates that many rows per table
+        row_count = 3 if table == "account" else 100
+        for i in range(row_count): # Creates that many rows per table
 
             values = "" # Everything to be inserted
             col_names = "" # Collumns to insert into
@@ -213,10 +204,18 @@ def generateSeedData(tables, schema_filename, seed_filename):
 
                 if "PRIMARY KEY" in datatype:
                     continue
-    
-                if "int" in datatype:
-                    #DEPRECEATED FUNCTIONALITY
-                    #data = randomInteger(table, column, datatype, i+1)
+
+                if table == "account":
+                    account = seed_data.accounts[i]
+                    if column == "username":
+                        data = f'"{account["username"]}"'
+                    elif column == "password":
+                        h = bcrypt.hashpw(account["password"].encode('utf-8'), bcrypt.gensalt())
+                        data = f'"{h.decode("utf-8")}"'
+                    elif column == "role":
+                        data = f'"{account["role"]}"'
+
+                elif "int" in datatype:
                     data = i+1
                 elif "varchar" in datatype:
                     data = randomVarchar(table, column, datatype)
@@ -240,3 +239,20 @@ def generateSeedData(tables, schema_filename, seed_filename):
             seed.write(insert)
 
     seed.close()
+
+def resetDatabase():
+    # Creates the database server object
+    dbserver = makeDatabase(
+        config.HOST, 
+        config.USER, 
+        config.PASSWORD, 
+        config.DB_NAME
+    )
+
+    cursor = dbserver.cursor() # Creates cursor (never recreate)
+    # I moved it here so it only runs once bc that was giving me trouble
+    generateSeedData(config.TABLES, config.SCHEMA, config.SEED) # Generates seed data
+
+    runSQL(cursor, dbserver, config.SCHEMA ) # Inputs schema
+    runSQL(cursor, dbserver, config.SEED   ) # Inputs seed data
+    runSQL(cursor, dbserver, config.QUERIES) # Sets up procedure queries

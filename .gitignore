@@ -1,4 +1,7 @@
 __pycache__
 .venv
-#sql/seed-data.sql
+sql/seed-data.sql
+*/seed-data.sql
 node_modules
+flask_session/
+static/dist/output.css

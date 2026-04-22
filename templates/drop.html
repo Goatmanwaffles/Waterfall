@@ -1,0 +1,31 @@
+{% extends '/include/layout.html' %}
+{% include '/include/navbar.html' %}
+{% block content %}
+<div class="h-full w-full bg-blue-200">
+    <div class="flex-col">
+        <h1 class=" font-bold text-2xl flex justify-center">Drop a Class</h1>
+        <table class="w-full text-sm border-collapse table-fixed gap-4">
+            <thead>
+                <tr>
+                    <th>Title:</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for class in enrolled %}
+                    <tr class="">
+                    {% for d in class %}
+                        <td class="text-center">{{d}}</td>
+                    {% endfor %}
+                    <td>
+                        <form method="POST">
+                            <input type="hidden" value="{{ class[3] }}" name="section_ID" id="section_ID">
+                            <input type="submit" class="p-1 rounded-full bg-red-200 mb-1">
+                        </form>
+                    </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

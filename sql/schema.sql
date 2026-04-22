@@ -38,8 +38,8 @@ CREATE TABLE IF NOT EXISTS time_slot (
 CREATE TABLE IF NOT EXISTS account (
     account_ID INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(20),
-    password VARCHAR(2000),
-    UNIQUE(username, password),
+    password VARCHAR(255),
+    UNIQUE(username),
     role VARCHAR(20)
         CHECK (role in ('Administrator', 'Instructor', 'Student'))
 );;

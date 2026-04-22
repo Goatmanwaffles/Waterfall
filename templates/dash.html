@@ -1,5 +1,85 @@
-{% extends "index.html" %}
+{% extends '/include/layout.html' %}
+{% include '/include/navbar.html' %}
 {% block content %}
-<p>Test dash</p>
-<a class="text-sky-400" href="/edit_student">Edit Students</a>
+<div class="h-full w-full bg-blue-200">
+    <div class="grid grid-cols-3 gap-4 pl-4 pr-4">
+        <!--STUDENT-->
+        <!--------------------------------------------------------------------------------------------------------------------------------->
+        {% if session.role == 'Student' %}
+        <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
+            <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Class Manager</h1>
+            <div class="flex flex-col gap-4">
+                <a class="hover:underline" href="/register">Register for classes</a>
+                <a class="hover:underline" href="/drop">Drop a Class</a>
+                <a class="hover:underline">View Final Grades</a>
+                <a class="hover:underline" href="/checkCourses">Course Catalog</a>
+            </div>
+        </div>
+
+        <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
+            <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Account Management</h1>
+            <div class="flex flex-col gap-4">
+                <a class="hover:underline" href="">View your advisors information</a>
+                <a class="hover:underline">Modify account info</a>
+            </div>
+        </div>
+        <!--INSTRUCTOR-->
+        <!--------------------------------------------------------------------------------------------------------------------------------->
+        {% elif session.role == 'Instructor' %}
+        <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
+            <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Class Manager</h1>
+            <div class="flex flex-col gap-4">
+                <a class="hover:underline" href="">Edit Grades</a>
+                <a class="hover:underline">Modify Course Prereqs</a>
+                <a class="hover:underline">View Class Rosters</a>
+                <a class="hover:underline">Check Sections</a>
+            </div>
+        </div>
+
+        <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
+            <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Student Management</h1>
+            <div class="flex flex-col gap-4">
+                <a class="hover:underline" href="">Modify Advising Roster</a>
+            </div>
+        </div>
+
+        <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
+            <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Account Management</h1>
+            <div class="flex flex-col gap-4">
+                <a class="hover:underline">Modify account info</a>
+            </div>
+        </div>
+        <!--ADMINISTRATOR-->
+        <!--------------------------------------------------------------------------------------------------------------------------------->
+        {% elif session.role == 'Administrator' %}
+        <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
+            <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Administrative Actions</h1>
+            <div class="flex flex-col gap-4">
+                <a class="hover:underline" href="">Edit Classes</a>
+                <a class="hover:underline">Edit Sections</a>
+                <a class="hover:underline">Edit Classrooms</a>
+                <a class="hover:underline">Edit Departments</a>
+                <a class="hover:underline">Edit Time Slots</a>
+                <a class="hover:underline">Edit Instructors</a>
+                <a class="hover:underline">Edit Students</a>
+            </div>
+        </div>
+
+        <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
+            <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Class Actions</h1>
+            <div class="flex flex-col gap-4">
+                <a class="hover:underline">Modify Class Instructors</a>
+            </div>
+        </div>
+
+        <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
+            <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Account Management</h1>
+            <div class="flex flex-col gap-4">
+                <a class="hover:underline">Modify account info</a>
+            </div>
+        </div>
+
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
