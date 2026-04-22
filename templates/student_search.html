@@ -27,9 +27,7 @@
                 <td>{{ column|e }}</td>
                 {% endfor %}
                 <td>
-                    <a href="{{url_for('view_schedule')}}/{{row[0]}}">
-                        <button>Schedule</button>
-                    </a>
+                    <button>Schedule</button>
                 </td>
             {% endfor %}
         </table>
