@@ -1,8 +1,123 @@
-{% extends "index.html" %}
+{% extends '/include/layout.html' %}
+{% include '/include/navbar.html' %}
 
 {% block content %}
-  <section>
-    <h2 class="text-xl">Edit Students</h2>
-    <a class="text-sky-400" href="/dashboard">Back</a>
-  </section>
+<div class="h-full w-full bg-blue-200 p-4">
+    <div class="m-4 rounded-xl border border-2 bg-gray-100 p-4 shadow-xl">
+        <h1 class="mb-3 text-2xl font-bold text-blue-600 underline underline-blue-600">
+            Edit Students
+        </h1>
+
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <form method="POST" class="rounded border bg-white p-3">
+                <h2 class="mb-2 text-lg font-bold">Create Student</h2>
+                <input type="hidden" name="action" value="create">
+
+                <label class="mb-1 block text-sm">First Name</label>
+                <input class="mb-2 w-full rounded border p-1" name="first_name" required>
+
+                <label class="mb-1 block text-sm">Last Name</label>
+                <input class="mb-2 w-full rounded border p-1" name="last_name" required>
+
+                <label class="mb-1 block text-sm">Department</label>
+                <select class="mb-2 w-full rounded border p-1" name="department_name" required>
+                    {% for dept in departments %}
+                        <option value="{{ dept[1] }}">{{ dept[1] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label class="mb-1 block text-sm">Total Credits</label>
+                <input class="mb-2 w-full rounded border p-1" name="total_cred" type="number" min="0" value="0">
+
+                <label class="mb-1 block text-sm">Advisor</label>
+                <select class="mb-3 w-full rounded border p-1" name="advisor_id">
+                    <option value="">None</option>
+                    {% for advisor in advisors %}
+                        <option value="{{ advisor[0] }}">
+                            {{ advisor[0] }} - {{ advisor[1] }} {{ advisor[2] }} ({{ advisor[3] or 'No Dept' }})
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <button class="rounded bg-blue-600 px-3 py-1 text-white" type="submit">Create</button>
+            </form>
+
+            <form method="POST" class="rounded border bg-white p-3">
+                <h2 class="mb-2 text-lg font-bold">Update Student</h2>
+                <input type="hidden" name="action" value="update">
+
+                <label class="mb-1 block text-sm">Student ID</label>
+                <input class="mb-2 w-full rounded border p-1" name="student_id" type="number" min="1" required>
+
+                <label class="mb-1 block text-sm">First Name</label>
+                <input class="mb-2 w-full rounded border p-1" name="first_name" required>
+
+                <label class="mb-1 block text-sm">Last Name</label>
+                <input class="mb-2 w-full rounded border p-1" name="last_name" required>
+
+                <label class="mb-1 block text-sm">Department</label>
+                <select class="mb-2 w-full rounded border p-1" name="department_name" required>
+                    {% for dept in departments %}
+                        <option value="{{ dept[1] }}">{{ dept[1] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label class="mb-1 block text-sm">Total Credits</label>
+                <input class="mb-2 w-full rounded border p-1" name="total_cred" type="number" min="0" value="0">
+
+                <label class="mb-1 block text-sm">Advisor</label>
+                <select class="mb-3 w-full rounded border p-1" name="advisor_id">
+                    <option value="">None</option>
+                    {% for advisor in advisors %}
+                        <option value="{{ advisor[0] }}">
+                            {{ advisor[0] }} - {{ advisor[1] }} {{ advisor[2] }} ({{ advisor[3] or 'No Dept' }})
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <button class="rounded bg-blue-600 px-3 py-1 text-white" type="submit">Update</button>
+            </form>
+
+            <form method="POST" class="rounded border bg-white p-3">
+                <h2 class="mb-2 text-lg font-bold">Delete Student</h2>
+                <input type="hidden" name="action" value="delete">
+
+                <label class="mb-1 block text-sm">Student ID</label>
+                <input class="mb-3 w-full rounded border p-1" name="student_id" type="number" min="1" required>
+
+                <button class="rounded bg-red-600 px-3 py-1 text-white" type="submit">Delete</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="m-4 rounded-xl border border-2 bg-gray-100 p-4 shadow-xl">
+        <h2 class="mb-2 text-xl font-bold text-blue-600 underline underline-blue-600">Students</h2>
+        <table class="w-full table-fixed border-collapse text-sm">
+            <thead>
+                <tr>
+                    <th class="border p-1">ID</th>
+                    <th class="border p-1">First Name</th>
+                    <th class="border p-1">Last Name</th>
+                    <th class="border p-1">Department</th>
+                    <th class="border p-1">Total Credits</th>
+                    <th class="border p-1">Advisor ID</th>
+                    <th class="border p-1">Advisor Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                    <tr>
+                        <td class="border p-1 text-center">{{ student[0] }}</td>
+                        <td class="border p-1 text-center">{{ student[1] }}</td>
+                        <td class="border p-1 text-center">{{ student[2] }}</td>
+                        <td class="border p-1 text-center">{{ student[3] or '' }}</td>
+                        <td class="border p-1 text-center">{{ student[4] }}</td>
+                        <td class="border p-1 text-center">{{ student[5] or '' }}</td>
+                        <td class="border p-1 text-center">{{ student[6] or '' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}
