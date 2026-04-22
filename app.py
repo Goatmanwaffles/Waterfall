@@ -38,7 +38,7 @@ def login():
         username = request.form['username']
         password= request.form['password']
         cursor = dbserver.cursor()
-        cursor.execute("SELECT username, password, role, account_ID FROM account WHERE username = %s", (username))
+        cursor.execute("SELECT a.username, a.password, a.role, a.account_ID FROM account a WHERE username = %s", (username))
         row = cursor.fetchone()
 
         #Convert password into bytes for check
@@ -50,8 +50,21 @@ def login():
         
         #Valid Login
         if row and (bcrypt.checkpw(password, hashedPW)):
+            print("Row 2: " + str(row[2]))
+            print("Row 3: " + str(row[3]))
+            if row[2] == "Student":
+                print("FETCHING USER ID")
+                cursor.execute("SELECT s.student_ID FROM student s WHERE s.account_ID = %s",[row[3]])
+            elif row[2] == "Instructor": #NEEDS IMPLEMENTED DATABASE LEVEL
+                cursor.execute("SELECT s.student_ID FROM student s WHERE s.account_ID = %s",[row[3]])
+            elif row[2] == "Administrator": #NEEDS IMPLEMENTED DATABASE LEVEL
+                cursor.execute("SELECT s.student_ID FROM student s WHERE s.account_ID = %s",[row[3]])
+            Id = cursor.fetchone()
+            print(Id)
             session["role"] = row[2] #Store role in session
-            session["ID"] = row[3] #Store account ID
+            session["userID"] = Id #Store user ID, Either Student, Instructor, or Admin
+            session["accountID"] = row[3]
+            cursor.close()
             return redirect(url_for('dash'))
 
 @app.route("/signup", methods=['POST', 'GET'])
@@ -181,7 +194,7 @@ def profile():
 #Get User ID working so we can get actual users to use this and not whoever student ID 1 is
 @app.route("/register", methods=['POST', 'GET'])
 def register():
-    student_ID = "1"
+    student_ID = session.get("userID")
     
     if request.method == 'GET':
         cursor = dbserver.cursor()
@@ -190,9 +203,6 @@ def register():
         cursor.close()
         return render_template("register.html", sections=sections)
     if request.method == 'POST':
-        #WE NEED TO RELATE ACCOUNTS AND STUDENTS/OTHER PEOPLE FOR THIS TO WORK, RIGHT NOW THIS WHOLE THING IS A PROOF OF CONECPT THAT I CAN GET THIS TO WORK
-        #-Logan
-        #student_ID = session.get("ID")
         
         sec_ID = request.form['section_ID']
         cursor = dbserver.cursor()
@@ -215,12 +225,12 @@ def register():
 #There is a bug here with the redirect back to dash, is not a proper redirect
 @app.route("/drop", methods=['POST', 'GET'])
 def dropClass():
-    student_ID = "1"
+    student_ID = session.get("userID")
     
     if request.method == 'GET':
         #Gets all classes student is registered for
         cursor = dbserver.cursor()
-        cursor.execute("SELECT c.title, s.semester, s.year, s.section_ID FROM takes t JOIN section s on t.section_ID = s.section_ID JOIN course c on c.course_ID = s.course_ID WHERE t.student_ID = %s AND s.year = 2026",[student_ID])
+        cursor.execute("SELECT c.title, s.semester, s.year, s.section_ID FROM takes t JOIN section s on t.section_ID = s.section_ID JOIN course c on c.course_ID = s.course_ID WHERE t.student_ID = %s AND s.year >= 2026",[student_ID])
         enrolled = cursor.fetchall()
         cursor.close()
         return render_template("drop.html", enrolled=enrolled)
@@ -237,8 +247,7 @@ def dropClass():
     
 @app.route("/checkCourses", methods=['POST', 'GET'])
 def checkStudentCourses():
-    #NEED TO CHANGE ONCE WE LINK ACCOUNTS AND ID'S
-    student_ID = "1"
+    student_ID = session.get("userID")
 
     #Initial Load to fetch semesters student is enrolled in
     if request.method == 'GET':
@@ -268,7 +277,7 @@ def checkStudentCourses():
 #Probably should filter to only before this semester AKA final grades
 @app.route("/finalGrades", methods=['GET'])
 def getFinalGrades():
-    student_ID = "1"
+    student_ID = session.get("userID")
     cursor = dbserver.cursor()
     cursor.execute("SELECT c.title, t.grades FROM takes t JOIN section s ON t.section_ID = s.section_ID JOIN course c on c.course_ID = s.course_ID WHERE t.student_ID = %s AND s.year < 2026 AND t.grades != ''", [student_ID])
     grades = cursor.fetchall()
@@ -278,9 +287,10 @@ def getFinalGrades():
 #STUDENT CHECK ADVISOR
 @app.route("/advisorInfo", methods=['GET'])
 def getAdvisorInfo():
-    student_ID = "1"
+    student_ID = session.get("userID")
+    print(student_ID)
     cursor = dbserver.cursor()
-    cursor.execute("SELECT a2.first_name, a2.last_name, d.department_name FROM advises a JOIN advisor a2 ON a.advisor_ID = a2.advisor_ID JOIN department d ON d.department_ID = a2.department_ID")
+    cursor.execute("SELECT a2.first_name, a2.last_name, d.department_name FROM advises a JOIN advisor a2 ON a.advisor_ID = a2.advisor_ID JOIN department d ON d.department_ID = a2.department_ID WHERE a.student_ID = %s",[student_ID])
     advisor = cursor.fetchone()
     cursor.close()
     return render_template("studentAdvisor.html", advisor=advisor)
