@@ -6,14 +6,18 @@
 <h1 class="mb-4 text-4xl font-bold tracking-tight text-heading md:text-5xl lg:text-6xl text-center">Welcome back, {{first_name}} {{last_name}}</h1>
 
 <!-- change you name form -->
-<form>
+{% if user %}
+<form method="POST">
     <div class="flex items-center justify-center">
-        First Name:<input class="bg-white"value="{{first_name}}">
+        First Name:<input class="bg-white" value="{{ user[0] }}" name="firstName">
     </div>
     <br>
     <div class="flex items-center justify-center">
-        Last Name:<input class="bg-white"value="{{first_name}}">
+        Last Name:<input class="bg-white" value="{{ user[1] }}" name="lastName">
     </div>
+
+    <input type="submit">
 </form>
+{% endif %}
 
 {% endblock %}

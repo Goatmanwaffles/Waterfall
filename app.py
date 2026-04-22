@@ -50,10 +50,7 @@ def login():
         
         #Valid Login
         if row and (bcrypt.checkpw(password, hashedPW)):
-            print("Row 2: " + str(row[2]))
-            print("Row 3: " + str(row[3]))
             if row[2] == "Student":
-                print("FETCHING USER ID")
                 cursor.execute("SELECT s.student_ID FROM student s WHERE s.account_ID = %s",[row[3]])
             elif row[2] == "Instructor": #NEEDS IMPLEMENTED DATABASE LEVEL
                 cursor.execute("SELECT s.student_ID FROM student s WHERE s.account_ID = %s",[row[3]])
@@ -401,8 +398,30 @@ def getAdvisorInfo():
     return render_template("studentAdvisor.html", advisor=advisor)
 
 #MODIFY PERSONAL INFO FOR ALL
-#@app.route("/account", methods=['GET', 'POST'])
-#def account():
+@app.route("/account", methods=['GET', 'POST'])
+def account():
+    role = session.get("role")
+    userID = session.get("userID")
+    if request.method == 'GET':
+        cursor = dbserver.cursor()
+        if role == "Student":
+            cursor.execute("SELECT s.first_name, s.last_name FROM account a JOIN student s on s.account_ID = a.account_ID WHERE s.student_ID = %s", [userID])
+        user = cursor.fetchone()
+        cursor.close()
+        return render_template("profile.html", user=user)
     
+
+    if request.method == 'POST':
+        firstName = request.form["firstName"]
+        lastName = request.form["lastName"]
+        cursor = dbserver.cursor()
+        if role == "Student":
+            cursor.execute("UPDATE student SET first_name = %s, last_name = %s WHERE student_ID = %s", [firstName, lastName, userID])
+        
+        dbserver.commit()
+        cursor.close()
+        return redirect(url_for('dash'))
+    
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
