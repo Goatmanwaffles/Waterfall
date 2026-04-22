@@ -17,4 +17,4 @@ RUN npx @tailwindcss/cli -i ./static/css/input.css -o ./static/dist/output.css -
 
 EXPOSE 4500
 
-CMD ["uv", "run", "flask", "--debug", "run", "--host", "0.0.0.0", "--port", "4500"]
+CMD sh -c "npx @tailwindcss/cli -i ./static/css/input.css -o ./static/dist/output.css --watch & uv run flask --debug run --host 0.0.0.0 --port 4500"
