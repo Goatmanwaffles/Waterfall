@@ -219,7 +219,6 @@ def register():
 
 #Allows Dropping of classes
 #Also works just need real user ID and some polish like better year
-#There is a bug here with the redirect back to dash, is not a proper redirect
 @app.route("/drop", methods=['POST', 'GET'])
 def dropClass():
     student_ID = session.get("userID")
@@ -240,7 +239,7 @@ def dropClass():
             cursor.execute("DELETE FROM takes WHERE section_ID = %s and student_ID = %s",[sec_ID,student_ID])
             dbserver.commit()
         cursor.close()
-        return render_template("dash.html")
+        return redirect(url_for('dash'))
         
 @app.route("/unauthorized")
 def unauthorized():
@@ -398,6 +397,7 @@ def getAdvisorInfo():
     return render_template("studentAdvisor.html", advisor=advisor)
 
 #MODIFY PERSONAL INFO FOR ALL
+#Need to add password and username change function
 @app.route("/account", methods=['GET', 'POST'])
 def account():
     role = session.get("role")
