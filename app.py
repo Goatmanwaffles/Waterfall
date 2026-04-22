@@ -4,6 +4,7 @@ from flask_session import Session
 import config
 import pymysql
 import bcrypt
+import json
 
 app = Flask(__name__)
 
@@ -209,6 +210,7 @@ def register():
 
 #Allows Dropping of classes
 #Also works just need real user ID and some polish like better year
+#There is a bug here with the redirect back to dash, is not a proper redirect
 @app.route("/drop", methods=['POST', 'GET'])
 def dropClass():
     student_ID = "1"
@@ -243,7 +245,18 @@ def checkStudentCourses():
         cursor.execute("SELECT s.semester, s.year FROM takes t JOIN section s on t.section_ID = s.section_ID WHERE t.student_ID = %s",[student_ID])
         semesters = cursor.fetchall()
 
+        cursor.close()
         return render_template("checkCourses.html", semesters=semesters)
 
+    if request.method == 'POST':
+        semesterYear = request.form['semester']
+        semester, year = semesterYear.split(',')
+
+        cursor = dbserver.cursor()
+        cursor.execute("SELECT c.title, t.grades FROM takes t JOIN section s ON t.section_ID = s.section_ID JOIN course c on c.course_ID = s.course_ID WHERE t.student_ID = %s AND s.semester = %s AND s.year = %s",[student_ID, semester, year])
+        courses = cursor.fetchall()
+
+        cursor.close()
+        return render_template("checkCoursesResults.html", courses=courses)
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
