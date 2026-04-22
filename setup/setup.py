@@ -123,25 +123,6 @@ def randomVarchar(table, column, datatype):
         if column == "day":
             data += f"{choice(seed_data.days)}"
 
-    #DEPRECATED
-    # if table == "account":
-    #     i = 0
-    #     if column == "username":
-    #         user = seed_data.usernames[0]
-    #         seed_data.usernames.remove(user)
-    #         data += f"{user}"
-    #     if column == "password":
-    #         password = choice(seed_data.passwords)
-    #         #Salt and Hash password
-    #         password_bytes = password.encode('utf-8')
-    #         s = bcrypt.gensalt()
-    #         h = bcrypt.hashpw(password_bytes, s)
-    #         #seed_data.passwords.remove(password)
-    #         data += h.decode('utf-8')
-    #     if column == "role":
-    #         data += f"{seed_data.roles[i]}"
-    #         i += 1
-    
     # Random character fallback
     right = datatype.split("(")[1] 
     length = right.split(")")[0]
@@ -235,8 +216,6 @@ def generateSeedData(tables, schema_filename, seed_filename):
                         data = f'"{account["role"]}"'
 
                 elif "int" in datatype:
-                    #DEPRECEATED FUNCTIONALITY
-                    #data = randomInteger(table, column, datatype, i+1)
                     data = i+1
                 elif "varchar" in datatype:
                     data = randomVarchar(table, column, datatype)
