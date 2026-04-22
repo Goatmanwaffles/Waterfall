@@ -4,6 +4,7 @@ from random import randint, choice
 from string import ascii_letters
 import config
 from setup import seed_data
+import bcrypt
 
 # Returns the pymysql.connect object
 def makeDatabase(hostname, username, password, database_name):
@@ -129,8 +130,12 @@ def randomVarchar(table, column, datatype):
             data += f"{user}"
         if column == "password":
             password = choice(seed_data.passwords)
-            seed_data.passwords.remove(password)
-            data += f"{password}"
+            #Salt and Hash password
+            password_bytes = password.encode('utf-8')
+            s = bcrypt.gensalt()
+            h = bcrypt.hashpw(password_bytes, s)
+            #seed_data.passwords.remove(password)
+            data += h.decode('utf-8')
         if column == "role":
             data += f"{choice(seed_data.roles)}"
     

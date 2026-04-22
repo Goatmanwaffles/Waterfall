@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS account (
     account_ID INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(20),
     password VARCHAR(255),
-    UNIQUE(username, password),
+    UNIQUE(username),
     role VARCHAR(20)
         CHECK (role in ('Administrator', 'Instructor', 'Student'))
 );;
