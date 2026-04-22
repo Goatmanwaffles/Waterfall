@@ -338,6 +338,71 @@ def edit_student():
 
     return render_template("edit_student.html", students=students, departments=departments, advisors=advisors)
 
+@app.route("/edit_instructor", methods=["GET", "POST"])
+def edit_instructor():
+    # Keep this page restricted to administrators.
+    if session.get("role") != "Administrator":
+        return redirect(url_for("unauthorized"))
+
+    cursor = dbserver.cursor()
+
+    if request.method == "POST":
+        # handles all form actions
+        action = (request.form.get("action") or "").strip().lower()
+
+        if action == "create":
+            first_name = (request.form.get("first_name") or "").strip()
+            last_name = (request.form.get("last_name") or "").strip()
+            department_name = (request.form.get("department_name") or "").strip()
+            salary = (request.form.get("salary") or "0").strip()
+
+            cursor.execute("CALL create_instructor(%s, %s, %s, %s)",
+                (first_name, last_name, department_name, salary))
+            
+            dbserver.commit()
+
+        elif action == "update":
+            instructor_id = (request.form.get("instructor_id") or "").strip()
+            first_name = (request.form.get("first_name") or "").strip()
+            last_name = (request.form.get("last_name") or "").strip()
+            department_name = (request.form.get("department_name") or "").strip()
+            salary = (request.form.get("salary") or "0").strip()
+
+            # update_student uses advisor_ID
+            cursor.execute("CALL update_instructor(%s, %s, %s, %s, %s)",
+                (instructor_id, first_name, last_name, department_name, salary))
+            
+            dbserver.commit()
+
+        elif action == "delete":
+            instructor_id = (request.form.get("instructor_id") or "").strip()
+            cursor.execute("CALL delete_instructor(%s)", (instructor_id,))
+            dbserver.commit()
+
+        # Redirect after POST to avoid duplicate form submissions on refresh
+        cursor.close()
+        return redirect(url_for("edit_instructor"))
+
+    # Load current data for dropdowns/table rendering.
+    cursor.execute(
+        """
+        SELECT i.instructor_ID, i.first_name, i.last_name, d.department_name, i.salary
+        FROM instructor i
+        LEFT JOIN department d ON d.department_ID = i.department_ID
+        ORDER BY i.instructor_ID
+        """
+    )
+    instructors = cursor.fetchall()
+
+    cursor.execute(
+        "SELECT department_ID, department_name FROM department ORDER BY department_name"
+    )
+    departments = cursor.fetchall()
+
+    cursor.close()
+
+    return render_template("edit_instructor.html", instructors=instructors, departments=departments)
+
 @app.route("/checkCourses", methods=['POST', 'GET'])
 def checkStudentCourses():
     #NEED TO CHANGE ONCE WE LINK ACCOUNTS AND ID'S
