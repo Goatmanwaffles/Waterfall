@@ -244,7 +244,112 @@ def dropClass():
             dbserver.commit()
         cursor.close()
         return render_template("dash.html")
-    
+        
+@app.route("/unauthorized")
+def unauthorized():
+    return render_template("unauthorized.html")
+
+@app.route("/edit_student", methods=["GET", "POST"])
+def edit_student():
+    # Keep this page restricted to administrators.
+    if session.get("role") != "Administrator":
+        return redirect(url_for("unauthorized"))
+
+    cursor = dbserver.cursor()
+
+    if request.method == "POST":
+        # handles all form actions
+        action = (request.form.get("action") or "").strip().lower()
+
+        if action == "create":
+            first_name = (request.form.get("first_name") or "").strip()
+            last_name = (request.form.get("last_name") or "").strip()
+            department_name = (request.form.get("department_name") or "").strip()
+            total_cred = (request.form.get("total_cred") or "0").strip()
+            advisor_id = (request.form.get("advisor_id") or "").strip()
+
+            advisor_first_name = ""
+            advisor_last_name = ""
+            advisor_department_name = ""
+
+            # create_student uses advisor name and advisor department
+            if advisor_id:
+                cursor.execute(
+                    """
+                    SELECT a.first_name, a.last_name, d.department_name
+                    FROM advisor a
+                    JOIN department d ON d.department_ID = a.department_ID
+                    WHERE a.advisor_ID = %s
+                    """,
+                    (advisor_id,),
+                )
+                advisor_row = cursor.fetchone()
+                if advisor_row:
+                    advisor_first_name = advisor_row[0]
+                    advisor_last_name = advisor_row[1]
+                    advisor_department_name = advisor_row[2]
+
+            cursor.execute("CALL create_student(%s, %s, %s, %s, %s, %s, %s)",
+                (first_name, last_name, department_name, total_cred, advisor_first_name, advisor_last_name, advisor_department_name))
+            
+            dbserver.commit()
+
+        elif action == "update":
+            student_id = (request.form.get("student_id") or "").strip()
+            first_name = (request.form.get("first_name") or "").strip()
+            last_name = (request.form.get("last_name") or "").strip()
+            department_name = (request.form.get("department_name") or "").strip()
+            total_cred = (request.form.get("total_cred") or "0").strip()
+            advisor_id = (request.form.get("advisor_id") or "").strip()
+
+            advisor_id_value = int(advisor_id) if advisor_id else None
+
+            # update_student uses advisor_ID
+            cursor.execute("CALL update_student(%s, %s, %s, %s, %s, %s)",
+                (student_id, first_name, last_name, department_name, total_cred, advisor_id_value))
+            
+            dbserver.commit()
+
+        elif action == "delete":
+            student_id = (request.form.get("student_id") or "").strip()
+            cursor.execute("CALL delete_student(%s)", (student_id,))
+            dbserver.commit()
+
+        # Redirect after POST to avoid duplicate form submissions on refresh
+        cursor.close()
+        return redirect(url_for("edit_student"))
+
+    # Load current data for dropdowns/table rendering.
+    cursor.execute(
+        """
+        SELECT s.student_ID, s.first_name, s.last_name, d.department_name, s.total_cred, a.advisor_ID, CONCAT(a.first_name, ' ', a.last_name)
+        FROM student s
+        LEFT JOIN department d ON d.department_ID = s.department_ID
+        LEFT JOIN advisor a ON a.advisor_ID = s.advisor_ID
+        ORDER BY s.student_ID
+        """
+    )
+    students = cursor.fetchall()
+
+    cursor.execute(
+        "SELECT department_ID, department_name FROM department ORDER BY department_name"
+    )
+    departments = cursor.fetchall()
+
+    cursor.execute(
+        """
+        SELECT a.advisor_ID, a.first_name, a.last_name, d.department_name
+        FROM advisor a
+        LEFT JOIN department d ON d.department_ID = a.department_ID
+        ORDER BY a.advisor_ID
+        """
+    )
+    advisors = cursor.fetchall()
+
+    cursor.close()
+
+    return render_template("edit_student.html", students=students, departments=departments, advisors=advisors)
+
 @app.route("/checkCourses", methods=['POST', 'GET'])
 def checkStudentCourses():
     student_ID = session.get("userID")
