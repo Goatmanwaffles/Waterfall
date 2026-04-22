@@ -1,8 +1,19 @@
 {% extends '/include/layout.html' %}
 {% include '/include/navbar.html' %}
 {% block content %}
-<body class="">
+<br>
+<!-- First and last name at top of page -->
+<h1 class="mb-4 text-4xl font-bold tracking-tight text-heading md:text-5xl lg:text-6xl text-center">Welcome back, {{first_name}} {{last_name}}</h1>
+
+<!-- change you name form -->
+<form>
+    <div class="flex items-center justify-center">
+        First Name:<input class="bg-white"value="{{first_name}}">
+    </div>
     <br>
-    <h1 class="mb-4 text-4xl font-bold tracking-tight text-heading md:text-5xl lg:text-6xl text-center">Welcome back, {{first_name}} {{last_name}}</h1>
-</body>
+    <div class="flex items-center justify-center">
+        Last Name:<input class="bg-white"value="{{first_name}}">
+    </div>
+</form>
+
 {% endblock %}
