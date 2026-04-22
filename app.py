@@ -205,5 +205,30 @@ def register():
         sections = cursor.fetchall()
         cursor.close()
         return render_template("register.html", sections=sections)
+
+
+#Allows Dropping of classes
+#Also works just need real user ID and some polish
+@app.route("/drop", methods=['POST', 'GET'])
+def dropClass():
+    student_ID = "1"
+    
+    if request.method == 'GET':
+        #Gets all classes student is registered for
+        cursor = dbserver.cursor()
+        cursor.execute("SELECT c.title, s.semester, s.year, s.section_ID FROM takes t JOIN section s on t.section_ID = s.section_ID JOIN course c on c.course_ID = s.course_ID WHERE t.student_ID = %s AND s.year = 2026",[student_ID])
+        enrolled = cursor.fetchall()
+        cursor.close()
+        return render_template("drop.html", enrolled=enrolled)
+    
+    if request.method == 'POST':
+        #Drops section entry from takes
+        sec_ID = request.form['section_ID']
+        cursor = dbserver.cursor()
+        if sec_ID and student_ID:
+            cursor.execute("DELETE FROM takes WHERE section_ID = %s and student_ID = %s",[sec_ID,student_ID])
+            dbserver.commit()
+        return render_template("dash.html")
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)

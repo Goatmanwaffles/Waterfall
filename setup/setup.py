@@ -166,8 +166,8 @@ def randomNumeric(table, column, datatype):
     elif (table == "instructor" and column == "salary"):
         minimum = 29001
     elif (table == "section" and column == "year"):
-        minimum = 1701
-        maximum = 2100
+        minimum = 2015
+        maximum = 2029
     elif (table == "student" and column == "total_cred"):
         minimum = 0
         maximum = 240
