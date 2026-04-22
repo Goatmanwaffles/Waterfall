@@ -1,4 +1,4 @@
-/*! tailwindcss v4.2.2 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.2.4 | MIT License | https://tailwindcss.com */
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
@@ -224,6 +224,9 @@
   .-inset-1 {
     inset: calc(var(--spacing) * -1);
   }
+  .-inset-0\.5 {
+    inset: calc(var(--spacing) * -0.5);
+  }
   .-inset-1\.5 {
     inset: calc(var(--spacing) * -1.5);
   }
@@ -268,6 +271,8 @@
   }
   .mr-4 {
     margin-right: calc(var(--spacing) * 4);
+  .mx-auto {
+    margin-inline: auto;
   }
   .mb-4 {
     margin-bottom: calc(var(--spacing) * 4);
@@ -352,8 +357,11 @@
   .shrink-0 {
     flex-shrink: 0;
   }
-  .border-collapse {
-    border-collapse: collapse;
+  .shrink-0 {
+    flex-shrink: 0;
+  }
+  .origin-top-right {
+    transform-origin: 100% 0;
   }
   .origin-top-right {
     transform-origin: 100% 0;
@@ -506,6 +514,9 @@
   .pl-4 {
     padding-left: calc(var(--spacing) * 4);
   }
+  .pb-3 {
+    padding-bottom: calc(var(--spacing) * 3);
+  }
   .text-center {
     text-align: center;
   }
@@ -608,6 +619,12 @@
   .\[--anchor-gap\:--spacing\(2\)\] {
     --anchor-gap: calc(var(--spacing) * 2);
   }
+  .\[program\:flask\] {
+    program: flask;
+  }
+  .\[program\:tailwind\] {
+    program: tailwind;
+  }
   .not-in-aria-expanded\:hidden {
     &:not(:where(*[aria-expanded="true"]) *) {
       display: none;
@@ -683,6 +700,27 @@
     &:hover {
       @media (hover: hover) {
         color: var(--color-white);
+      }
+    }
+  }
+  .focus\:bg-white\/5 {
+    &:focus {
+      background-color: color-mix(in srgb, #fff 5%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--color-white) 5%, transparent);
+      }
+    }
+  }
+  .focus\:outline-hidden {
+    &:focus {
+      --tw-outline-style: none;
+      outline-style: none;
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+    }
+  }
       }
     }
   }
@@ -910,53 +948,21 @@
 @property --tw-inset-shadow {
   syntax: "*";
   inherits: false;
-  initial-value: 0 0 #0000;
+  initial-value: 0;
 }
-@property --tw-inset-shadow-color {
+@property --tw-space-x-reverse {
   syntax: "*";
   inherits: false;
+  initial-value: 0;
 }
-@property --tw-inset-shadow-alpha {
-  syntax: "<percentage>";
-  inherits: false;
-  initial-value: 100%;
-}
-@property --tw-ring-color {
+@property --tw-border-style {
   syntax: "*";
   inherits: false;
+  initial-value: solid;
 }
-@property --tw-ring-shadow {
+@property --tw-font-weight {
   syntax: "*";
   inherits: false;
-  initial-value: 0 0 #0000;
-}
-@property --tw-inset-ring-color {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-inset-ring-shadow {
-  syntax: "*";
-  inherits: false;
-  initial-value: 0 0 #0000;
-}
-@property --tw-ring-inset {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-ring-offset-width {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 0px;
-}
-@property --tw-ring-offset-color {
-  syntax: "*";
-  inherits: false;
-  initial-value: #fff;
-}
-@property --tw-ring-offset-shadow {
-  syntax: "*";
-  inherits: false;
-  initial-value: 0 0 #0000;
 }
 @property --tw-outline-style {
   syntax: "*";
@@ -964,6 +970,15 @@
   initial-value: solid;
 }
 @property --tw-duration {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-content {
+  syntax: "*";
+  initial-value: "";
+  inherits: false;
+}
+@property --tw-ease {
   syntax: "*";
   inherits: false;
 }
@@ -991,20 +1006,6 @@
       --tw-space-x-reverse: 0;
       --tw-border-style: solid;
       --tw-font-weight: initial;
-      --tw-shadow: 0 0 #0000;
-      --tw-shadow-color: initial;
-      --tw-shadow-alpha: 100%;
-      --tw-inset-shadow: 0 0 #0000;
-      --tw-inset-shadow-color: initial;
-      --tw-inset-shadow-alpha: 100%;
-      --tw-ring-color: initial;
-      --tw-ring-shadow: 0 0 #0000;
-      --tw-inset-ring-color: initial;
-      --tw-inset-ring-shadow: 0 0 #0000;
-      --tw-ring-inset: initial;
-      --tw-ring-offset-width: 0px;
-      --tw-ring-offset-color: #fff;
-      --tw-ring-offset-shadow: 0 0 #0000;
       --tw-outline-style: solid;
       --tw-duration: initial;
       --tw-content: "";

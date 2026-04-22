@@ -4,7 +4,7 @@ WORKDIR /app
 
 RUN pip install uv
 
-RUN apt-get update && apt-get install -y --no-install-recommends nodejs npm && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends nodejs npm supervisor && rm -rf /var/lib/apt/lists/*
 
 # Copies over the project filesa
 COPY . .
@@ -17,4 +17,4 @@ RUN npx @tailwindcss/cli -i ./static/css/input.css -o ./static/dist/output.css -
 
 EXPOSE 4500
 
-CMD sh -c "npx @tailwindcss/cli -i ./static/css/input.css -o ./static/dist/output.css --watch & uv run flask --debug run --host 0.0.0.0 --port 4500"
+CMD ["supervisord", "-n", "-c", "/app/supervisord.conf"]
