@@ -3,9 +3,9 @@
 {% block content %}
 <div class="h-full w-full bg-blue-200">
     <div class="grid grid-cols-3 gap-4 pl-4 pr-4">
+        <!--STUDENT-->
+        <!--------------------------------------------------------------------------------------------------------------------------------->
         {% if session.role == 'Student' %}
-    <!--Classes Card-->
-    <!--Eventually need conditional rendering based on user type to show different cards-->
         <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
             <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Class Manager</h1>
             <div class="flex flex-col gap-4">
@@ -23,6 +23,62 @@
                 <a>Modify account info</a>
             </div>
         </div>
+        <!--INSTRUCTOR-->
+        <!--------------------------------------------------------------------------------------------------------------------------------->
+        {% elif session.role == 'Instructor' %}
+        <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
+            <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Class Manager</h1>
+            <div class="flex flex-col gap-4">
+                <a class="text-blue-400 underline" href="">Edit Grades</a>
+                <a>Modify Course Prereqs</a>
+                <a>View Class Rosters</a>
+                <a>Check Sections</a>
+            </div>
+        </div>
+
+        <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
+            <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Student Management</h1>
+            <div class="flex flex-col gap-4">
+                <a class="text-blue-400 underline" href="">Modify Advising Roster</a>
+            </div>
+        </div>
+
+        <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
+            <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Account Management</h1>
+            <div class="flex flex-col gap-4">
+                <a>Modify account info</a>
+            </div>
+        </div>
+        <!--ADMINISTRATOR-->
+        <!--------------------------------------------------------------------------------------------------------------------------------->
+        {% elif session.role == 'Administrator' %}
+        <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
+            <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Administrative Actions</h1>
+            <div class="flex flex-col gap-4">
+                <a class="text-blue-400 underline" href="">Edit Classes</a>
+                <a>Edit Sections</a>
+                <a>Edit Classrooms</a>
+                <a>Edit Departments</a>
+                <a>Edit Time Slots</a>
+                <a>Edit Instructors</a>
+                <a>Edit Students</a>
+            </div>
+        </div>
+
+        <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
+            <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Class Actions</h1>
+            <div class="flex flex-col gap-4">
+                <a>Modify Class Instructors</a>
+            </div>
+        </div>
+
+        <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
+            <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Account Management</h1>
+            <div class="flex flex-col gap-4">
+                <a>Modify account info</a>
+            </div>
+        </div>
+
         {% endif %}
     </div>
 </div>
