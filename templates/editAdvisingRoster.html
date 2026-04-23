@@ -16,12 +16,20 @@
                     <td>{{ student.advisorFirst }} {{ student.advisorLast }}</td>
                     <td>
                     <form method="POST">
+                        <input type="hidden" name="action" value="reassign">
                         <select name="newAdvisor">
                             <option value="" disabled selected hidden>Select a new Advisor</option>
                             {% for advisor in advisors.values() %}
                                 <option value="{{ advisor.advisorID }}" default="Select a new Advisor">{{ advisor.firstName }} {{ advisor.lastName }}</option>
                             {% endfor %}
                         </select>
+                        <input type="hidden" value="{{ student.studentID }}" name="student" id="student">
+                        <input type="submit">
+                    </form>
+
+                    <form method="POST">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" value="{{ student.advisorID }}" name="advisorToRemove">
                         <input type="hidden" value="{{ student.studentID }}" name="student" id="student">
                         <input type="submit">
                     </form>
