@@ -1,0 +1,93 @@
+{% extends '/include/layout.html' %}
+{% include '/include/navbar.html' %}
+
+{% block content %}
+<div class="h-full w-full bg-blue-200 p-4">
+    <div class="m-4 rounded-xl border border-2 bg-gray-100 p-4 shadow-xl">
+        <h1 class="mb-3 text-2xl font-bold text-blue-600 underline underline-blue-600">
+            Edit Classrooms
+        </h1>
+
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <form method="POST" class="rounded border bg-white p-3">
+                <h2 class="mb-2 text-lg font-bold">Create Classroom</h2>
+                <input type="hidden" name="action" value="create">
+
+                <label class="mb-1 block text-sm">Building</label>
+                <select class="mb-2 w-full rounded border p-1" name="building_id" required>
+                    {% for building in buildings %}
+                        <option value="{{ building[0] }}">{{ building[0] }} - {{ building[1] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label class="mb-1 block text-sm">Room Number</label>
+                <input class="mb-2 w-full rounded border p-1" name="room_number" type="number" min="1" max="999" required>
+
+                <label class="mb-1 block text-sm">Capacity</label>
+                <input class="mb-3 w-full rounded border p-1" name="capacity" type="number" min="1" max="9999" required>
+
+                <button class="rounded bg-blue-600 px-3 py-1 text-white" type="submit">Create</button>
+            </form>
+
+            <form method="POST" class="rounded border bg-white p-3">
+                <h2 class="mb-2 text-lg font-bold">Update Classroom</h2>
+                <input type="hidden" name="action" value="update">
+
+                <label class="mb-1 block text-sm">Classroom ID</label>
+                <input class="mb-2 w-full rounded border p-1" name="classroom_id" type="number" min="1" required>
+
+                <label class="mb-1 block text-sm">Building</label>
+                <select class="mb-2 w-full rounded border p-1" name="building_id" required>
+                    {% for building in buildings %}
+                        <option value="{{ building[0] }}">{{ building[0] }} - {{ building[1] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label class="mb-1 block text-sm">Room Number</label>
+                <input class="mb-2 w-full rounded border p-1" name="room_number" type="number" min="1" max="999" required>
+
+                <label class="mb-1 block text-sm">Capacity</label>
+                <input class="mb-3 w-full rounded border p-1" name="capacity" type="number" min="1" max="9999" required>
+
+                <button class="rounded bg-blue-600 px-3 py-1 text-white" type="submit">Update</button>
+            </form>
+
+            <form method="POST" class="rounded border bg-white p-3">
+                <h2 class="mb-2 text-lg font-bold">Delete Classroom</h2>
+                <input type="hidden" name="action" value="delete">
+
+                <label class="mb-1 block text-sm">Classroom ID</label>
+                <input class="mb-3 w-full rounded border p-1" name="classroom_id" type="number" min="1" required>
+
+                <button class="rounded bg-red-600 px-3 py-1 text-white" type="submit">Delete</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="m-4 rounded-xl border border-2 bg-gray-100 p-4 shadow-xl">
+        <h2 class="mb-2 text-xl font-bold text-blue-600 underline underline-blue-600">Classrooms</h2>
+        <table class="w-full table-fixed border-collapse text-sm">
+            <thead>
+                <tr>
+                    <th class="border p-1">Classroom ID</th>
+                    <th class="border p-1">Building ID</th>
+                    <th class="border p-1">Building Name</th>
+                    <th class="border p-1">Room Number</th>
+                    <th class="border p-1">Capacity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for classroom in classrooms %}
+                    <tr>
+                        <td class="border p-1 text-center">{{ classroom[0] }}</td>
+                        <td class="border p-1 text-center">{{ classroom[1] or '' }}</td>
+                        <td class="border p-1 text-center">{{ classroom[2] or '' }}</td>
+                        <td class="border p-1 text-center">{{ classroom[3] }}</td>
+                        <td class="border p-1 text-center">{{ classroom[4] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

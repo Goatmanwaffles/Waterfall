@@ -1,0 +1,91 @@
+{% extends '/include/layout.html' %}
+{% include '/include/navbar.html' %}
+
+{% block content %}
+<div class="h-full w-full bg-blue-200 p-4">
+    <div class="m-4 rounded-xl border border-2 bg-gray-100 p-4 shadow-xl">
+        <h1 class="mb-3 text-2xl font-bold text-blue-600 underline underline-blue-600">
+            Edit Courses
+        </h1>
+
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <form method="POST" class="rounded border bg-white p-3">
+                <h2 class="mb-2 text-lg font-bold">Create Course</h2>
+                <input type="hidden" name="action" value="create">
+
+                <label class="mb-1 block text-sm">Title</label>
+                <input class="mb-2 w-full rounded border p-1" name="title" required>
+
+                <label class="mb-1 block text-sm">Department</label>
+                <select class="mb-2 w-full rounded border p-1" name="department_id" required>
+                    {% for dept in departments %}
+                        <option value="{{ dept[0] }}">{{ dept[1] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label class="mb-1 block text-sm">Credits</label>
+                <input class="mb-3 w-full rounded border p-1" name="credits" type="number" min="1" max="99" value="3" required>
+
+                <button class="rounded bg-blue-600 px-3 py-1 text-white" type="submit">Create</button>
+            </form>
+
+            <form method="POST" class="rounded border bg-white p-3">
+                <h2 class="mb-2 text-lg font-bold">Update Course</h2>
+                <input type="hidden" name="action" value="update">
+
+                <label class="mb-1 block text-sm">Course ID</label>
+                <input class="mb-2 w-full rounded border p-1" name="course_id" type="number" min="1" required>
+
+                <label class="mb-1 block text-sm">Title</label>
+                <input class="mb-2 w-full rounded border p-1" name="title" required>
+
+                <label class="mb-1 block text-sm">Department</label>
+                <select class="mb-2 w-full rounded border p-1" name="department_id" required>
+                    {% for dept in departments %}
+                        <option value="{{ dept[0] }}">{{ dept[1] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label class="mb-1 block text-sm">Credits</label>
+                <input class="mb-3 w-full rounded border p-1" name="credits" type="number" min="1" max="99" value="3" required>
+
+                <button class="rounded bg-blue-600 px-3 py-1 text-white" type="submit">Update</button>
+            </form>
+
+            <form method="POST" class="rounded border bg-white p-3">
+                <h2 class="mb-2 text-lg font-bold">Delete Course</h2>
+                <input type="hidden" name="action" value="delete">
+
+                <label class="mb-1 block text-sm">Course ID</label>
+                <input class="mb-3 w-full rounded border p-1" name="course_id" type="number" min="1" required>
+
+                <button class="rounded bg-red-600 px-3 py-1 text-white" type="submit">Delete</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="m-4 rounded-xl border border-2 bg-gray-100 p-4 shadow-xl">
+        <h2 class="mb-2 text-xl font-bold text-blue-600 underline underline-blue-600">Courses</h2>
+        <table class="w-full table-fixed border-collapse text-sm">
+            <thead>
+                <tr>
+                    <th class="border p-1">Course ID</th>
+                    <th class="border p-1">Title</th>
+                    <th class="border p-1">Department</th>
+                    <th class="border p-1">Credits</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                    <tr>
+                        <td class="border p-1 text-center">{{ course[0] }}</td>
+                        <td class="border p-1 text-center">{{ course[1] }}</td>
+                        <td class="border p-1 text-center">{{ course[2] or '' }}</td>
+                        <td class="border p-1 text-center">{{ course[3] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

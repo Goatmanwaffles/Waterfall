@@ -1,0 +1,121 @@
+{% extends '/include/layout.html' %}
+{% include '/include/navbar.html' %}
+
+{% block content %}
+<div class="h-full w-full bg-blue-200 p-4">
+    <div class="m-4 rounded-xl border border-2 bg-gray-100 p-4 shadow-xl">
+        <h1 class="mb-3 text-2xl font-bold text-blue-600 underline underline-blue-600">
+            Modify Class Instructors
+        </h1>
+
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <form method="POST" class="rounded border bg-white p-3">
+                <h2 class="mb-2 text-lg font-bold">Assign Instructor</h2>
+                <input type="hidden" name="action" value="create">
+
+                <label class="mb-1 block text-sm">Instructor</label>
+                <select class="mb-2 w-full rounded border p-1" name="instructor_id" required>
+                    {% for instructor in instructors %}
+                        <option value="{{ instructor[0] }}">{{ instructor[0] }} - {{ instructor[1] }} {{ instructor[2] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label class="mb-1 block text-sm">Section</label>
+                <select class="mb-3 w-full rounded border p-1" name="section_id" required>
+                    {% for section in sections %}
+                        <option value="{{ section[0] }}">{{ section[0] }} - {{ section[2] or '' }} ({{ section[3] }} {{ section[4] }})</option>
+                    {% endfor %}
+                </select>
+
+                <button class="rounded bg-blue-600 px-3 py-1 text-white" type="submit">Assign</button>
+            </form>
+
+            <form method="POST" class="rounded border bg-white p-3">
+                <h2 class="mb-2 text-lg font-bold">Modify Assignment</h2>
+                <input type="hidden" name="action" value="update">
+
+                <label class="mb-1 block text-sm">Current Instructor</label>
+                <select class="mb-2 w-full rounded border p-1" name="old_instructor_id" required>
+                    {% for instructor in instructors %}
+                        <option value="{{ instructor[0] }}">{{ instructor[0] }} - {{ instructor[1] }} {{ instructor[2] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label class="mb-1 block text-sm">Current Section</label>
+                <select class="mb-2 w-full rounded border p-1" name="old_section_id" required>
+                    {% for section in sections %}
+                        <option value="{{ section[0] }}">{{ section[0] }} - {{ section[2] or '' }} ({{ section[3] }} {{ section[4] }})</option>
+                    {% endfor %}
+                </select>
+
+                <label class="mb-1 block text-sm">New Instructor</label>
+                <select class="mb-2 w-full rounded border p-1" name="instructor_id" required>
+                    {% for instructor in instructors %}
+                        <option value="{{ instructor[0] }}">{{ instructor[0] }} - {{ instructor[1] }} {{ instructor[2] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label class="mb-1 block text-sm">New Section</label>
+                <select class="mb-3 w-full rounded border p-1" name="section_id" required>
+                    {% for section in sections %}
+                        <option value="{{ section[0] }}">{{ section[0] }} - {{ section[2] or '' }} ({{ section[3] }} {{ section[4] }})</option>
+                    {% endfor %}
+                </select>
+
+                <button class="rounded bg-blue-600 px-3 py-1 text-white" type="submit">Modify</button>
+            </form>
+
+            <form method="POST" class="rounded border bg-white p-3">
+                <h2 class="mb-2 text-lg font-bold">Remove Assignment</h2>
+                <input type="hidden" name="action" value="delete">
+
+                <label class="mb-1 block text-sm">Instructor</label>
+                <select class="mb-2 w-full rounded border p-1" name="instructor_id" required>
+                    {% for instructor in instructors %}
+                        <option value="{{ instructor[0] }}">{{ instructor[0] }} - {{ instructor[1] }} {{ instructor[2] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label class="mb-1 block text-sm">Section</label>
+                <select class="mb-3 w-full rounded border p-1" name="section_id" required>
+                    {% for section in sections %}
+                        <option value="{{ section[0] }}">{{ section[0] }} - {{ section[2] or '' }} ({{ section[3] }} {{ section[4] }})</option>
+                    {% endfor %}
+                </select>
+
+                <button class="rounded bg-red-600 px-3 py-1 text-white" type="submit">Remove</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="m-4 rounded-xl border border-2 bg-gray-100 p-4 shadow-xl">
+        <h2 class="mb-2 text-xl font-bold text-blue-600 underline underline-blue-600">Current Assignments</h2>
+        <table class="w-full table-fixed border-collapse text-sm">
+            <thead>
+                <tr>
+                    <th class="border p-1">Instructor ID</th>
+                    <th class="border p-1">Instructor Name</th>
+                    <th class="border p-1">Section ID</th>
+                    <th class="border p-1">Course ID</th>
+                    <th class="border p-1">Course Title</th>
+                    <th class="border p-1">Semester</th>
+                    <th class="border p-1">Year</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in teaches_rows %}
+                    <tr>
+                        <td class="border p-1 text-center">{{ row[0] }}</td>
+                        <td class="border p-1 text-center">{{ row[1] }} {{ row[2] }}</td>
+                        <td class="border p-1 text-center">{{ row[3] }}</td>
+                        <td class="border p-1 text-center">{{ row[4] or '' }}</td>
+                        <td class="border p-1 text-center">{{ row[5] or '' }}</td>
+                        <td class="border p-1 text-center">{{ row[6] or '' }}</td>
+                        <td class="border p-1 text-center">{{ row[7] or '' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
