@@ -52,11 +52,12 @@ def login():
         if row and (bcrypt.checkpw(password, hashedPW)):
             if row[2] == "Student":
                 cursor.execute("SELECT s.student_ID FROM student s WHERE s.account_ID = %s",[row[3]])
-            elif row[2] == "Instructor": #NEEDS IMPLEMENTED DATABASE LEVEL
-                cursor.execute("SELECT s.student_ID FROM student s WHERE s.account_ID = %s",[row[3]])
+            elif row[2] == "Instructor":
+                cursor.execute("SELECT i.instructor_ID FROM instructor i WHERE i.account_ID = %s",[row[3]])
             elif row[2] == "Administrator": #NEEDS IMPLEMENTED DATABASE LEVEL
                 cursor.execute("SELECT s.student_ID FROM student s WHERE s.account_ID = %s",[row[3]])
-            Id = cursor.fetchone()
+            result = cursor.fetchone()
+            Id = result[0] if result else None
             print(Id)
             session["role"] = row[2] #Store role in session
             session["userID"] = Id #Store user ID, Either Student, Instructor, or Admin
@@ -166,7 +167,7 @@ def student_search(id="", first="", last=""):
             # Adds the modified data
             one_student.append(data)
         students.append(one_student)
-
+    cursor.close()
     return render_template(
         "student_search.html",
         students=students,
@@ -427,19 +428,66 @@ def account():
 #--------------------------------------------------------------
 @app.route("/instructorGrades", methods=['POST', 'GET'])
 def instructorGrades():
+    Id = session.get("userID")
+    print(Id)
     if request.method == 'GET':
         #Pull all taught sections and grades
         cursor = dbserver.cursor()
-        cursor.execute("""
-            SELECT n.first_name, n.last_name, k.grades, c.title, s.semester, s.year, s.section_ID
+
+        cursor.execute(
+            """
+            SELECT n.first_name, n.last_name, k.grades, c.title, s.semester, s.year, k.section_ID, k.student_ID
             FROM teaches t
             JOIN section s ON s.section_ID = t.section_ID
             JOIN course c ON s.course_ID = c.course_ID
-            JOIN takes k ON k.section_ID = s.section_ID
-            JOIN student n ON n.student_ID = k.student_ID
-            WHERE t.instructor_ID = %S
-""", [NULL])
+            LEFT JOIN takes k ON k.section_ID = s.section_ID
+            LEFT JOIN student n ON n.student_ID = k.student_ID
+            WHERE t.instructor_ID = %s
+            """
+            , [Id])
+        rows = cursor.fetchall()
 
-    return render_template("instructorGrades.html")
+        sections = {}
+
+        #Formats Data nicely to pass to page
+        for first, last, grade, title, semester, year, section_ID, student_ID in rows:
+            if section_ID not in sections:
+                sections[section_ID] = {
+                    "section_ID": section_ID,
+                    "course": title,
+                    "semester": semester,
+                    "year": year,
+                    "students": []
+                }
+
+            sections[section_ID]["students"].append({
+                "student_ID": student_ID,
+                "first_name": first,
+                "last_name": last,
+                "grade": grade
+            })
+        print(type(Id))
+        print("ROWS:", rows)
+        print("SECTIONS:", sections)
+        cursor.close()
+        return render_template("instructorGrades.html", sections=sections)
+
+    if request.method =='POST':
+        cursor = dbserver.cursor()
+        section_ID = request.form['section_ID']
+        student_ID = request.form['student_ID']
+        newGrade = request.form['newGrade']
+
+        cursor.execute("""
+            UPDATE takes t 
+            SET t.grades = %s 
+            WHERE t.student_ID = %s AND t.section_ID = %s 
+""",[newGrade, student_ID, section_ID])
+        dbserver.commit()
+        cursor.close()
+        return redirect(url_for('instructorGrades'))
+
+
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)

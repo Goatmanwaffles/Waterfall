@@ -212,6 +212,45 @@ def generateSeedData(tables, schema_filename, seed_filename):
 
             section_index += 1
 
+    #CREATES TAKES LOGIC
+    seed_data.takes = []
+
+    student_ids = list(range(1, len(seed_data.students) + 1))
+    section_ids = list(range(1, 101))
+
+    used = set()
+
+    # guarantee: each section has at least 1 student
+    for section_id in section_ids:
+        student_id = choice(student_ids)
+
+        pair = (student_id, section_id)
+        used.add(pair)
+
+        seed_data.takes.append({
+            "student_ID": student_id,
+            "section_ID": section_id,
+            "grade": choice(seed_data.grades)
+        })
+
+    # add extra randomness
+    for _ in range(len(student_ids) * 3):
+        student_id = choice(student_ids)
+        section_id = choice(section_ids)
+
+        pair = (student_id, section_id)
+
+        if pair in used:
+            continue
+
+        used.add(pair)
+
+        seed_data.takes.append({
+            "student_ID": student_id,
+            "section_ID": section_id,
+            "grade": choice(seed_data.grades)
+        })
+
     for table, columns in tables.items():
         if table == "account":
             row_count = len(seed_data.accounts)  
@@ -222,7 +261,7 @@ def generateSeedData(tables, schema_filename, seed_filename):
         elif table == "student":
             row_count = len(seed_data.students)
         elif table == "takes":
-            row_count = len(seed_data.students)
+            row_count = len(seed_data.takes)
         elif table == "instructor":
             row_count = len(seed_data.instructors)
         elif table == "teaches":
@@ -295,6 +334,17 @@ def generateSeedData(tables, schema_filename, seed_filename):
                         data = teach["instructor_ID"]
                     elif column == "section_ID":
                         data = teach["section_ID"]
+
+                elif table == "takes":
+                    take = seed_data.takes[i]
+
+                    if column == "student_ID":
+                        data = take["student_ID"]
+                    elif column == "section_ID":
+                        data = take["section_ID"]
+                    elif column == "grades":
+                        data = f'"{take["grade"]}"'
+
                 elif "int" in datatype:
                     data = i+1
                 elif "varchar" in datatype:
