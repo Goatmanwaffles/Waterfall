@@ -466,9 +466,6 @@ def instructorGrades():
                 "last_name": last,
                 "grade": grade
             })
-        print(type(Id))
-        print("ROWS:", rows)
-        print("SECTIONS:", sections)
         cursor.close()
         return render_template("instructorGrades.html", sections=sections)
 
