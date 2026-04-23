@@ -114,88 +114,29 @@ course_titles = [
 ]
 days = ["M", "T", "W", "H", "F"]
 
-usernames = ["Admin", "Instructor", "Student"]
-passwords = ["abc"]
-roles = ["Administrator", "Instructor", "Student"]
 accounts = [
-    {"username": "admin",      "password": "abc",      "role": "Administrator"},
-    {"username": "instructor", "password": "abc", "role": "Instructor"},
-    {"username": "student",    "password": "abc",    "role": "Student"},
-    {"username": "iNelson",    "password": "abc",    "role": "Student"},
-    {"username": "sMorales",    "password": "abc",    "role": "Student"},
-    {"username": "cMiller",    "password": "abc",    "role": "Student"},
-    {"username": "bHoward",    "password": "abc",    "role": "Student"},
-    {"username": "mWard",    "password": "abc",    "role": "Student"},
-    {"username": "jParker",    "password": "abc",    "role": "Student"},
-    {"username": "aWilliams",    "password": "abc",    "role": "Student"},
-    {"username": "mRamirez",    "password": "abc",    "role": "Student"},
-    {"username": "sSenol",    "password": "abc",    "role": "Student"},
-    {"username": "zMendoze",    "password": "abc",    "role": "Student"},
-    {"username": "eJones",    "password": "abc",    "role": "Student"},
-    {"username": "lWood",    "password": "abc",    "role": "Student"},
-    {"username": "eJames",    "password": "abc",    "role": "Student"},
-    {"username": "eBrooks",    "password": "abc",    "role": "Student"},
-    {"username": "lPark",       "password": "abc", "role": "Instructor"},
-    {"username": "qTremblay",   "password": "abc", "role": "Instructor"},
-    {"username": "jZimmer",     "password": "abc", "role": "Instructor"},
-    {"username": "xBauer",      "password": "abc", "role": "Instructor"},
-    {"username": "gMehta",      "password": "abc", "role": "Instructor"},
-    {"username": "tEllis",      "password": "abc", "role": "Instructor"},
-    {"username": "gYildiz",     "password": "abc", "role": "Instructor"},
-    {"username": "aCortez",     "password": "abc", "role": "Instructor"},
-    {"username": "oDaher",      "password": "abc", "role": "Instructor"},
-    {"username": "nAndersson",  "password": "abc", "role": "Instructor"},
-
+    {"username": "admin", "password": "abc", "role": "Administrator"},
 ]
 
 advisors = [
-    {"first_name": "Edward",   "last_name": "Fields",       "department_ID": 1},
-    {"first_name": "Donna",    "last_name": "Hancock",      "department_ID": 2},
-    {"first_name": "Rebecca",  "last_name": "Cho",          "department_ID": 3},
-    {"first_name": "Tommy",    "last_name": "Dawson",       "department_ID": 4},
-    {"first_name": "Jennifer", "last_name": "Glover",       "department_ID": 5},
-    {"first_name": "Timothy",  "last_name": "Beasley",      "department_ID": 6},
-    {"first_name": "Katherine","last_name": "Christensen",  "department_ID": 7},
-    {"first_name": "Patricia", "last_name": "Decker",       "department_ID": 8},
-    {"first_name": "Craig",    "last_name": "Drake",        "department_ID": 9},
-    {"first_name": "Nicholas", "last_name": "Bowers",       "department_ID": 10},
-    {"first_name": "Stephanie","last_name": "Downey",       "department_ID": 11},
-    {"first_name": "Amy",      "last_name": "Grimes",       "department_ID": 12},
-    {"first_name": "Michelle", "last_name": "Ackerman",     "department_ID": 13},
-    {"first_name": "Linda",    "last_name": "Fields",       "department_ID": 14},
+    {"first_name": "Edward",    "last_name": "Fields",      "department_ID": 1},
+    {"first_name": "Donna",     "last_name": "Hancock",     "department_ID": 2},
+    {"first_name": "Rebecca",   "last_name": "Cho",         "department_ID": 3},
+    {"first_name": "Tommy",     "last_name": "Dawson",      "department_ID": 4},
+    {"first_name": "Jennifer",  "last_name": "Glover",      "department_ID": 5},
+    {"first_name": "Timothy",   "last_name": "Beasley",     "department_ID": 6},
+    {"first_name": "Katherine", "last_name": "Christensen", "department_ID": 7},
+    {"first_name": "Patricia",  "last_name": "Decker",      "department_ID": 8},
+    {"first_name": "Craig",     "last_name": "Drake",       "department_ID": 9},
+    {"first_name": "Nicholas",  "last_name": "Bowers",      "department_ID": 10},
+    {"first_name": "Stephanie", "last_name": "Downey",      "department_ID": 11},
+    {"first_name": "Amy",       "last_name": "Grimes",      "department_ID": 12},
+    {"first_name": "Michelle",  "last_name": "Ackerman",    "department_ID": 13},
+    {"first_name": "Linda",     "last_name": "Fields",      "department_ID": 14},
 ]
 
-students = [
-    {"first_name": "Isaac",    "last_name": "Nelson",   "department_ID": 1,  "total_cred": 192, "advisor_ID": 1,  "account_ID": 4},
-    {"first_name": "Samuel",   "last_name": "Morales",  "department_ID": 2,  "total_cred": 66,  "advisor_ID": 2,  "account_ID": 5},
-    {"first_name": "Camila",   "last_name": "Miller",   "department_ID": 3,  "total_cred": 186, "advisor_ID": 3,  "account_ID": 6},
-    {"first_name": "Brooklyn", "last_name": "Howard",   "department_ID": 4,  "total_cred": 100, "advisor_ID": 4,  "account_ID": 7},
-    {"first_name": "Mila",     "last_name": "Ward",     "department_ID": 5,  "total_cred": 153, "advisor_ID": 5,  "account_ID": 8},
-    {"first_name": "Joseph",   "last_name": "Parker",   "department_ID": 6,  "total_cred": 11,  "advisor_ID": 6,  "account_ID": 9},
-    {"first_name": "Andrew",   "last_name": "Williams", "department_ID": 7,  "total_cred": 26,  "advisor_ID": 7,  "account_ID": 10},
-    {"first_name": "Mila",     "last_name": "Ramirez",  "department_ID": 8,  "total_cred": 24,  "advisor_ID": 8,  "account_ID": 11},
-    {"first_name": "Scarlett", "last_name": "Senol",    "department_ID": 9,  "total_cred": 30,  "advisor_ID": 9,  "account_ID": 12},
-    {"first_name": "Zoe",      "last_name": "Mendoza",  "department_ID": 10, "total_cred": 201, "advisor_ID": 10, "account_ID": 13},
-    {"first_name": "Elijah",   "last_name": "Jones",    "department_ID": 11, "total_cred": 147, "advisor_ID": 11, "account_ID": 14},
-    {"first_name": "Liam",     "last_name": "Wood",     "department_ID": 12, "total_cred": 131, "advisor_ID": 12, "account_ID": 15},
-    {"first_name": "Elijah",   "last_name": "James",    "department_ID": 13, "total_cred": 93,  "advisor_ID": 13, "account_ID": 16},
-    {"first_name": "Evelyn",   "last_name": "Brooks",   "department_ID": 14, "total_cred": 184, "advisor_ID": 14, "account_ID": 17},
-]
+# Populated at generation time in setup.py
+students    = []
+instructors = []
 
-instructors = [
-    {"first_name": "Lena",    "last_name": "Park",       "department_ID": 1,  "salary": 294534.29, "account_ID": 18},
-    {"first_name": "Quincy",  "last_name": "Tremblay",   "department_ID": 2,  "salary": 663261.66, "account_ID": 19},
-    {"first_name": "Javed",   "last_name": "Zimmer",     "department_ID": 3,  "salary": 802874.80, "account_ID": 20},
-    {"first_name": "Xavier",  "last_name": "Bauer",      "department_ID": 4,  "salary": 469090.46, "account_ID": 21},
-    {"first_name": "Gustavo", "last_name": "Mehta",      "department_ID": 5,  "salary": 434262.43, "account_ID": 22},
-    {"first_name": "Tariq",   "last_name": "Ellis",      "department_ID": 6,  "salary": 465903.46, "account_ID": 23},
-    {"first_name": "Gustavo", "last_name": "Yildiz",     "department_ID": 7,  "salary": 201988.20, "account_ID": 24},
-    {"first_name": "Alan",    "last_name": "Cortez",     "department_ID": 8,  "salary": 446818.44, "account_ID": 25},
-    {"first_name": "Oksana",  "last_name": "Daher",      "department_ID": 9,  "salary": 559553.55, "account_ID": 26},
-    {"first_name": "Nadia",   "last_name": "Andersson",  "department_ID": 10, "salary": 993400.99, "account_ID": 27},
-]
-
-
-
-account_index = 0
 count = 0

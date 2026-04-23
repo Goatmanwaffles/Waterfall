@@ -192,6 +192,46 @@ def generateSeedData(tables, schema_filename, seed_filename):
     seed = open(file=seed_path, mode="w", encoding="utf-8")
     seed.truncate(0) # Clears the file
 
+    # Generate 100 students from the name pools
+    seed_data.students = []
+    for i in range(100):
+        seed_data.students.append({
+            "first_name":    seed_data.student_first_names[i],
+            "last_name":     seed_data.student_last_names[i],
+            "department_ID": randint(1, 14),
+            "total_cred":    randint(0, 40) * 3,
+            "advisor_ID":    randint(1, 14),
+        })
+
+    # Generate 100 instructors from the name pools
+    seed_data.instructors = []
+    for i in range(100):
+        seed_data.instructors.append({
+            "first_name":    seed_data.instructor_first_names[i],
+            "last_name":     seed_data.instructor_last_names[i],
+            "department_ID": randint(1, 14),
+            "salary":        randint(52000, 189000),
+        })
+
+    # Build one admin account, then one account per student and instructor
+    seed_data.accounts = [
+        {"username": "admin", "password": "abc", "role": "Administrator"},
+    ]
+    student_account_start = 2
+    for s in seed_data.students:
+        seed_data.accounts.append({
+            "username": s["first_name"][0].lower() + s["last_name"],
+            "password": "abc",
+            "role": "Student"
+        })
+    instructor_account_start = len(seed_data.accounts) + 1
+    for inst in seed_data.instructors:
+        seed_data.accounts.append({
+            "username": inst["first_name"][0].lower() + inst["last_name"],
+            "password": "abc",
+            "role": "Instructor"
+        })
+
     #Creates teaches logic
     instructor_ids = list(range(1, len(seed_data.instructors) + 1))
     section_ids = list(range(1, 101))
@@ -272,8 +312,8 @@ def generateSeedData(tables, schema_filename, seed_filename):
                     elif column == "advisor_ID":
                         data = student["advisor_ID"]
                     elif column == "account_ID":
-                        data = student["account_ID"]
-                
+                        data = student_account_start + i
+
                 elif table == "instructor":
                     instructor = seed_data.instructors[i]
 
@@ -286,7 +326,7 @@ def generateSeedData(tables, schema_filename, seed_filename):
                     elif column == "salary":
                         data = instructor["salary"]
                     elif column == "account_ID":
-                        data = instructor["account_ID"]
+                        data = instructor_account_start + i
 
                 elif table == "teaches":
                     teach = seed_data.teaches[i]
