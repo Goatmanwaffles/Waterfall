@@ -1,0 +1,34 @@
+{% extends '/include/layout.html' %}
+{% include '/include/navbar.html' %}
+{% block content %}
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Student Name:</th>
+                <th>Current Advisor: </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students.values() %}
+                <tr>
+                    <td>{{ student.firstName }} {{ student.lastName }}</td>
+                    <td>{{ student.advisorFirst }} {{ student.advisorLast }}</td>
+                    <td>
+                    <form method="POST">
+                        <select name="newAdvisor">
+                            <option value="" disabled selected hidden>Select a new Advisor</option>
+                            {% for advisor in advisors.values() %}
+                                <option value="{{ advisor.advisorID }}" default="Select a new Advisor">{{ advisor.firstName }} {{ advisor.lastName }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="hidden" value="{{ student.studentID }}" name="student" id="student">
+                        <input type="submit">
+                    </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -969,6 +969,50 @@ def instructorGrades():
         dbserver.commit()
         cursor.close()
         return redirect(url_for('instructorGrades'))
+    
+#INSTRUCTOR ADVISING MODIFIER
+@app.route("/advisingRoster", methods=['POST','GET'])
+def modifyAdvisingRoster():
+    if request.method == 'GET':
+        cursor = dbserver.cursor()
+        cursor.execute("SELECT s.student_ID, s.first_name, s.last_name, d.first_name, d.last_name from student s LEFT JOIN advises a ON s.student_ID = a.student_ID JOIN advisor d ON d.advisor_ID = a.advisor_ID")
+        studentsRows = cursor.fetchall()
+        cursor.execute("SELECT advisor_ID, first_name, last_name, department_ID from advisor")
+        advisorsRows = cursor.fetchall()
+
+        students = {}
+        advisors = {}
+        for studentID, first, last, advisorFirst, advisorLast in studentsRows:
+            if studentID not in students:
+                students[studentID] = {
+                    "studentID": studentID,
+                    "firstName": first,
+                    "lastName": last,
+                    "advisorFirst": advisorFirst,
+                    "advisorLast": advisorLast 
+                }
+
+        for advisorID, first, last, dept in advisorsRows:
+            if advisorID not in advisors:
+                advisors[advisorID] = {
+                    "advisorID": advisorID,
+                    "firstName": first,
+                    "lastName": last,
+                    "department": dept
+                }
+        cursor.close()
+        return render_template("editAdvisingRoster.html", students=students, advisors=advisors)
+
+    if request.method == 'POST':
+        #Update Advisor
+        student = request.form['student']
+        newAdvisor = request.form['newAdvisor']
+        cursor = dbserver.cursor()
+        cursor.execute("UPDATE advises SET advisor_ID = %s WHERE student_ID = %s", [newAdvisor, student])
+        cursor.execute("UPDATE student SET advisor_ID = %s WHERE student_ID = %s", [newAdvisor, student])
+        dbserver.commit()
+        cursor.close()
+        return redirect(url_for("modifyAdvisingRoster"))
 
 
 
