@@ -426,6 +426,7 @@ def account():
 
 #INSTRUCTOR STUFF
 #--------------------------------------------------------------
+#Instructor Grade Updating
 @app.route("/instructorGrades", methods=['POST', 'GET'])
 def instructorGrades():
     Id = session.get("userID")

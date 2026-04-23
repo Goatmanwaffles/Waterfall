@@ -76,7 +76,7 @@ buildings = [
     "Sunnydale", "Fairview", "Westfield", "Eastgate", "Northstar", "Southpoint", "Summit", "Ridgeway", "Valley", "Crescent"
 ]
 semesters = ["Fall", "Winter", "Spring", "Summer"]
-grades = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"]
+grades = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F", ""]
 advisor_first_names = [
     "Joseph", "Thomas", "Tommy", "Craig", "Leah", "TJ", "Margaret", "Patricia", "Jennifer", "Linda",
     "Susan", "Jessica", "Sarah", "Karen", "Nancy", "Lisa", "Betty", "Dorothy", "Sandra", "Ashley",
