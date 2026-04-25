@@ -52,12 +52,12 @@ TABLES = {
         "password": "varchar(2000)",
         "role": "varchar(20)"
     },
-    "advisor": {
-        "advisor_ID": "int AUTO_INCREMENT PRIMARY KEY", 
-        "first_name": "varchar(20)",
-        "last_name":  "varchar(20)",
-        "department_ID": "int"
-    },
+    # "advisor": {
+    #     "advisor_ID": "int AUTO_INCREMENT PRIMARY KEY", 
+    #     "first_name": "varchar(20)",
+    #     "last_name":  "varchar(20)",
+    #     "department_ID": "int"
+    # },
     "course": {
         "course_ID": "int AUTO_INCREMENT PRIMARY KEY",  
         "title":     "varchar(50)", 
@@ -100,7 +100,7 @@ TABLES = {
     },
     "advises": {
         "student_ID": "int", 
-        "advisor_ID": "int", 
+        "instructor_ID": "int", 
     },
     "prereq": {
         "prereq_ID": "int AUTO_INCREMENT PRIMARY KEY", 

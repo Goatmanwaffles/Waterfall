@@ -257,7 +257,7 @@ def generateSeedData(tables, schema_filename, seed_filename):
         elif table == "advisor":
             row_count = len(seed_data.advisors)
         elif table == "advises":
-            row_count = len(seed_data.advisors)
+            row_count = len(seed_data.advises)
         elif table == "student":
             row_count = len(seed_data.students)
         elif table == "takes":
@@ -344,6 +344,14 @@ def generateSeedData(tables, schema_filename, seed_filename):
                         data = take["section_ID"]
                     elif column == "grades":
                         data = f'"{take["grade"]}"'
+
+                elif table == "advises":
+                    advises = seed_data.advises[i]
+
+                    if column == "student_ID":
+                        data = advises["student_ID"]
+                    elif column == "instructor_ID":
+                        data = advises["instructor_ID"]
 
                 elif "int" in datatype:
                     data = i+1

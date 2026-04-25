@@ -877,7 +877,7 @@ def getAdvisorInfo():
     student_ID = session.get("userID")
     print(student_ID)
     cursor = dbserver.cursor()
-    cursor.execute("SELECT a2.first_name, a2.last_name, d.department_name FROM advises a JOIN advisor a2 ON a.advisor_ID = a2.advisor_ID JOIN department d ON d.department_ID = a2.department_ID WHERE a.student_ID = %s",[student_ID])
+    cursor.execute("SELECT a2.first_name, a2.last_name, d.department_name FROM advises a JOIN instructor a2 ON a.instructor_ID = a2.instructor_ID JOIN department d ON d.department_ID = a2.department_ID WHERE a.student_ID = %s",[student_ID])
     advisor = cursor.fetchone()
     cursor.close()
     return render_template("studentAdvisor.html", advisor=advisor)
@@ -975,9 +975,9 @@ def instructorGrades():
 def modifyAdvisingRoster():
     if request.method == 'GET':
         cursor = dbserver.cursor()
-        cursor.execute("SELECT s.student_ID, s.first_name, s.last_name, d.first_name, d.last_name, d.advisor_ID from student s LEFT JOIN advises a ON s.student_ID = a.student_ID LEFT JOIN advisor d ON d.advisor_ID = a.advisor_ID")
+        cursor.execute("SELECT s.student_ID, s.first_name, s.last_name, d.first_name, d.last_name, d.instructor_ID from student s LEFT JOIN advises a ON s.student_ID = a.student_ID LEFT JOIN instructor d ON d.instructor_ID = a.instructor_ID")
         studentsRows = cursor.fetchall()
-        cursor.execute("SELECT advisor_ID, first_name, last_name, department_ID from advisor")
+        cursor.execute("SELECT instructor_ID, first_name, last_name, department_ID from instructor")
         advisorsRows = cursor.fetchall()
 
         students = {}
@@ -1012,7 +1012,7 @@ def modifyAdvisingRoster():
             student = request.form['student']
             newAdvisor = request.form['newAdvisor']
             cursor = dbserver.cursor()
-            cursor.execute("UPDATE advises SET advisor_ID = %s WHERE student_ID = %s", [newAdvisor, student])
+            cursor.execute("UPDATE advises SET instructor_ID = %s WHERE student_ID = %s", [newAdvisor, student])
             cursor.execute("UPDATE student SET advisor_ID = %s WHERE student_ID = %s", [newAdvisor, student])
             dbserver.commit()
             cursor.close()
@@ -1023,7 +1023,7 @@ def modifyAdvisingRoster():
             student = request.form['student']
             cursor = dbserver.cursor()
             cursor.execute("UPDATE student set advisor_ID = NULL WHERE student_ID = %s",[student])
-            cursor.execute("DELETE FROM advises WHERE student_ID = %s AND advisor_ID = %s", [student, advisorToDelete])
+            cursor.execute("DELETE FROM advises WHERE student_ID = %s AND instructor_ID = %s", [student, advisorToDelete])
             dbserver.commit()
             cursor.close()
             return redirect(url_for("modifyAdvisingRoster"))
