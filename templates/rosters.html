@@ -2,6 +2,22 @@
 {% include '/include/navbar.html' %}
 {% block content %}
 <div class="h-full w-full bg-blue-200">
+    <h1 class="font-bold text-4xl">Class Rosters</h1>
+    <form method="POST">
+        <input type="hidden" name="action" value="filter">
+        <label for="filterSemester">Semester: </label>
+        <select name="filterSemester" id="filterSemester">
+            <option selected value="">All Semesters</option>
+            <option value="Fall">Fall</option>
+            <option value="Summer">Summer</option>
+            <option value="Spring">Spring</option>
+            <option value="Winter">Winter</option>
+        </select>
+
+        <label for="filterYear">Year: </label>
+        <input type="number" name="filterYear" id="filterYear" placeholder="filter by year" value="">
+        <input type="submit">
+    </form>
     {% for section in rosters.values() %}
         <h1 class="font-bold text-2xl">{{ section.class_title }}</h1>
         <table class="w-full text-sm border-collapse table-fixed gap-4">
