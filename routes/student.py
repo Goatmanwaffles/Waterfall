@@ -4,7 +4,7 @@ from setup import dbserver
 student_blueprint = Blueprint("student", __name__)
 
 @student_blueprint.route("/checkCourses", methods=['POST', 'GET'])
-def checkStudentCourses():
+def checkCourses():
     student_ID = session.get("userID")
 
     #Initial Load to fetch semesters student is enrolled in

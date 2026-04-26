@@ -25,6 +25,7 @@ def loadBlueprints(app):
     app.register_blueprint(classroom_blueprint)
     app.register_blueprint(course_blueprint)
     app.register_blueprint(section_blueprint)
+    app.register_blueprint(time_slot_blueprint)
 
     app.register_blueprint(dashboard_blueprint)
     app.register_blueprint(profile_blueprint)
