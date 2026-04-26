@@ -208,3 +208,13 @@ def edit_student():
 
     return render_template("edit_student.html", students=students, departments=departments, advisors=advisors)
 
+#STUDENT CHECK FINAL GRADES
+#Probably should filter to only before this semester AKA final grades
+@student_blueprint.route("/finalGrades", methods=['GET'])
+def getFinalGrades():
+    student_ID = session.get("userID")
+    cursor = dbserver.cursor()
+    cursor.execute("SELECT c.title, t.grades FROM takes t JOIN section s ON t.section_ID = s.section_ID JOIN course c on c.course_ID = s.course_ID WHERE t.student_ID = %s AND s.year < 2026 AND t.grades != ''", [student_ID])
+    grades = cursor.fetchall()
+    cursor.close()
+    return render_template("finalGrades.html", grades=grades)

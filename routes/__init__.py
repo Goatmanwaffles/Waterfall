@@ -9,6 +9,11 @@ from routes.course import course_blueprint
 from routes.section import section_blueprint
 from routes.time_slot import time_slot_blueprint
 
+from routes.dashboard import dashboard_blueprint
+from routes.profile import profile_blueprint
+from routes.teaches import teaches_blueprint
+from routes.advisor import advisor_blueprint
+
 mainBp = Blueprint("main", __name__)
 
 # Loads all of the blueprints
@@ -20,3 +25,8 @@ def loadBlueprints(app):
     app.register_blueprint(classroom_blueprint)
     app.register_blueprint(course_blueprint)
     app.register_blueprint(section_blueprint)
+
+    app.register_blueprint(dashboard_blueprint)
+    app.register_blueprint(profile_blueprint)
+    app.register_blueprint(teaches_blueprint)
+    app.register_blueprint(advisor_blueprint)
