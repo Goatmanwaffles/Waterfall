@@ -171,9 +171,13 @@ def randomNumeric(table, column, datatype):
     elif (table == "student" and column == "total_cred"):
         minimum = 0
         maximum = 240
-    elif (table == "classroom" and column == "room_number"):
-        minimum = 0
-        maximum = 999
+    elif (table == "classroom"):
+        if column == "room_number":
+            minimum = 0
+            maximum = 999
+        elif column == "capacity":
+            minimum = 1 
+            maximum = 999 
     
     
     integer = str(randint(minimum, maximum))
