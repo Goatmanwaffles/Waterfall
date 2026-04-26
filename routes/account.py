@@ -99,3 +99,6 @@ def account():
         cursor.close()
         return redirect(url_for('dash'))
     
+@account_blueprint.route("/unauthorized")
+def unauthorized():
+    return render_template("unauthorized.html")
