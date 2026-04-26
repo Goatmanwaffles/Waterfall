@@ -25,10 +25,14 @@
         </div>
 
         <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
-            <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Account Management</h1>
+            <h1 class="font-bold text-2xl text-blue-600 mb-2 text-center">Account Management</h1>
             <div class="flex flex-col gap-4">
-                <a class="hover:underline" href="{{url_for('advisor.modifyAdvisingRoster')}}">View your advisors information</a>
-                <a class="hover:underline" href="{{url_for('account.account')}}">Modify account info</a>
+                <a class="flex flex-col" href="{{url_for('advisor.modifyAdvisingRoster')}}">
+                  <button class="btn">View your advisors information</button>
+                </a>
+                <a class="flex flex-col" href="{{url_for('account.account')}}">
+                  <button class="btn">Modify account info</button>
+                </a>
             </div>
         </div>
         <!--INSTRUCTOR-->
@@ -37,24 +41,24 @@
         <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
             <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Class Manager</h1>
             <div class="flex flex-col gap-4">
-                <a class="hover:underline" href="">Edit Grades</a>
-                <a class="hover:underline" href="{{url_for('instructor.edit_prereqs')}}">Modify Course Prereqs</a>
-                <a class="hover:underline">View Class Rosters</a>
-                <a class="hover:underline">Check Sections</a>
+                <a class="flex flex-col" href="">Edit Grades</a>
+                <a class="flex flex-col" href="{{url_for('instructor.edit_prereqs')}}">Modify Course Prereqs</a>
+                <a class="flex flex-col">View Class Rosters</a>
+                <a class="flex flex-col">Check Sections</a>
             </div>
         </div>
 
         <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
             <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Student Management</h1>
             <div class="flex flex-col gap-4">
-                <a class="hover:underline" href="">Modify Advising Roster</a>
+                <a class="flex flex-col" href="">Modify Advising Roster</a>
             </div>
         </div>
 
         <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
             <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Account Management</h1>
             <div class="flex flex-col gap-4">
-                <a class="hover:underline" href="{{url_for('account.account')}}">Modify account info</a>
+                <a class="flex flex-col" href="{{url_for('account.account')}}">Modify account info</a>
             </div>
         </div>
         <!--ADMINISTRATOR-->
@@ -63,27 +67,29 @@
         <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
             <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Administrative Actions</h1>
             <div class="flex flex-col gap-4">
-              <a class="hover:underline" href="{{url_for('course.edit_course')}}">Edit Classes</a>
-                <a class="hover:underline" href="{{url_for('section.edit_section')}}">Edit Sections</a>
-                <a class="hover:underline" href="{{url_for('classroom.edit_classroom')}}">Edit Classrooms</a>
-                <a class="hover:underline" href="{{url_for('department.edit_department')}}">Edit Departments</a>
-                <a class="hover:underline" href="{{url_for('time_slot.edit_time_slot')}}">Edit Time Slots</a>
-                <a class="hover:underline" href="{{url_for('instructor.edit_instructor')}}">Edit Instructors</a>
-                <a class="hover:underline" href="{{url_for('student.edit_student')}}">Edit Students</a>
+              <a class="flex flex-col" href="{{url_for('course.edit_course')}}">Edit Classes</a>
+                <a class="flex flex-col" href="{{url_for('section.edit_section')}}">
+                  <button>Edit Sections</button>
+                </a>
+                <a class="flex flex-col" href="{{url_for('classroom.edit_classroom')}}">Edit Classrooms</a>
+                <a class="flex flex-col" href="{{url_for('department.edit_department')}}">Edit Departments</a>
+                <a class="flex flex-col" href="{{url_for('time_slot.edit_time_slot')}}">Edit Time Slots</a>
+                <a class="flex flex-col" href="{{url_for('instructor.edit_instructor')}}">Edit Instructors</a>
+                <a class="flex flex-col" href="{{url_for('student.edit_student')}}">Edit Students</a>
             </div>
         </div>
 
         <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
             <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Class Actions</h1>
             <div class="flex flex-col gap-4">
-                <a class="hover:underline" href="{{url_for('teaches.edit_teaches')}}">Modify Class Instructors</a>
+                <a class="flex flex-col" href="{{url_for('teaches.edit_teaches')}}">Modify Class Instructors</a>
             </div>
         </div>
 
         <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
             <h1 class="font-bold text-2xl text-blue-600 underline underline-blue-600">Account Management</h1>
             <div class="flex flex-col gap-4">
-                <a class="hover:underline" href="{{url_for('account.account')}}">Modify account info</a>
+                <a class="flex flex-col" href="{{url_for('account.account')}}">Modify account info</a>
             </div>
         </div>
 
