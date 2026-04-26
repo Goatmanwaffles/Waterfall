@@ -115,9 +115,22 @@ def account():
                 [accountID]
             )
 
-        user = cursor.fetchone()
+        row = cursor.fetchone()
+        info = []
+        if not role == "Administrator":
+            info.append(row[0])
+            info.append(row[1])
+            info.append(row[2])
+
+        if role == "Administrator":
+            info.append("ADMIN")
+            info.append("ADMIN")
+            info.append("ADMIN")
+
+
+
         cursor.close()
-        return render_template("profile.html", user=user, role=role)
+        return render_template("profile.html", user=info, role=role)
     
 
     if request.method == 'POST':
