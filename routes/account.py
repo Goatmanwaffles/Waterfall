@@ -97,7 +97,7 @@ def account():
         
         dbserver.commit()
         cursor.close()
-        return redirect(url_for('dash'))
+        return redirect(url_for('dashboard.dash'))
  
 @account_blueprint.route("/unauthorized")
 def unauthorized():
