@@ -36,9 +36,64 @@
             <!-- Dashboard Button -->
             <a href="{{url_for('dashboard.dash')}}" aria-current="page" class="rounded-md bg-[#ff922f] px-3 py-2 text-sm font-medium text-white">Dashboard</a>
             
+            <!-- Student Dropdowns -->
+            <!-- --------------------------------------------------- -->
+            {% if session.role == 'Student' %}
+
+            <!-- Class Manager Dropdown -->
+            <el-dropdown class="relative ml-3">
+              <button class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+               <span class="absolute -inset-1.5"></span>
+                 <div aria-current="page" class="rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white">
+                   Class Manager
+                 </div>
+              </button>
+
+              <!-- Dropdown Options -->
+              <el-menu anchor="bottom end" popover class="drop">
+                <a href="{{url_for('takes.register')}}" class="drop-item">
+                 Register for classes
+                </a>
+                <a href="{{url_for('takes.dropClass')}}" class="drop-item">
+                  Drop a Class
+                </a>
+                <a href="{{url_for('student.getFinalGrades')}}" class="drop-item">
+                  View Final Grade
+                </a>
+                <a href="{{url_for('student.checkCourses')}}" class="drop-item">
+                  Course Catalog
+                </a>
+              </el-menu>
+            </el-dropdown>
+
+            <!-- Account Management Dropdown -->
+            <el-dropdown class="relative ml-3">
+              <button class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+               <span class="absolute -inset-1.5"></span>
+                 <div aria-current="page" class="rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white">
+                   Account Management
+                 </div>
+              </button>
+
+              <!-- Dropdown Options -->
+              <el-menu anchor="bottom end" popover class="drop">
+                <a href="{{url_for('advisor.modifyAdvisingRoster')}}" class="drop-item">
+                 View your advisors information
+                </a>
+                <a href="{{url_for('account.account')}}" class="drop-item">
+                  Modify account info
+                </a>
+              </el-menu>
+            </el-dropdown>
+
+            <!-- Instructor Dropdowns -->
+            <!-- --------------------------------------------------- -->
+            {% elif session.role == 'Instructor' %}
+
+
             <!-- Administrator Dropdowns -->
             <!-- --------------------------------------------------- -->
-            {% if session.role == 'Administrator' %}
+            {% elif session.role == 'Administrator' %}
             <!-- Admin Actions Dropdown -->
             <el-dropdown class="relative ml-3">
               <button class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
