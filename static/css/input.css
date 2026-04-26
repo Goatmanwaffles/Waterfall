@@ -5,4 +5,11 @@
   .btn {
     @apply m-1 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer;
   }
+  .drop {
+    @apply w-48 origin-top-right rounded-md bg-gray-800 py-1 outline -outline-offset-1 outline-white/10 transition transition-discrete [--anchor-gap:--spacing(2)] data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in
+  }
+  .drop-item {
+    @apply block px-4 py-2 text-sm text-gray-300 focus:bg-white/5 focus:outline-hidden
+  }
 }
+
