@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, session, Blueprint
-from setup import makeDatabase, runSQL, generateSeedData, resetDatabase, dbserver
+from flask import Flask, render_template, request, redirect, url_for, session
+from setup import makeDatabase, runSQL, generateSeedData, resetDatabase
 from flask_session import Session
 import config
 import pymysql
@@ -11,6 +11,13 @@ app = Flask(__name__)
 # This code will reset the database on run
 resetDatabase()
 
+dbserver = pymysql.connect(
+    host     = config.HOST,
+    user     = config.USER,
+    password = config.PASSWORD,
+    database = config.DB_NAME
+)
+
 cursor = dbserver.cursor()
 
 app.config["SESSION_PERMANENT"] = False     # Sessions expire when the browser is closed
@@ -19,7 +26,6 @@ app.config["SESSION_TYPE"] = "filesystem"     # Store session data in files
 # Initialize Flask-Session
 Session(app)
 
-loadBlueprints(app)
 
 @app.route("/", methods=['POST', 'GET'])
 def login():
@@ -59,6 +65,36 @@ def login():
             cursor.close()
             return redirect(url_for('dash'))
 
+@app.route("/signup", methods=['POST', 'GET'])
+def signup():
+    if request.method == "GET":
+        return render_template("signup.html")
+    #Handle Signup
+    if request.method =="POST":
+        username = request.form['username']
+        password = request.form['password']
+        confirmPassword = request.form['confirmPassword']
+        firstName = request.form['firstName']
+        lastName = request.form['lastName']
+
+        if not username or not password or not confirmPassword or not firstName or not lastName:
+            return render_template("signup.html", error="Missing Field")
+        
+        if password != confirmPassword:
+            return render_template("signup.html", error="Passwords do not match")
+        
+        #Salt and Hash password
+        password_bytes = password.encode('utf-8')
+        s = bcrypt.gensalt()
+        h = bcrypt.hashpw(password_bytes, s)
+
+        cursor = dbserver.cursor()
+        cursor.execute(f"CALL create_account(%s, %s, 'Student')", (username, h))
+        cursor.execute("INSERT INTO student s(s.first_name, s.last_name)")
+        cursor.close()
+        dbserver.commit()
+
+        return redirect(url_for('login'))
 
 @app.route("/dashboard")
 def dash():
