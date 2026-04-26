@@ -1,0 +1,35 @@
+{% extends '/include/layout.html' %}
+{% include '/include/navbar.html' %}
+{% block content %}
+<div class="h-full w-full bg-blue-200">
+    {% for section in rosters.values() %}
+        <h1 class="font-bold text-2xl">{{ section.class_title }}</h1>
+        <table class="w-full text-sm border-collapse table-fixed gap-4">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in section.students %}
+                    <tr>
+                        <td class="text-center">{{ student.name }}</td>
+                        <td class="text-center">{{ student.grade }}</td>
+                        {% if section.year >= 2026 %}
+                        <td>
+                            <form method="POST">
+                                <input type="hidden" name="action" value="remove">
+                                <input type="hidden" name="student_ID" value="{{ student.ID }}">
+                                <input type="hidden" name="section_ID" value="{{ section.section_ID }}">
+                                <input type="submit">
+                            </form>
+                        </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
+</div>
+{% endblock %}

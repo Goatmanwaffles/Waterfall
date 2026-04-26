@@ -182,3 +182,48 @@ def edit_prereqs():
         dbserver.commit()
         cursor.close()
         return redirect(url_for("instructor.edit_prereqs"))
+    
+#VIEW AND EDIT CLASS ROSTERS
+@instructor_blueprint.route("/classRosters", methods=['GET', 'POST'])
+def editRosters():
+    if request.method == 'GET':
+        cursor = dbserver.cursor()
+        instructor_ID = session.get("userID")
+        cursor.execute(""" SELECT s.first_name, s.last_name, t.grades, sc.semester, sc.year, c.title, sc.section_ID, s.student_ID
+                       FROM student s
+                       JOIN takes t ON t.student_ID = s.student_ID
+                       JOIN section sc ON sc.section_ID = t.section_ID
+                       JOIN course c ON sc.course_ID = c.course_ID
+                       JOIN teaches te ON te.section_ID = sc.section_ID AND te.instructor_ID = %s
+                       
+        """, [instructor_ID])
+        rows = cursor.fetchall()
+        print(rows)
+        rosters = {}
+        for first, last, grade, semester, year, title, sec_ID, stu_ID in rows:
+            if sec_ID not in rosters:
+                rosters[sec_ID] ={
+                    "section_ID": sec_ID,
+                    "class_title": title,
+                    "semester": semester,
+                    "year": year,
+                    "students": []
+                }
+            
+            rosters[sec_ID]["students"].append({
+                "ID": stu_ID,
+                "name": f"{first} {last}",
+                "grade": grade
+            })
+
+        cursor.close()
+        return render_template("rosters.html", rosters=rosters)
+    
+    if request.method == 'POST':
+        cursor = dbserver.cursor()
+        student = request.form['student_ID']
+        section = request.form['section_ID']
+        cursor.execute("DELETE FROM takes WHERE student_ID = %s AND section_ID = %s", [student, section])
+        dbserver.commit()
+        cursor.close()
+        return redirect(url_for("instructor.editRosters"))
