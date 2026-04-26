@@ -157,3 +157,9 @@ def account():
 @account_blueprint.route("/unauthorized")
 def unauthorized():
     return render_template("unauthorized.html")
+
+@account_blueprint.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for('account.login'))
+
