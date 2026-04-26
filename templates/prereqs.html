@@ -2,6 +2,38 @@
 {% include '/include/navbar.html' %}
 {% block content %}
 <div class="h-full w-full bg-blue-200">
-    <p>HELLO</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Course:</th>
+                <th>PreReq:</th>
+                <th>Update Requirements:</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses.values() %}
+                <tr>
+                    <td>{{ course.title }}</td>
+                    <td>
+                        {% for prereq in course.prereqs %}
+                            <p>{{ prereq.prereq_title }}</p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <form method="POST">
+                            <input type="hidden" name="action" id="action" value="update">
+                            <input tyoe="hidden" name="courseID" id="courseID" value="{{ course.ID }}">
+                            <select name="newPrereq" id="newPrereq">
+                                {% for course in listCourses.values() %}
+                                    <option value="{{ course.ID }}">{{ course.title }}</option>
+                                {% endfor %}
+                            </select>
+                            <input type="submit">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

@@ -128,3 +128,57 @@ def instructorGrades():
         dbserver.commit()
         cursor.close()
         return redirect(url_for('instructor.instructorGrades'))
+
+#EDIT PREREQS -------------------------------------------------
+@instructor_blueprint.route("/edit_prereqs", methods=['GET', 'POST'])
+def edit_prereqs():
+    if request.method =='GET':
+        cursor = dbserver.cursor()
+        instructor_ID = session.get("userID")
+
+        cursor.execute("""SELECT c.course_ID, c.title, pc.course_ID, pc.title
+                       FROM course c
+                       JOIN section s ON c.course_ID = s.course_ID 
+                       JOIN teaches t ON t.section_ID = s.section_ID AND t.instructor_ID = %s
+                       LEFT JOIN prereq p ON p.base_course_ID = c.course_ID
+                       LEFT JOIN course pc ON p.requires_course_ID = pc.course_ID
+                       """, [instructor_ID])
+        rows = cursor.fetchall()
+        courses = {}
+        for course_ID, course_title, prereq_ID, prereq_title in rows:
+            if course_ID not in courses:
+                courses[course_ID] = {
+                    "ID": course_ID,
+                    "title": course_title,
+                    "prereqs": []
+                }
+
+            if prereq_ID:
+                courses[course_ID]["prereqs"].append({
+                    "prereq_ID": prereq_ID,
+                    "prereq_title": prereq_title
+                })
+
+        #Fetch all courses for updating prereqs
+        cursor.execute("""SELECT c.title, c.course_ID
+                        FROM course c
+        """)
+        rows = cursor.fetchall()
+        listCourses = {}
+        for title, cID in rows:
+            listCourses[cID]= {
+                "title": title,
+                "ID": cID
+            }
+        cursor.close()
+        return render_template("prereqs.html", courses=courses, listCourses=listCourses)
+    
+    if request.method == 'POST':
+        #Currently only works for 1 prereq
+        courseID = request.form['courseID']
+        newPrereq = request.form['newPrereq']
+        cursor=dbserver.cursor()
+        cursor.execute("UPDATE prereq SET requires_course_ID = %s WHERE base_course_ID = %s",[newPrereq, courseID])
+        dbserver.commit()
+        cursor.close()
+        return redirect(url_for("instructor.edit_prereqs"))
