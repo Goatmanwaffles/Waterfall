@@ -90,6 +90,65 @@
             <!-- --------------------------------------------------- -->
             {% elif session.role == 'Instructor' %}
 
+            <!-- Class Manager Dropdown -->
+            <el-dropdown class="relative ml-3">
+              <button class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+               <span class="absolute -inset-1.5"></span>
+                 <div aria-current="page" class="rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white">
+                   Class Manager
+                 </div>
+              </button>
+
+              <!-- Dropdown Options -->
+              <el-menu anchor="bottom end" popover class="drop">
+                <a href="" class="drop-item">
+                  Edit Grades 
+                </a>
+                <a href="{{url_for('instructor.edit_prereqs')}}" class="drop-item">
+                  Modify Course Prereqs
+                </a>
+                <a href="" class="drop-item">
+                  View Class Rosters
+                </a>
+                <a href="" class="drop-item">
+                  Check Sections
+                </a>
+              </el-menu>
+            </el-dropdown>
+            
+            <!-- Class Manager Dropdown -->
+            <el-dropdown class="relative ml-3">
+              <button class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+               <span class="absolute -inset-1.5"></span>
+                 <div aria-current="page" class="rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white">
+                   Student Management
+                 </div>
+              </button>
+
+              <!-- Dropdown Options -->
+              <el-menu anchor="bottom end" popover class="drop">
+                <a href="" class="drop-item">
+                  Modify Advising Roster
+                </a>
+              </el-menu>
+            </el-dropdown>
+            
+            <!-- Class Manager Dropdown -->
+            <el-dropdown class="relative ml-3">
+              <button class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+               <span class="absolute -inset-1.5"></span>
+                 <div aria-current="page" class="rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white">
+                   Account Management
+                 </div>
+              </button>
+
+              <!-- Dropdown Options -->
+              <el-menu anchor="bottom end" popover class="drop">
+                <a href="{{url_for('account.account')}}" class="drop-item">
+                  Modify account info
+                </a>
+              </el-menu>
+            </el-dropdown>
 
             <!-- Administrator Dropdowns -->
             <!-- --------------------------------------------------- -->
