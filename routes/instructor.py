@@ -7,7 +7,7 @@ instructor_blueprint = Blueprint("instructor", __name__)
 def edit_instructor():
     # Keep this page restricted to administrators.
     if session.get("role") != "Administrator":
-        return redirect(url_for("unauthorized"))
+        return redirect(url_for("account.unauthorized"))
 
     cursor = dbserver.cursor()
 
@@ -46,7 +46,7 @@ def edit_instructor():
 
         # Redirect after POST to avoid duplicate form submissions on refresh
         cursor.close()
-        return redirect(url_for("edit_instructor"))
+        return redirect(url_for("instructor.edit_instructor"))
 
     # Load current data for dropdowns/table rendering.
     cursor.execute(
@@ -127,4 +127,4 @@ def instructorGrades():
 """,[newGrade, student_ID, section_ID])
         dbserver.commit()
         cursor.close()
-        return redirect(url_for('instructorGrades'))
+        return redirect(url_for('instructor.instructorGrades'))

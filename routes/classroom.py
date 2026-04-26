@@ -6,7 +6,7 @@ classroom_blueprint = Blueprint("classroom", __name__)
 @classroom_blueprint.route("/edit_classroom", methods=["GET", "POST"])
 def edit_classroom():
     if session.get("role") != "Administrator":
-        return redirect(url_for("unauthorized"))
+        return redirect(url_for("account.unauthorized"))
 
     cursor = dbserver.cursor()
 
@@ -48,7 +48,7 @@ def edit_classroom():
             dbserver.commit()
 
         cursor.close()
-        return redirect(url_for("edit_classroom"))
+        return redirect(url_for("classroom.edit_classroom"))
 
     cursor.execute(
         """
@@ -75,4 +75,3 @@ def edit_classroom():
         classrooms=classrooms,
         buildings=buildings,
     )
-

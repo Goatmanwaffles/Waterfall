@@ -25,7 +25,7 @@ if __name__ == "__main__":
     print("\n--- Students Before ---")
     printQuery(cursor, "CALL get_students()")
         
-    cursor.execute("CALL create_student('Jane', 'Doe', 'CS', 0, 'TJ', 'Smith', 'BIO')")
+    cursor.execute("CALL create_student('Jane', 'Doe', 'CS', 0, 1)")
     dbserver.commit()
 
     cursor.execute("Call update_student(1,'Cal','Stanberry','CS',168,1)")

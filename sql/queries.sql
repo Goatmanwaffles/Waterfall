@@ -69,9 +69,7 @@ CREATE PROCEDURE create_student(
     IN temp_last_name varchar(20),
     IN temp_department_name VARCHAR(20),
     IN temp_total_credits NUMERIC (3,0),
-    IN temp_advisor_first_name varchar(20),
-    IN temp_advisor_last_name varchar(20),
-    IN temp_advisor_department_name varchar(20)
+    IN temp_advisor_ID int
 )
 BEGIN
     INSERT INTO student (
@@ -86,15 +84,7 @@ BEGIN
         temp_last_name,
         (SELECT department_ID FROM department WHERE department_name = temp_department_name), 
         temp_total_credits,
-        (
-            SELECT advisor_ID FROM advisor
-            WHERE first_name = temp_advisor_first_name
-                AND last_name = temp_advisor_last_name
-                AND department_ID = (
-                    SELECT department_ID FROM department 
-                    WHERE department_name = temp_advisor_department_name
-                )
-        )
+        temp_advisor_ID
     );
 END;;
 

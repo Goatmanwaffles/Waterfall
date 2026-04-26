@@ -6,7 +6,7 @@ time_slot_blueprint = Blueprint("time_slot", __name__)
 @time_slot_blueprint.route("/edit_time_slot", methods=["GET", "POST"])
 def edit_time_slot():
     if session.get("role") != "Administrator":
-        return redirect(url_for("unauthorized"))
+        return redirect(url_for("account.unauthorized"))
 
     cursor = dbserver.cursor()
 
@@ -57,7 +57,7 @@ def edit_time_slot():
             dbserver.commit()
 
         cursor.close()
-        return redirect(url_for("edit_time_slot"))
+        return redirect(url_for("time_slot.edit_time_slot"))
 
     cursor.execute(
         """
@@ -80,4 +80,3 @@ def edit_time_slot():
         "edit_time_slot.html",
         time_slots=time_slots,
     )
-

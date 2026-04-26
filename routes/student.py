@@ -110,7 +110,7 @@ def student_search(id="", first="", last=""):
 def edit_student():
     # Keep this page restricted to administrators.
     if session.get("role") != "Administrator":
-        return redirect(url_for("unauthorized"))
+        return redirect(url_for("account.unauthorized"))
 
     cursor = dbserver.cursor()
 
@@ -125,29 +125,10 @@ def edit_student():
             total_cred = (request.form.get("total_cred") or "0").strip()
             advisor_id = (request.form.get("advisor_id") or "").strip()
 
-            advisor_first_name = ""
-            advisor_last_name = ""
-            advisor_department_name = ""
+            advisor_id_value = int(advisor_id) if advisor_id else None
 
-            # create_student uses advisor name and advisor department
-            if advisor_id:
-                cursor.execute(
-                    """
-                    SELECT a.first_name, a.last_name, d.department_name
-                    FROM advisor a
-                    JOIN department d ON d.department_ID = a.department_ID
-                    WHERE a.advisor_ID = %s
-                    """,
-                    (advisor_id,),
-                )
-                advisor_row = cursor.fetchone()
-                if advisor_row:
-                    advisor_first_name = advisor_row[0]
-                    advisor_last_name = advisor_row[1]
-                    advisor_department_name = advisor_row[2]
-
-            cursor.execute("CALL create_student(%s, %s, %s, %s, %s, %s, %s)",
-                (first_name, last_name, department_name, total_cred, advisor_first_name, advisor_last_name, advisor_department_name))
+            cursor.execute("CALL create_student(%s, %s, %s, %s, %s)",
+                (first_name, last_name, department_name, total_cred, advisor_id_value))
             
             dbserver.commit()
 
@@ -174,15 +155,15 @@ def edit_student():
 
         # Redirect after POST to avoid duplicate form submissions on refresh
         cursor.close()
-        return redirect(url_for("edit_student"))
+        return redirect(url_for("student.edit_student"))
 
     # Load current data for dropdowns/table rendering.
     cursor.execute(
         """
-        SELECT s.student_ID, s.first_name, s.last_name, d.department_name, s.total_cred, a.advisor_ID, CONCAT(a.first_name, ' ', a.last_name)
+        SELECT s.student_ID, s.first_name, s.last_name, d.department_name, s.total_cred, i.instructor_ID, CONCAT(i.first_name, ' ', i.last_name)
         FROM student s
         LEFT JOIN department d ON d.department_ID = s.department_ID
-        LEFT JOIN advisor a ON a.advisor_ID = s.advisor_ID
+        LEFT JOIN instructor i ON i.instructor_ID = s.advisor_ID
         ORDER BY s.student_ID
         """
     )
@@ -195,10 +176,10 @@ def edit_student():
 
     cursor.execute(
         """
-        SELECT a.advisor_ID, a.first_name, a.last_name, d.department_name
-        FROM advisor a
-        LEFT JOIN department d ON d.department_ID = a.department_ID
-        ORDER BY a.advisor_ID
+        SELECT i.instructor_ID, i.first_name, i.last_name, d.department_name
+        FROM instructor i
+        LEFT JOIN department d ON d.department_ID = i.department_ID
+        ORDER BY i.instructor_ID
         """
     )
     advisors = cursor.fetchall()
