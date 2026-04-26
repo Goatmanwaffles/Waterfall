@@ -98,3 +98,4 @@ def edit_section():
         buildings=buildings,
         time_slots=time_slots,
     )
+

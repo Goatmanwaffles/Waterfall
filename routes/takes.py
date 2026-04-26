@@ -35,6 +35,7 @@ def register():
         cursor.close()
         return render_template("register.html", sections=sections)
 
+
 #Allows Dropping of classes
 #Also works just need real user ID and some polish like better year
 @takes_blueprint.route("/drop", methods=['POST', 'GET'])
@@ -58,3 +59,5 @@ def dropClass():
             dbserver.commit()
         cursor.close()
         return redirect(url_for('dash'))
+        
+

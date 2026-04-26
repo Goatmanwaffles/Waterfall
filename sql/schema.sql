@@ -45,15 +45,15 @@ CREATE TABLE IF NOT EXISTS account (
 );;
 
 -- Advisor
-CREATE TABLE IF NOT EXISTS advisor (
-    advisor_ID      INT AUTO_INCREMENT PRIMARY KEY,
-    first_name      VARCHAR(20),
-    last_name       VARCHAR(20),
-    department_ID   INT,
-    UNIQUE(first_name, last_name, department_ID), -- Makes sure the queries work
-    FOREIGN KEY (department_ID) REFERENCES department(department_ID)
-        ON DELETE SET NULL
-);;
+-- CREATE TABLE IF NOT EXISTS advisor (
+--     advisor_ID      INT AUTO_INCREMENT PRIMARY KEY,
+--     first_name      VARCHAR(20),
+--     last_name       VARCHAR(20),
+--     department_ID   INT,
+--     UNIQUE(first_name, last_name, department_ID), -- Makes sure the queries work
+--     FOREIGN KEY (department_ID) REFERENCES department(department_ID)
+--         ON DELETE SET NULL
+-- );;
 
 -- Course
 CREATE TABLE IF NOT EXISTS course (
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS student (
     account_ID      INT,
     FOREIGN KEY (department_ID) REFERENCES department(department_ID)
         ON DELETE SET NULL,
-    FOREIGN KEY (advisor_ID) REFERENCES advisor (advisor_ID)
+    FOREIGN KEY (advisor_ID) REFERENCES instructor (instructor_ID)
         ON DELETE SET NULL,
     FOREIGN KEY (account_ID) REFERENCES account (account_ID)
         ON DELETE SET NULL
@@ -150,9 +150,9 @@ CREATE TABLE IF NOT EXISTS takes (
 -- Advises
 CREATE TABLE IF NOT EXISTS advises (
     student_ID            INT,
-    advisor_ID            INT,
+    instructor_ID            INT,
     PRIMARY KEY (student_ID),
-    FOREIGN KEY (advisor_ID) REFERENCES advisor (advisor_ID)
+    FOREIGN KEY (instructor_ID) REFERENCES instructor (instructor_ID)
         ON DELETE SET NULL,
     FOREIGN KEY (student_ID) REFERENCES student (student_ID)
         ON DELETE CASCADE

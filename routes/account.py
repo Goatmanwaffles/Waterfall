@@ -40,7 +40,7 @@ def login():
             session["userID"] = Id #Store user ID, Either Student, Instructor, or Admin
             session["accountID"] = row[3]
             cursor.close()
-            return redirect(url_for('dash'))
+            return redirect(url_for('dashboard.dash'))
 
 @account_blueprint.route("/signup", methods=['POST', 'GET'])
 def signup():
@@ -98,7 +98,8 @@ def account():
         dbserver.commit()
         cursor.close()
         return redirect(url_for('dash'))
-    
+ 
 @account_blueprint.route("/unauthorized")
 def unauthorized():
     return render_template("unauthorized.html")
+

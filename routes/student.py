@@ -30,7 +30,7 @@ def checkStudentCourses():
 
         cursor.close()
         return render_template("checkCoursesResults.html", courses=courses)
-   
+    
 
 # Student Search
 @student_blueprint.route("/student_search", methods=["GET", "POST"])
@@ -105,7 +105,6 @@ def student_search(id="", first="", last=""):
         first=first,
         last=last
     )
-
 
 @student_blueprint.route("/edit_student", methods=["GET", "POST"])
 def edit_student():
@@ -208,6 +207,7 @@ def edit_student():
 
     return render_template("edit_student.html", students=students, departments=departments, advisors=advisors)
 
+
 #STUDENT CHECK FINAL GRADES
 #Probably should filter to only before this semester AKA final grades
 @student_blueprint.route("/finalGrades", methods=['GET'])
@@ -218,3 +218,6 @@ def getFinalGrades():
     grades = cursor.fetchall()
     cursor.close()
     return render_template("finalGrades.html", grades=grades)
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=5000, debug=True)

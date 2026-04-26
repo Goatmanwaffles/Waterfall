@@ -68,7 +68,6 @@ def edit_instructor():
 
     return render_template("edit_instructor.html", instructors=instructors, departments=departments)
 
-
 #INSTRUCTOR STUFF
 #--------------------------------------------------------------
 #Instructor Grade Updating
@@ -129,4 +128,3 @@ def instructorGrades():
         dbserver.commit()
         cursor.close()
         return redirect(url_for('instructorGrades'))
-

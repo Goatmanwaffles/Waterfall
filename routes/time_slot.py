@@ -80,3 +80,4 @@ def edit_time_slot():
         "edit_time_slot.html",
         time_slots=time_slots,
     )
+
