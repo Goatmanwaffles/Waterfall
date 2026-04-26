@@ -22,7 +22,7 @@
                     <td>
                         <form method="POST">
                             <input type="hidden" name="action" id="action" value="update">
-                            <input tyoe="hidden" name="courseID" id="courseID" value="{{ course.ID }}">
+                            <input type="hidden" name="courseID" id="courseID" value="{{ course.ID }}">
                             <select name="newPrereq" id="newPrereq">
                                 {% for course in listCourses.values() %}
                                     <option value="{{ course.ID }}">{{ course.title }}</option>

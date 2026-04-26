@@ -21,9 +21,6 @@ def checkCourses():
         semesterYear = request.form['semester']
         semester, year = semesterYear.split(',')
 
-
-        #IDK WHAT THE RUBRIC MEANS BY STATUS
-
         cursor = dbserver.cursor()
         cursor.execute("SELECT c.title, t.grades FROM takes t JOIN section s ON t.section_ID = s.section_ID JOIN course c on c.course_ID = s.course_ID WHERE t.student_ID = %s AND s.semester = %s AND s.year = %s ",[student_ID, semester, year])
         courses = cursor.fetchall()
@@ -196,10 +193,33 @@ def edit_student():
 def getFinalGrades():
     student_ID = session.get("userID")
     cursor = dbserver.cursor()
-    cursor.execute("SELECT c.title, t.grades FROM takes t JOIN section s ON t.section_ID = s.section_ID JOIN course c on c.course_ID = s.course_ID WHERE t.student_ID = %s AND s.year < 2026 AND t.grades != ''", [student_ID])
+    cursor.execute("SELECT c.title, t.grades, s.semester, s.year FROM takes t JOIN section s ON t.section_ID = s.section_ID JOIN course c on c.course_ID = s.course_ID WHERE t.student_ID = %s AND s.year < 2026 AND t.grades != ''", [student_ID])
     grades = cursor.fetchall()
     cursor.close()
     return render_template("finalGrades.html", grades=grades)
+
+
+#Check section information
+@student_blueprint.route("/currentSchedule", methods=['GET'])
+def getSectionInfo():
+    student_ID = session.get("userID")
+    cursor = dbserver.cursor()
+    cursor.execute("SELECT s.section_ID, c.title, s.semester, s.year, i.first_name, i.last_name, b.building_name, ti.day, ti.start_hr, ti.start_min, ti.end_hr, ti.end_min FROM takes t JOIN section s ON s.section_ID = t.section_ID LEFT JOIN building b ON b.building_ID = s.building_ID JOIN course c ON c.course_ID = s.course_ID JOIN teaches th ON th.section_ID = s.section_ID JOIN instructor i ON i.instructor_ID = th.instructor_ID join time_slot ti ON ti.time_slot_ID = s.time_slot_ID WHERE t.student_ID = %s", [student_ID])
+    rows = cursor.fetchall()
+    classes = {}
+
+    for section_ID, title, semester, year, first, last, building, day, sthr, stmn, endhr, endmin in rows:
+        classes[section_ID]={
+            "class": title,
+            "semester": semester,
+            "year": year,
+            "name": f"{first} {last}",
+            "building": building,
+            "timeslot": f"{day} - {sthr}:{stmn} - {endhr}:{endmin}" 
+        }
+    
+    return render_template("schedule.html", classes=classes)
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)

@@ -29,11 +29,7 @@ def register():
         dbserver.commit()
 
         #Gets Updated Courses List to filter out course just signed up for
-        cursor = dbserver.cursor()
-        cursor.execute("SELECT c.title, c.credits, s.semester, s.year, s.section_ID FROM section s JOIN course c on s.course_ID = c.course_ID WHERE s.year > 2025 AND NOT EXISTS (SELECT 1 FROM takes t WHERE t.section_ID = s.section_ID AND t.student_ID = %s)",[student_ID])
-        sections = cursor.fetchall()
-        cursor.close()
-        return render_template("register.html", sections=sections)
+        return redirect(url_for("takes.register"))
 
 
 #Allows Dropping of classes

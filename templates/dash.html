@@ -21,13 +21,16 @@
               <a class="flex flex-col" href="{{url_for('student.checkCourses')}}">
                 <button class="btn">Course Catalog</button>
               </a>
+              <a class="flex flex-col" href="{{url_for('student.getSectionInfo')}}">
+                <button class="btn">View Current Schedule</button>
+              </a>
             </div>
         </div>
 
         <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
             <h1 class="font-bold text-2xl text-blue-600 mb-2 text-center">Account Management</h1>
             <div class="flex flex-col gap-4">
-                <a class="flex flex-col" href="{{url_for('advisor.modifyAdvisingRoster')}}">
+                <a class="flex flex-col" href="{{url_for('advisor.getAdvisorInfo')}}">
                   <button class="btn">View your advisors information</button>
                 </a>
                 <a class="flex flex-col" href="{{url_for('account.account')}}">
@@ -41,17 +44,17 @@
         <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
             <h1 class="font-bold text-2xl text-blue-600 mb-2 text-center">Class Manager</h1>
             <div class="flex flex-col gap-4">
-                <a class="flex flex-col" href="">
+                <a class="flex flex-col" href="{{url_for('instructor.instructorGrades')}}">
                   <button class="btn">Edit Grades</button>
                 </a>
                 <a class="flex flex-col" href="{{url_for('instructor.edit_prereqs')}}">
                   <button class="btn">Modify Course Prereqs</button>
                 </a>
-                <a class="flex flex-col">
+                <a class="flex flex-col" href="{{url_for('instructor.editRosters')}}">
                   <button class="btn">View Class Rosters</button>
                 </a>
-                <a class="flex flex-col">
-                  <button class="btn">Check Sections</button>
+                <a class="flex flex-col" href="{{url_for('instructor.assignedClasses')}}">
+                  <button class="btn">Check Assigned Sections</button>
                 </a>
             </div>
         </div>
@@ -59,7 +62,7 @@
         <div class="h-full border border-2 m-4 rounded-xl shadow-xl p-2 bg-gray-100">
             <h1 class="font-bold text-2xl text-blue-600 mb-2 text-center">Student Management</h1>
             <div class="flex flex-col gap-4">
-                <a class="flex flex-col" href="">
+                <a class="flex flex-col" href="{{url_for('advisor.modifyAdvisingRoster')}}">
                   <button class="btn">Modify Advising Roster</button>
                 </a>
             </div>

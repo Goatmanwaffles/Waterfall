@@ -74,7 +74,6 @@ def edit_instructor():
 @instructor_blueprint.route("/instructorGrades", methods=['POST', 'GET'])
 def instructorGrades():
     Id = session.get("userID")
-    print(Id)
     if request.method == 'GET':
         #Pull all taught sections and grades
         cursor = dbserver.cursor()
@@ -276,3 +275,32 @@ def editRosters():
 
         cursor.close()
         return render_template("rosters.html", rosters=rosters)
+    
+#Check Sections Teaching Based on Semster
+@instructor_blueprint.route("/assignedClasses", methods=['GET'])
+def assignedClasses():
+    instructor_ID = session.get("userID")
+    cursor = dbserver.cursor()
+    cursor.execute("""
+                   SELECT s.section_ID, c.title, s.semester, s.year, b.building_name, ti.day, ti.start_hr, ti.start_min, ti.end_hr, ti.end_min
+                   FROM teaches t
+                   JOIN section s ON s.section_ID = t.section_ID
+                   JOIN course c ON s.course_ID = c.course_ID
+                   JOIN time_slot ti ON ti.time_slot_ID = s.time_slot_ID
+                   JOIN building b ON b.building_ID = s.building_ID
+                   WHERE t.instructor_ID = %s
+                   ORDER BY s.year DESC, s.semester, ti.day, ti.start_hr, ti.start_min
+    """,[instructor_ID])
+    rows = cursor.fetchall()
+
+    classes = {}
+
+    for section_ID, title, semester, year, building, day, sthr, stmn, endhr, endmin in rows:
+        classes[section_ID]={
+            "class": title,
+            "semester": semester,
+            "year": year,
+            "building": building,
+            "timeslot": f"{day} - {sthr}:{stmn} - {endhr}:{endmin}" 
+        }
+    return render_template("assignedClasses.html", classes=classes)
