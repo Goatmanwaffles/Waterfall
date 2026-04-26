@@ -36,7 +36,7 @@ def checkCourses():
 @student_blueprint.route("/student_search", methods=["GET", "POST"])
 @student_blueprint.route("/student_search/<string:id>", methods=["GET", "POST"])
 def student_search(id="", first="", last=""):
-
+    
     if request.method == "POST":
         id    = request.form.get("id")
         first = request.form.get("first")
@@ -44,6 +44,7 @@ def student_search(id="", first="", last=""):
 
     # Gets list of all students
     all_stu = ""
+    cursor = dbserver.cursor()
     sql = "SELECT * FROM student"
     cursor.execute(sql)
     all_stu = cursor.fetchall()

@@ -15,7 +15,7 @@ def login():
         username = request.form['username']
         password= request.form['password']
         cursor = dbserver.cursor()
-        cursor.execute("SELECT a.username, a.password, a.role, a.account_ID FROM account a WHERE username = %s", (username))
+        cursor.execute("SELECT a.username, a.password, a.role, a.account_ID FROM account a WHERE username = %s", [username])
         row = cursor.fetchone()
 
         #Convert password into bytes for check
