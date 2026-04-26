@@ -49,7 +49,7 @@ def modifyAdvisingRoster():
             cursor.execute("UPDATE student SET advisor_ID = %s WHERE student_ID = %s", [newAdvisor, student])
             dbserver.commit()
             cursor.close()
-            return redirect(url_for("modifyAdvisingRoster"))
+            return redirect(url_for("advisor.modifyAdvisingRoster"))
         
         elif action == "delete":
             advisorToDelete = request.form['advisorToRemove']
@@ -59,7 +59,7 @@ def modifyAdvisingRoster():
             cursor.execute("DELETE FROM advises WHERE student_ID = %s AND instructor_ID = %s", [student, advisorToDelete])
             dbserver.commit()
             cursor.close()
-            return redirect(url_for("modifyAdvisingRoster"))
+            return redirect(url_for("advisor.modifyAdvisingRoster"))
 
 #STUDENT CHECK ADVISOR
 @advisor_blueprint.route("/advisorInfo", methods=['GET'])
@@ -71,5 +71,4 @@ def getAdvisorInfo():
     advisor = cursor.fetchone()
     cursor.close()
     return render_template("studentAdvisor.html", advisor=advisor)
-
 

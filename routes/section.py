@@ -6,7 +6,7 @@ section_blueprint = Blueprint("section", __name__)
 @section_blueprint.route("/edit_section", methods=["GET", "POST"])
 def edit_section():
     if session.get("role") != "Administrator":
-        return redirect(url_for("unauthorized"))
+        return redirect(url_for("account.unauthorized"))
 
     cursor = dbserver.cursor()
 
@@ -53,7 +53,7 @@ def edit_section():
             dbserver.commit()
 
         cursor.close()
-        return redirect(url_for("edit_section"))
+        return redirect(url_for("section.edit_section"))
 
     cursor.execute(
         """
@@ -98,4 +98,3 @@ def edit_section():
         buildings=buildings,
         time_slots=time_slots,
     )
-

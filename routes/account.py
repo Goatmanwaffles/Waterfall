@@ -66,12 +66,17 @@ def signup():
         h = bcrypt.hashpw(password_bytes, s)
 
         cursor = dbserver.cursor()
-        cursor.execute(f"CALL create_account(%s, %s, 'Student')", (username, h))
-        cursor.execute("INSERT INTO student s(s.first_name, s.last_name)")
+        cursor.execute("CALL create_account(%s, %s, 'Student')", (username, h))
+        cursor.execute("SELECT account_ID FROM account WHERE username = %s", (username,))
+        account_ID = cursor.fetchone()[0]
+        cursor.execute(
+            "INSERT INTO student (first_name, last_name, total_cred, account_ID) VALUES (%s, %s, %s, %s)",
+            (firstName, lastName, 0, account_ID)
+        )
         cursor.close()
         dbserver.commit()
 
-        return redirect(url_for('login'))
+        return redirect(url_for('account.login'))
 
 #MODIFY PERSONAL INFO FOR ALL
 #Need to add password and username change function
@@ -79,21 +84,58 @@ def signup():
 def account():
     role = session.get("role")
     userID = session.get("userID")
+    accountID = session.get("accountID")
+
     if request.method == 'GET':
         cursor = dbserver.cursor()
+
         if role == "Student":
-            cursor.execute("SELECT s.first_name, s.last_name FROM account a JOIN student s on s.account_ID = a.account_ID WHERE s.student_ID = %s", [userID])
+            cursor.execute(
+                """
+                SELECT a.username, s.first_name, s.last_name
+                FROM account a
+                JOIN student s ON s.account_ID = a.account_ID
+                WHERE s.student_ID = %s
+                """,
+                [userID]
+            )
+        elif role == "Instructor":
+            cursor.execute(
+                """
+                SELECT a.username, i.first_name, i.last_name
+                FROM account a
+                JOIN instructor i ON i.account_ID = a.account_ID
+                WHERE i.instructor_ID = %s
+                """,
+                [userID]
+            )
+        elif role == "Administrator":
+            cursor.execute(
+                "SELECT username FROM account WHERE account_ID = %s",
+                [accountID]
+            )
+
         user = cursor.fetchone()
         cursor.close()
-        return render_template("profile.html", user=user)
+        return render_template("profile.html", user=user, role=role)
     
 
     if request.method == 'POST':
-        firstName = request.form["firstName"]
-        lastName = request.form["lastName"]
+        username = request.form["username"]
+        firstName = request.form.get("firstName")
+        lastName = request.form.get("lastName")
+
         cursor = dbserver.cursor()
+
+        cursor.execute(
+            "UPDATE account SET username = %s WHERE account_ID = %s",
+            [username, accountID]
+        )
+
         if role == "Student":
             cursor.execute("UPDATE student SET first_name = %s, last_name = %s WHERE student_ID = %s", [firstName, lastName, userID])
+        elif role == "Instructor":
+            cursor.execute("UPDATE instructor SET first_name = %s, last_name = %s WHERE instructor_ID = %s", [firstName, lastName, userID])
         
         dbserver.commit()
         cursor.close()
@@ -102,4 +144,3 @@ def account():
 @account_blueprint.route("/unauthorized")
 def unauthorized():
     return render_template("unauthorized.html")
-

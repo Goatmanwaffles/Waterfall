@@ -1,0 +1,95 @@
+{% extends '/include/layout.html' %}
+{% include '/include/navbar.html' %}
+
+{% block content %}
+<div class="h-full w-full bg-blue-200 p-4">
+    <div class="m-4 rounded-xl border border-2 bg-gray-100 p-4 shadow-xl">
+        <h1 class="mb-3 text-2xl font-bold text-blue-600 underline underline-blue-600">
+            Edit Departments
+        </h1>
+
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <form method="POST" class="rounded border bg-white p-3">
+                <h2 class="mb-2 text-lg font-bold">Create Department</h2>
+                <input type="hidden" name="action" value="create">
+
+                <label class="mb-1 block text-sm">Department Name</label>
+                <input class="mb-2 w-full rounded border p-1" name="department_name" required>
+
+                <label class="mb-1 block text-sm">Building</label>
+                <select class="mb-2 w-full rounded border p-1" name="building_id">
+                    <option value="">None</option>
+                    {% for building in buildings %}
+                        <option value="{{ building[0] }}">{{ building[0] }} - {{ building[1] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label class="mb-1 block text-sm">Budget</label>
+                <input class="mb-3 w-full rounded border p-1" name="budget" type="number" min="1" step="0.01" value="100000.00" required>
+
+                <button class="rounded bg-blue-600 px-3 py-1 text-white" type="submit">Create</button>
+            </form>
+
+            <form method="POST" class="rounded border bg-white p-3">
+                <h2 class="mb-2 text-lg font-bold">Update Department</h2>
+                <input type="hidden" name="action" value="update">
+
+                <label class="mb-1 block text-sm">Department ID</label>
+                <input class="mb-2 w-full rounded border p-1" name="department_id" type="number" min="1" required>
+
+                <label class="mb-1 block text-sm">Department Name</label>
+                <input class="mb-2 w-full rounded border p-1" name="department_name" required>
+
+                <label class="mb-1 block text-sm">Building</label>
+                <select class="mb-2 w-full rounded border p-1" name="building_id">
+                    <option value="">None</option>
+                    {% for building in buildings %}
+                        <option value="{{ building[0] }}">{{ building[0] }} - {{ building[1] }}</option>
+                    {% endfor %}
+                </select>
+
+                <label class="mb-1 block text-sm">Budget</label>
+                <input class="mb-3 w-full rounded border p-1" name="budget" type="number" min="1" step="0.01" value="100000.00" required>
+
+                <button class="rounded bg-blue-600 px-3 py-1 text-white" type="submit">Update</button>
+            </form>
+
+            <form method="POST" class="rounded border bg-white p-3">
+                <h2 class="mb-2 text-lg font-bold">Delete Department</h2>
+                <input type="hidden" name="action" value="delete">
+
+                <label class="mb-1 block text-sm">Department ID</label>
+                <input class="mb-3 w-full rounded border p-1" name="department_id" type="number" min="1" required>
+
+                <button class="rounded bg-red-600 px-3 py-1 text-white" type="submit">Delete</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="m-4 rounded-xl border border-2 bg-gray-100 p-4 shadow-xl">
+        <h2 class="mb-2 text-xl font-bold text-blue-600 underline underline-blue-600">Departments</h2>
+        <table class="w-full table-fixed border-collapse text-sm">
+            <thead>
+                <tr>
+                    <th class="border p-1">Department ID</th>
+                    <th class="border p-1">Department Name</th>
+                    <th class="border p-1">Building ID</th>
+                    <th class="border p-1">Building Name</th>
+                    <th class="border p-1">Budget</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for department in departments %}
+                    <tr>
+                        <td class="border p-1 text-center">{{ department[0] }}</td>
+                        <td class="border p-1 text-center">{{ department[1] }}</td>
+                        <td class="border p-1 text-center">{{ department[2] or '' }}</td>
+                        <td class="border p-1 text-center">{{ department[3] or '' }}</td>
+                        <td class="border p-1 text-center">{{ department[4] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

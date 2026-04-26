@@ -58,6 +58,5 @@ def dropClass():
             cursor.execute("DELETE FROM takes WHERE section_ID = %s and student_ID = %s",[sec_ID,student_ID])
             dbserver.commit()
         cursor.close()
-        return redirect(url_for('dash'))
+        return redirect(url_for('dashboard.dash'))
         
-

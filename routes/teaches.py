@@ -6,7 +6,7 @@ teaches_blueprint = Blueprint("teaches", __name__)
 @teaches_blueprint.route("/edit_teaches", methods=["GET", "POST"])
 def edit_teaches():
     if session.get("role") != "Administrator":
-        return redirect(url_for("unauthorized"))
+        return redirect(url_for("account.unauthorized"))
 
     cursor = dbserver.cursor()
 
@@ -52,7 +52,7 @@ def edit_teaches():
             dbserver.commit()
 
         cursor.close()
-        return redirect(url_for("edit_teaches"))
+        return redirect(url_for("teaches.edit_teaches"))
 
     cursor.execute(
         """
@@ -101,4 +101,3 @@ def edit_teaches():
         instructors=instructors,
         sections=sections,
     )
-
