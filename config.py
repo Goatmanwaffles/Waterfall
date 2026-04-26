@@ -74,6 +74,7 @@ TABLES = {
     },
     "section": {
         "section_ID": "int AUTO_INCREMENT PRIMARY KEY", 
+        "classroom_ID": "int",
         "course_ID": "int", 
         "semester": "varchar(6)", 
         "year": "numeric(4,0)", 

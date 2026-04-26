@@ -93,6 +93,7 @@ CREATE TABLE IF NOT EXISTS instructor (
 -- Section
 CREATE TABLE IF NOT EXISTS section (
     section_ID         INT AUTO_INCREMENT PRIMARY KEY,
+    classroom_ID       INT,
     course_ID          INT, 
     semester           VARCHAR(6)
         CHECK (semester in ('Fall', 'Winter', 'Spring', 'Summer')), 
