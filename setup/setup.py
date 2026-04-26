@@ -357,6 +357,15 @@ def generateSeedData(tables, schema_filename, seed_filename):
                     elif column == "instructor_ID":
                         data = advises["instructor_ID"]
 
+                elif table == "prereq":
+                    if column == "base_course_ID":
+                        data = i+1
+                    elif column == "requires_course_ID":
+                        reqID = randint(1, 50)
+                        if reqID == i and not 100:
+                            reqID += 1
+                        data = reqID
+
                 elif "int" in datatype:
                     data = i+1
                 elif "varchar" in datatype:
