@@ -24,6 +24,28 @@
         Last Name:
         <input class="bg-white ml-1 pl-2 border rounded-xl" value="{{ user[2] }}" name="lastName">
     </div>
+    <br>
+
+    <!-- Password -->
+    {% if role == "Student" or role == "Instructor" %}
+    <div class="flex items-center justify-center">
+        Password:
+        <input class="bg-white ml-1 pl-2 border rounded-xl" type="password" placeholder="no change" name="pass1">
+    </div>
+    <br>
+    <div class="flex items-center justify-center">
+        Confirm Password:
+        <input class="bg-white ml-1 pl-2 border rounded-xl" type="password" placeholder="no change" name="pass2">
+    </div>
+    {% endif %}
+
+    {% if pass_match == False %}
+      <h3 class="text-red-300">
+        Passwords must match
+      </h3>
+    {% endif %}
+
+    <!-- Submit Button -->
     <div class="flex items-center justify-center">
       <button class="cursor-pointer bg-blue-600 rounded-xl p-2 mt-2 text-white">
         <input class="cursor-pointer" type="submit">

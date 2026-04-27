@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from setup import dbserver
 import bcrypt
 
@@ -86,6 +86,11 @@ def account():
     userID = session.get("userID")
     accountID = session.get("accountID")
 
+    # Sets up password settings
+    pass1 = ""
+    pass2 = ""
+    info = []
+
     if request.method == 'GET':
         cursor = dbserver.cursor()
 
@@ -116,7 +121,6 @@ def account():
             )
 
         row = cursor.fetchone()
-        info = []
         if not role == "Administrator":
             info.append(row[0])
             info.append(row[1])
@@ -128,14 +132,23 @@ def account():
             info.append("ADMIN")
 
         cursor.close()
-        return render_template("profile.html", user=info, role=role)
+        return render_template(
+                "profile.html", 
+                user=info, 
+                role=role,
+            )
     
-
     if request.method == 'POST':
-        username = request.form["username"]
+        username  = request.form["username"]
         firstName = request.form.get("firstName")
-        lastName = request.form.get("lastName")
+        lastName  = request.form.get("lastName")
+        pass1     = request.form.get("pass1")
+        pass2     = request.form.get("pass2")
 
+        if pass1 != pass2: 
+            flash("Passwords must match", "error")
+            return redirect(url_for("account.account"))
+        
         cursor = dbserver.cursor()
 
         cursor.execute(
@@ -143,11 +156,20 @@ def account():
             [username, accountID]
         )
 
-        if role == "Student":
-            cursor.execute("UPDATE student SET first_name = %s, last_name = %s WHERE student_ID = %s", [firstName, lastName, userID])
+        if role == "Student": cursor.execute("UPDATE student SET first_name = %s, last_name = %s WHERE student_ID = %s", [firstName, lastName, userID])
         elif role == "Instructor":
             cursor.execute("UPDATE instructor SET first_name = %s, last_name = %s WHERE instructor_ID = %s", [firstName, lastName, userID])
-        
+
+        password_bytes = pass1.encode('utf-8')
+        s = bcrypt.gensalt()
+        h = bcrypt.hashpw(password_bytes, s)
+       
+        if pass1 != "":
+            cursor.execute(
+                "UPDATE account SET password = %s WHERE account_ID = %s",
+                [h, accountID]
+            )
+
         dbserver.commit()
         cursor.close()
         return redirect(url_for('dashboard.dash'))
