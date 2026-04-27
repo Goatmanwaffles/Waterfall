@@ -34,6 +34,7 @@
                     <tr>
                         <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Student</th>
                         <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Grade</th>
+                        <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Action</th>
                     </tr>
                 </thead>
                 <tbody class="bg-gray-100">
@@ -41,16 +42,16 @@
                         <tr class="border-t border-1 border-blue-100 hover:bg-sky-300">
                             <td class="tracking-wide ml-2">{{ student.name }}</td>
                             <td class="racking-wide ml-2">{{ student.grade }}</td>
-                            {% if section.year >= 2026 %}
                             <td>
+                                {% if section.year >= 2026 %}
                                 <form method="POST">
                                     <input type="hidden" name="action" value="remove">
                                     <input type="hidden" name="student_ID" value="{{ student.ID }}">
                                     <input type="hidden" name="section_ID" value="{{ section.section_ID }}">
-                                    <input type="submit">
+                                    <button type="submit" class="p-1 m-1 bg-blue-400 rounded-xl text-center font-bold border border-blue-600 border-2 hover:border-red-600 hover:bg-red-500 hover:cursor-pointer text-white">Delete</button>
                                 </form>
+                                {% endif %}
                             </td>
-                            {% endif %}
                         </tr>
                     {% endfor %}
                 </tbody>
