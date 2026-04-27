@@ -2,34 +2,37 @@
 {% include '/include/navbar.html' %}
 {% block content %}
 <div class="h-full w-full bg-blue-200">
-    <div class="flex-col">
+    <div class="flex-col p-6">
         <h1 class=" font-bold text-2xl flex justify-center">Register for a Class</h1>
-        <table class="w-full text-sm border-collapse table-fixed gap-4">
-            <thead>
+        <div class="border border-2 border-blue-300 rounded-xl overflow-hidden">
+        <table class="w-full text-sm table-fixed">
+            <thead class="bg-blue-100">
                 <tr>
-                    <th>Title:</th>
-                    <th>Credits:</th>
-                    <th>Semester:</th>
-                    <th>Year:</th>
-                    <th>Section ID:</th>
+                    <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Title:</th>
+                    <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Credits:</th>
+                    <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Semester:</th>
+                    <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Year:</th>
+                    <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Section ID:</th>
+                    <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="bg-gray-100">
                 {% for section in sections %}
-                    <tr class="">
+                    <tr class="border-t border-1 border-blue-100 hover:bg-sky-300">
                     {% for d in section %}
                         <td class="text-center">{{d}}</td>
                     {% endfor %}
                     <td>
                         <form method="POST">
                             <input type="hidden" value="{{ section[4] }}" name="section_ID" id="section_ID">
-                            <input type="submit" class="p-1 rounded-full bg-red-200 mb-1">
+                            <button type="submit" class="p-1 m-1 bg-blue-400 rounded-xl text-center font-bold border border-blue-600 border-2 hover:border-blue-600 hover:bg-blue-600 hover:cursor-pointer text-white">Register</button>
                         </form>
                     </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 {% endblock %}

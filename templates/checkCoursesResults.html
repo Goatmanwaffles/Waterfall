@@ -2,24 +2,28 @@
 {% include '/include/navbar.html' %}
 {% block content %}
 <div class="h-full w-full bg-blue-200">
+    <div class="flex flex-col p-6">
     {% if courses %}
-    <table class="w-full text-sm border-collapse table-fixed gap-4">
-        <thead>
+    <div class="border border-2 border-blue-300 rounded-xl overflow-hidden">
+    <table class="w-full text-sm table-fixed">
+        <thead class="bg-blue-100">
             <tr>
-                <th>Courses:</th>
-                <th>Grades:</th>
+                <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Courses:</th>
+                <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Grades:</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="bg-gray-100">
             {% for course in courses %}
-            <tr>
+            <tr class="border-t border-1 border-blue-100 hover:bg-sky-300">
                 {% for d in course %}
-                <td class="text-center">{{d}}</td>
+                <td class="tracking-wide ml-2">{{d}}</td>
                 {% endfor %}
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    </div>
     {% endif %}
+    </div>
 </div>
 {% endblock %}
