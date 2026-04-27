@@ -255,6 +255,19 @@ def generateSeedData(tables, schema_filename, seed_filename):
             "grade": choice(seed_data.grades)
         })
 
+    # Guarantee ~25% of students enroll in a Spring 2026 section (section_IDs 1-20)
+    for student_id in student_ids:
+        if randint(1, 4) == 1:
+            section_id = choice(list(range(1, 21)))
+            pair = (student_id, section_id)
+            if pair not in used:
+                used.add(pair)
+                seed_data.takes.append({
+                    "student_ID": student_id,
+                    "section_ID": section_id,
+                    "grade": ""
+                })
+
     for table, columns in tables.items():
         if table == "account":
             row_count = len(seed_data.accounts)  
@@ -356,6 +369,20 @@ def generateSeedData(tables, schema_filename, seed_filename):
                         data = advises["student_ID"]
                     elif column == "instructor_ID":
                         data = advises["instructor_ID"]
+
+                elif table == "section" and i < 20:
+                    if column == "semester":
+                        data = '"Spring"'
+                    elif column == "year":
+                        data = 2026
+                    elif "int" in datatype:
+                        data = i + 1
+                    elif "varchar" in datatype:
+                        data = randomVarchar(table, column, datatype)
+                    elif "numeric" in datatype:
+                        data = randomNumeric(table, column, datatype)
+                    else:
+                        data = "??????"
 
                 elif table == "prereq":
                     if column == "base_course_ID":

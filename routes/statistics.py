@@ -9,6 +9,10 @@ def statistics():
         return redirect(url_for("account.unauthorized"))
 
     cursor = dbserver.cursor()
+    
+    #####
+    # PAST AND CURRENT STUDENTS
+    #####
 
     # Gets department name and the number of students in the department
     cursor.execute("""
@@ -31,12 +35,44 @@ def statistics():
         else:
             no_students.append(student[0])
 
+    #####
+    # CURRENT STUDENTS
+    #####
+
+    # Gets department name and the number of students in the department
+    cursor.execute("""
+    SELECT department.department_name,
+    (
+        SELECT COUNT(DISTINCT takes.student_ID)
+        FROM takes, section, course
+        WHERE takes.section_ID = section.section_ID
+            AND section.course_ID = course.course_ID
+            AND course.department_ID = department.department_ID
+            AND section.semester = "Spring"
+            AND section.year = 2026
+            AND takes.grades = ""
+    ) AS student_count
+    FROM department;
+    """)
+    current_student_count = cursor.fetchall()
+
+    # Gets lists of classes with and without students
+    current_has_students = []
+    current_no_students  = []
+    for student in current_student_count:
+        if student[1] != 0:
+            current_has_students.append([student[0], student[1]])
+        else:
+            current_no_students.append(student[0])
+
+
     cursor.close()
-    
     return render_template(
             'statistics.html',
             student_count=student_count,
             has_students=has_students,
-            no_students=no_students
+            no_students=no_students,
+            current_has_students=current_has_students,
+            current_no_students=current_no_students
             )
 

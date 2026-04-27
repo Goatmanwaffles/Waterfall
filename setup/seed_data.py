@@ -216,5 +216,19 @@ advises = [
 ]
 
 
+# Generate 135 additional students (student_IDs 16-150, account_IDs 28-162)
+_cred_cycle = [15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225]
+for _i in range(135):
+    _fn  = student_first_names[_i % 100]
+    _ln  = student_last_names[(_i + 20) % 100]
+    _dept = (_i % 14) + 1
+    _cred = _cred_cycle[_i % 15]
+    _adv  = (_i % 11) + 1
+    _acc  = 28 + _i
+    _sid  = 16 + _i
+    accounts.append({"username": f"{_fn[0].lower()}{_ln}{_sid}", "password": "abc", "role": "Student"})
+    students.append({"first_name": _fn, "last_name": _ln, "department_ID": _dept, "total_cred": _cred, "advisor_ID": _adv, "account_ID": _acc})
+    advises.append({"student_ID": _sid, "instructor_ID": (_i % 11) + 1})
+
 account_index = 0
 count = 0
