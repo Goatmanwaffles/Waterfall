@@ -1,42 +1,49 @@
 {% extends '/include/layout.html' %}
 {% include '/include/navbar.html' %}
 {% block content %}
-<div>
-    <table>
-        <thead>
-            <tr>
-                <th>Student Name:</th>
-                <th>Current Advisor: </th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for student in students.values() %}
-                <tr>
-                    <td>{{ student.firstName }} {{ student.lastName }}</td>
-                    <td>{{ student.advisorFirst }} {{ student.advisorLast }}</td>
-                    <td>
-                    <form method="POST">
-                        <input type="hidden" name="action" value="reassign">
-                        <select name="newAdvisor">
-                            <option value="" disabled selected hidden>Select a new Advisor</option>
-                            {% for advisor in advisors.values() %}
-                                <option value="{{ advisor.advisorID }}" default="Select a new Advisor">{{ advisor.firstName }} {{ advisor.lastName }}</option>
-                            {% endfor %}
-                        </select>
-                        <input type="hidden" value="{{ student.studentID }}" name="student" id="student">
-                        <input type="submit">
-                    </form>
-
-                    <form method="POST">
-                        <input type="hidden" name="action" value="delete">
-                        <input type="hidden" value="{{ student.advisorID }}" name="advisorToRemove">
-                        <input type="hidden" value="{{ student.studentID }}" name="student" id="student">
-                        <input type="submit">
-                    </form>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="h-full w-full bg-blue-200">
+    <div class="flex-col p-6">
+        <div class="border border-2 border-blue-300 rounded-xl overflow-hidden">
+            <table class="w-full text-sm table-fixed">
+                <thead class="bg-blue-100">
+                    <tr>
+                        <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Student Name:</th>
+                        <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Current Advisor: </th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="bg-gray-100">
+                    {% for student in students.values() %}
+                        <tr class="border-t border-1 border-blue-100 hover:bg-sky-300">
+                            <td class="tracking-wide ml-2">{{ student.firstName }} {{ student.lastName }}</td>
+                            <td class="tracking-wide ml-2">{{ student.advisorFirst }} {{ student.advisorLast }}</td>
+                            <td class="tracking-wide ml-2">
+                            <form method="POST">
+                                <input type="hidden" name="action" value="reassign">
+                                <select name="newAdvisor">
+                                    <option value="" disabled selected hidden>Select a new Advisor</option>
+                                    {% for advisor in advisors.values() %}
+                                        <option value="{{ advisor.advisorID }}" default="Select a new Advisor">{{ advisor.firstName }} {{ advisor.lastName }}</option>
+                                    {% endfor %}
+                                </select>
+                                <input type="hidden" value="{{ student.studentID }}" name="student" id="student">
+                                <button type="submit" class="p-1 m-1 bg-blue-400 rounded-xl text-center font-bold border border-blue-600 border-2 hover:border-red-600 hover:bg-red-500 hover:cursor-pointer text-white">Update</button>
+                            </form>
+                            </td>
+                            <td>
+                            <form method="POST">
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" value="{{ student.advisorID }}" name="advisorToRemove">
+                                <input type="hidden" value="{{ student.studentID }}" name="student" id="student">
+                                <button type="submit" class="p-1 m-1 bg-red-400 rounded-xl text-center font-bold border border-red-600 border-2 hover:border-red-600 hover:bg-red-500 hover:cursor-pointer text-white">Delete</button>
+                            </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}
