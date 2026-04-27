@@ -1,65 +1,245 @@
 {% extends '/include/layout.html' %}
 {% include '/include/navbar.html' %}
 {% block content %}
-<body>
-  
-  <!-- All Time Students Per Department -->
-  <h1 class="font-bold text-2xl mb-2 text-center">
-    All Time Number of students per department (Doesn't work right)
-  </h1>
-  <table class="w-full text-sm border-collapse table-fixed gap-4">
-    <thead>
-      <tr>
-        <th>Department</th>
-        <th>Students</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for department in has_students %}
-      <tr>
-      {% for value in department %}
-          <td class="text-center">{{ value }}</td>
-      {% endfor %}
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-  <h1 class="font-bold text-1xl mb-2 text-center">Does not have students:</h1>
-  <p>
-  {% for department in no_students %}
-    {{ department }},
-  {% endfor %}
-  </p>
+<div class="h-full w-full bg-blue-200 p-4">
+  <div class="m-4 rounded-xl border border-2 bg-gray-100 p-4 shadow-xl">
+    <h1 class="mb-2 text-2xl font-bold text-blue-600 underline underline-blue-600">Statistics</h1>
+    <p class="text-sm">Department, class, and semester performance summaries.</p>
+  </div>
 
-  <!-- Current Students Per Department -->
-  <h1 class="font-bold text-2xl mb-2 text-center">
-    Current Number of students per department (Doesn't work right)
-  </h1>
-  <table class="w-full text-sm border-collapse table-fixed gap-4">
-    <thead>
-      <tr>
-        <th>Department</th>
-        <th>Students</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for department in current_has_students %}
-      <tr>
-      {% for value in department %}
-          <td class="text-center">{{ value }}</td>
+  <div class="m-4 rounded-xl border border-2 bg-gray-100 p-4 shadow-xl">
+    <h2 class="mb-2 text-xl font-bold text-blue-600 underline underline-blue-600">
+      All Time Number of Students Per Department
+    </h2>
+    <div class="rounded border bg-white p-3">
+      <table class="w-full table-fixed border-collapse text-sm">
+        <thead>
+          <tr>
+            <th class="border p-1">Department</th>
+            <th class="border p-1">Students</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for department in has_students %}
+          <tr>
+            {% for value in department %}
+            <td class="border p-1 text-center">{{ value }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <h3 class="mt-3 text-lg font-bold">Does not have students</h3>
+    <p class="rounded border bg-white p-2">
+      {% for department in no_students %}
+      {{ department }}{% if not loop.last %}, {% endif %}
       {% endfor %}
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-  <h1 class="font-bold text-1xl mb-2 text-center">
-    Currently Does not have students:
-  </h1>
-  <p>
-  {% for department in current_no_students %}
-    {{ department }},
-  {% endfor %}
-  </p>
+    </p>
+  </div>
 
-</body>
+  <div class="m-4 rounded-xl border border-2 bg-gray-100 p-4 shadow-xl">
+    <h2 class="mb-2 text-xl font-bold text-blue-600 underline underline-blue-600">
+      Current Number of Students Per Department
+    </h2>
+    <div class="rounded border bg-white p-3">
+      <table class="w-full table-fixed border-collapse text-sm">
+        <thead>
+          <tr>
+            <th class="border p-1">Department</th>
+            <th class="border p-1">Students</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for department in current_has_students %}
+          <tr>
+            {% for value in department %}
+            <td class="border p-1 text-center">{{ value }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <h3 class="mt-3 text-lg font-bold">Currently does not have students</h3>
+    <p class="rounded border bg-white p-2">
+      {% for department in current_no_students %}
+      {{ department }}{% if not loop.last %}, {% endif %}
+      {% endfor %}
+    </p>
+  </div>
+
+  <div class="m-4 rounded-xl border border-2 bg-gray-100 p-4 shadow-xl">
+    <h2 class="mb-2 text-xl font-bold text-blue-600 underline underline-blue-600">
+      Average Grade by Department
+    </h2>
+    <div class="rounded border bg-white p-3">
+      <table class="w-full table-fixed border-collapse text-sm">
+        <thead>
+          <tr>
+            <th class="border p-1">Department</th>
+            <th class="border p-1">Average Grade Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in department_grade_stats %}
+          <tr>
+            <td class="border p-1 text-center">{{ row[1] }}</td>
+            <td class="border p-1 text-center">{{ row[2] if row[2] is not none else '' }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="m-4 rounded-xl border border-2 bg-gray-100 p-4 shadow-xl">
+    <h2 class="mb-2 text-xl font-bold text-blue-600 underline underline-blue-600">
+      Average Grade of a Class Across a Semester Range
+    </h2>
+    <form method="POST" class="mb-3 rounded border bg-white p-3">
+      <input type="hidden" name="action" value="class_range">
+
+      <label class="mb-1 block text-sm">Class</label>
+      <select class="mb-2 w-full rounded border p-1" name="course_id" required>
+        {% for course in courses %}
+        <option value="{{ course[0] }}" {% if selected_course_id|int == course[0] %}selected{% endif %}>
+          {{ course[0] }} - {{ course[1] }}
+        </option>
+        {% endfor %}
+      </select>
+
+      <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
+        <div>
+          <label class="mb-1 block text-sm">Start Semester</label>
+          <select class="w-full rounded border p-1" name="start_semester" required>
+            <option value="Winter" {% if start_semester == 'Winter' %}selected{% endif %}>Winter</option>
+            <option value="Spring" {% if start_semester == 'Spring' %}selected{% endif %}>Spring</option>
+            <option value="Summer" {% if start_semester == 'Summer' %}selected{% endif %}>Summer</option>
+            <option value="Fall" {% if start_semester == 'Fall' %}selected{% endif %}>Fall</option>
+          </select>
+        </div>
+        <div>
+          <label class="mb-1 block text-sm">Start Year</label>
+          <input class="w-full rounded border p-1" name="start_year" type="number" value="{{ start_year }}" required>
+        </div>
+        <div>
+          <label class="mb-1 block text-sm">End Semester</label>
+          <select class="w-full rounded border p-1" name="end_semester" required>
+            <option value="Winter" {% if end_semester == 'Winter' %}selected{% endif %}>Winter</option>
+            <option value="Spring" {% if end_semester == 'Spring' %}selected{% endif %}>Spring</option>
+            <option value="Summer" {% if end_semester == 'Summer' %}selected{% endif %}>Summer</option>
+            <option value="Fall" {% if end_semester == 'Fall' %}selected{% endif %}>Fall</option>
+          </select>
+        </div>
+        <div>
+          <label class="mb-1 block text-sm">End Year</label>
+          <input class="w-full rounded border p-1" name="end_year" type="number" value="{{ end_year }}" required>
+        </div>
+      </div>
+
+      <button class="mt-3 rounded bg-blue-600 px-3 py-1 text-white" type="submit">Show Class Average</button>
+    </form>
+
+    <div class="rounded border bg-white p-3">
+      <table class="w-full table-fixed border-collapse text-sm">
+        <thead>
+          <tr>
+            <th class="border p-1">Course ID</th>
+            <th class="border p-1">Class</th>
+            <th class="border p-1">Average Grade Points</th>
+            <th class="border p-1">Graded Records</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in class_range_results %}
+          <tr>
+            <td class="border p-1 text-center">{{ row[0] }}</td>
+            <td class="border p-1 text-center">{{ row[1] }}</td>
+            <td class="border p-1 text-center">{{ row[2] }}</td>
+            <td class="border p-1 text-center">{{ row[3] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="m-4 rounded-xl border border-2 bg-gray-100 p-4 shadow-xl">
+    <h2 class="mb-2 text-xl font-bold text-blue-600 underline underline-blue-600">
+      Best and Worst Performing Classes by Semester
+    </h2>
+    <form method="POST" class="mb-3 rounded border bg-white p-3">
+      <input type="hidden" name="action" value="best_worst">
+
+      <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
+        <div>
+          <label class="mb-1 block text-sm">Semester</label>
+          <select class="w-full rounded border p-1" name="selected_semester" required>
+            <option value="Winter" {% if selected_semester == 'Winter' %}selected{% endif %}>Winter</option>
+            <option value="Spring" {% if selected_semester == 'Spring' %}selected{% endif %}>Spring</option>
+            <option value="Summer" {% if selected_semester == 'Summer' %}selected{% endif %}>Summer</option>
+            <option value="Fall" {% if selected_semester == 'Fall' %}selected{% endif %}>Fall</option>
+          </select>
+        </div>
+        <div>
+          <label class="mb-1 block text-sm">Year</label>
+          <input class="w-full rounded border p-1" name="selected_year" type="number" value="{{ selected_year }}" required>
+        </div>
+      </div>
+
+      <button class="mt-3 rounded bg-blue-600 px-3 py-1 text-white" type="submit">Show Best and Worst Classes</button>
+    </form>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div class="rounded border bg-white p-3">
+        <h3 class="mb-2 text-lg font-bold">Best Performing Classes</h3>
+        <table class="w-full table-fixed border-collapse text-sm">
+          <thead>
+            <tr>
+              <th class="border p-1">Course ID</th>
+              <th class="border p-1">Class</th>
+              <th class="border p-1">Average Grade Points</th>
+              <th class="border p-1">Graded Records</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in best_classes %}
+            <tr>
+              <td class="border p-1 text-center">{{ row[0] }}</td>
+              <td class="border p-1 text-center">{{ row[1] }}</td>
+              <td class="border p-1 text-center">{{ row[2] }}</td>
+              <td class="border p-1 text-center">{{ row[3] }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="rounded border bg-white p-3">
+        <h3 class="mb-2 text-lg font-bold">Worst Performing Classes</h3>
+        <table class="w-full table-fixed border-collapse text-sm">
+          <thead>
+            <tr>
+              <th class="border p-1">Course ID</th>
+              <th class="border p-1">Class</th>
+              <th class="border p-1">Average Grade Points</th>
+              <th class="border p-1">Graded Records</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in worst_classes %}
+            <tr>
+              <td class="border p-1 text-center">{{ row[0] }}</td>
+              <td class="border p-1 text-center">{{ row[1] }}</td>
+              <td class="border p-1 text-center">{{ row[2] }}</td>
+              <td class="border p-1 text-center">{{ row[3] }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
