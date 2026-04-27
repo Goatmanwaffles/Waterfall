@@ -199,6 +199,9 @@ def edit_prereqs():
 @instructor_blueprint.route("/classRosters", methods=['GET', 'POST'])
 def editRosters():
     instructor_ID = session.get("userID")
+    selected_semester = ""
+    selected_year = ""
+
     if request.method == 'GET':
         cursor = dbserver.cursor()
         cursor.execute(""" SELECT s.first_name, s.last_name, t.grades, sc.semester, sc.year, c.title, sc.section_ID, s.student_ID
@@ -227,8 +230,23 @@ def editRosters():
                 "grade": grade
             })
 
+        cursor.execute("""
+            SELECT DISTINCT sc.year
+            FROM section sc
+            JOIN teaches te ON te.section_ID = sc.section_ID
+            WHERE te.instructor_ID = %s
+            ORDER BY sc.year DESC
+        """, [instructor_ID])
+        years = [row[0] for row in cursor.fetchall()]
+
         cursor.close()
-        return render_template("rosters.html", rosters=rosters)
+        return render_template(
+            "rosters.html",
+            rosters=rosters,
+            years=years,
+            selected_semester=selected_semester,
+            selected_year=selected_year
+        )
     
     if request.method == 'POST':
         action=request.form['action']
@@ -242,8 +260,8 @@ def editRosters():
             return redirect(url_for("instructor.editRosters"))
         
         elif action == "filter":
-            semester = request.form.get('filterSemester')
-            year = request.form['filterYear']
+            selected_semester = request.form.get('filterSemester', '')
+            selected_year = request.form.get('filterYear', '')
             
             cursor = dbserver.cursor()
             query = """ SELECT s.first_name, s.last_name, t.grades, sc.semester, sc.year, c.title, sc.section_ID, s.student_ID
@@ -256,16 +274,14 @@ def editRosters():
                     """
             params = [instructor_ID]
 
-            if semester:
-                query += "AND sc.semester = %s"
-                params.append(semester)
+            if selected_semester:
+                query += " AND sc.semester = %s"
+                params.append(selected_semester)
 
-            if year:
-                query += "AND sc.year = %s"
-                params.append(year)
+            if selected_year:
+                query += " AND sc.year = %s"
+                params.append(selected_year)
 
-            print("Query: " + query)
-            print("Params: " + str(params))
             cursor.execute(query, params)
             rows = cursor.fetchall()
 
@@ -286,8 +302,25 @@ def editRosters():
                     "grade": grade
                 })
 
-        cursor.close()
-        return render_template("rosters.html", rosters=rosters)
+            cursor.execute("""
+                SELECT DISTINCT sc.year
+                FROM section sc
+                JOIN teaches te ON te.section_ID = sc.section_ID
+                WHERE te.instructor_ID = %s
+                ORDER BY sc.year DESC
+            """, [instructor_ID])
+            years = [row[0] for row in cursor.fetchall()]
+
+            cursor.close()
+            return render_template(
+                "rosters.html",
+                rosters=rosters,
+                years=years,
+                selected_semester=selected_semester,
+                selected_year=selected_year
+            )
+
+    return redirect(url_for("instructor.editRosters"))
     
 #Check Sections Teaching Based on Semster
 @instructor_blueprint.route("/assignedClasses", methods=['GET'])

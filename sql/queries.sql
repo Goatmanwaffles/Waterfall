@@ -209,12 +209,12 @@ CREATE PROCEDURE update_section(
 )
 BEGIN
 UPDATE section
-SET building_ID = temp_building_ID,
+SET course_ID = temp_course_ID,
+    semester = temp_semester,
+    year = temp_year,
+    building_ID = temp_building_ID,
     time_slot_ID = temp_time_slot_ID
-    WHERE course_ID = temp_course_ID
-        AND section_ID = temp_section_ID
-        AND semester = temp_semester
-        AND year = temp_year;
+WHERE section_ID = temp_section_ID;
 END;;
 
 -- Delete Section
