@@ -2,50 +2,53 @@
 {% include '/include/navbar.html' %}
 {% block content %}
 <div class="h-full w-full bg-blue-200">
-    <h1>Grades Across Classes</h1>
-    {% for section in sections.values() %}
-    <h2 class="font-bold text-2xl">{{ section.course }} {{section.semester}}, {{section.year}}</h2>
-    <table class="w-full text-sm border-collapse table-fixed gap-4">
-        <thead>
-            <tr>
-                <th>Student:</th>
-                <th>Grade: </th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for student in section.students %}
-            <tr>
-                <td> {{ student.first_name }} {{ student.last_name }}</td>
-                <td>{{ student.grade }}</td>
-                <td>
-                <form method="POST">
-                    <!--grades = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"]
--->
-                    <select name="newGrade">
-                        <option value="A+">A+</option>
-                        <option value="A">A</option>
-                        <option value="A-">A-</option>
-                        <option value="B+">B+</option>
-                        <option value="B">B</option>
-                        <option value="B-">B-</option>
-                        <option value="C+">C+</option>
-                        <option value="C">C</option>
-                        <option value="C-">C-</option>
-                        <option value="D+">D+</option>
-                        <option value="D">D</option>
-                        <option value="D-">D-</option>
-                        <option value="F">F</option>
-                    </select>
-                    <input type="hidden" value="{{ section.section_ID}}" name="section_ID" id="section_ID">
-                    <input type="hidden" value="{{ student.student_ID}}" name="student_ID" id="student_ID">
-                    <input type="submit" text="overwrite" class="p-1 rounded-full bg-red-200 mb-1">
-                </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endfor %}
+    <h1 class="font-bold text-2xl flex justify-center">Grades Across Classes</h1>
+    <div class="flex-col p-6">
+        {% for section in sections.values() %}
+        <div class="border border-2 border-blue-300 rounded-xl overflow-hidden bg-blue-100 mb-4">
+            <h2 class="font-bold text-lg">{{ section.course }} {{section.semester}}, {{section.year}}</h2>
+            <table class="w-full text-sm table-fixed">
+                <thead class="bg-blue-100">
+                    <tr>
+                        <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Student:</th>
+                        <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Grade: </th>
+                        <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">New Grade:</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-gray-100">
+                    {% for student in section.students %}
+                    <tr class="border-t border-1 border-blue-100 hover:bg-sky-300">
+                        <td class="tracking-wide ml-2">{{ student.first_name }} {{ student.last_name }}</td>
+                        <td class="tracking-wide ml-2">{{ student.grade }}</td>
+                        <td>
+                            <form method="POST">
+                                <select name="newGrade">
+                                    <option value="A+">A+</option>
+                                    <option value="A">A</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B">B</option>
+                                    <option value="B-">B-</option>
+                                    <option value="C+">C+</option>
+                                    <option value="C">C</option>
+                                    <option value="C-">C-</option>
+                                    <option value="D+">D+</option>
+                                    <option value="D">D</option>
+                                    <option value="D-">D-</option>
+                                    <option value="F">F</option>
+                                </select>
+                                <input type="hidden" value="{{ section.section_ID}}" name="section_ID" id="section_ID">
+                                <input type="hidden" value="{{ student.student_ID}}" name="student_ID" id="student_ID">
+                                <input type="submit" text="overwrite" class="p-1 rounded-full bg-red-200 mb-1">
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 
 {% endblock %}

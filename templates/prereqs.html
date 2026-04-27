@@ -2,38 +2,43 @@
 {% include '/include/navbar.html' %}
 {% block content %}
 <div class="h-full w-full bg-blue-200">
-    <table>
-        <thead>
-            <tr>
-                <th>Course:</th>
-                <th>PreReq:</th>
-                <th>Update Requirements:</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for course in courses.values() %}
-                <tr>
-                    <td>{{ course.title }}</td>
-                    <td>
-                        {% for prereq in course.prereqs %}
-                            <p>{{ prereq.prereq_title }}</p>
-                        {% endfor %}
-                    </td>
-                    <td>
-                        <form method="POST">
-                            <input type="hidden" name="action" id="action" value="update">
-                            <input type="hidden" name="courseID" id="courseID" value="{{ course.ID }}">
-                            <select name="newPrereq" id="newPrereq">
-                                {% for course in listCourses.values() %}
-                                    <option value="{{ course.ID }}">{{ course.title }}</option>
+    <div class="flex-col p-6">
+        <h1 class="font-bold text-2xl flex justify-center">Course Prereqs:</h1>
+        <div class="border border-2 border-blue-300 rounded-xl overflow-hidden">
+            <table class="w-full text-sm table-fixed">
+                <thead class="bg-blue-100">
+                    <tr>
+                        <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Course:</th>
+                        <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">PreReq:</th>
+                        <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Update Requirements:</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-gray-100">
+                    {% for course in courses.values() %}
+                        <tr class="border-t border-1 border-blue-100 hover:bg-sky-300">
+                            <td>{{ course.title }}</td>
+                            <td class="tracking-wide ml-2">
+                                {% for prereq in course.prereqs %}
+                                    <p>{{ prereq.prereq_title }}</p>
                                 {% endfor %}
-                            </select>
-                            <input type="submit">
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                            </td>
+                            <td class="tracking-wide ml-2">
+                                <form method="POST">
+                                    <input type="hidden" name="action" id="action" value="update">
+                                    <input type="hidden" name="courseID" id="courseID" value="{{ course.ID }}">
+                                    <select name="newPrereq" id="newPrereq">
+                                        {% for course in listCourses.values() %}
+                                            <option value="{{ course.ID }}">{{ course.title }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" class="p-1 m-1 bg-blue-400 rounded-xl text-center font-bold border border-blue-600 border-2 hover:border-red-600 hover:bg-red-500 hover:cursor-pointer text-white">Update</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}
