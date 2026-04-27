@@ -11,15 +11,32 @@ CREATE PROCEDURE create_instructor (
     IN temp_first_name VARCHAR(20),
     IN temp_last_name VARCHAR(20),
     IN temp_dept_name VARCHAR(20),
-    IN temp_salary NUMERIC(8,2)
+    IN temp_salary NUMERIC(8,2),
+    IN temp_username VARCHAR(20),
+    IN temp_password VARCHAR(255)
 )
 BEGIN
-    INSERT INTO instructor (first_name, last_name, department_ID, salary)
+    DECLARE new_account_ID INT;
+    INSERT INTO account(
+        username,
+        password,
+        role
+    )
+    VALUES(
+        temp_username,
+        temp_password,
+        'Instructor'
+    );
+
+    SET new_account_ID = LAST_INSERT_ID();
+
+    INSERT INTO instructor (first_name, last_name, department_ID, salary, account_ID)
     VALUES (
         temp_first_name,
         temp_last_name,
         (SELECT department_ID FROM department WHERE department_name = temp_dept_name), 
-        temp_salary
+        temp_salary,
+        new_account_ID
     );
 END;;
 
@@ -69,22 +86,40 @@ CREATE PROCEDURE create_student(
     IN temp_last_name varchar(20),
     IN temp_department_name VARCHAR(20),
     IN temp_total_credits NUMERIC (3,0),
-    IN temp_advisor_ID int
+    IN temp_advisor_ID int,
+    IN temp_username VARCHAR(20),
+    IN temp_password VARCHAR(255)
 )
 BEGIN
+    DECLARE new_account_ID INT;
+    INSERT INTO account(
+        username,
+        password,
+        role
+    )
+    VALUES(
+        temp_username,
+        temp_password,
+        'Student'
+    );
+
+    SET new_account_ID = LAST_INSERT_ID();
+
     INSERT INTO student (
         first_name, 
         last_name, 
         department_ID, 
         total_cred, 
-        advisor_ID
+        advisor_ID,
+        account_ID
     )
     VALUES (
         temp_first_name,
         temp_last_name,
         (SELECT department_ID FROM department WHERE department_name = temp_department_name), 
         temp_total_credits,
-        temp_advisor_ID
+        temp_advisor_ID,
+        new_account_ID
     );
 END;;
 

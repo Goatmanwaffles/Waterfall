@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from setup import dbserver
+import bcrypt
 
 student_blueprint = Blueprint("student", __name__)
 
@@ -122,11 +123,19 @@ def edit_student():
             department_name = (request.form.get("department_name") or "").strip()
             total_cred = (request.form.get("total_cred") or "0").strip()
             advisor_id = (request.form.get("advisor_id") or "").strip()
+            username = (request.form.get("username") or "").strip()
+            password = (request.form.get("password") or "").strip()
+
+            password_bytes = password.encode('utf-8')
+            s = bcrypt.gensalt()
+            hashed = bcrypt.hashpw(password_bytes, s)
 
             advisor_id_value = int(advisor_id) if advisor_id else None
 
-            cursor.execute("CALL create_student(%s, %s, %s, %s, %s)",
-                (first_name, last_name, department_name, total_cred, advisor_id_value))
+            cursor.execute("CALL create_student(%s, %s, %s, %s, %s, %s, %s)",
+                (first_name, last_name, department_name, total_cred, advisor_id_value, username, hashed))
+            
+            
             
             dbserver.commit()
 

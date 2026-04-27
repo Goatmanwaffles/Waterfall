@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from setup import dbserver
+import bcrypt
 
 instructor_blueprint = Blueprint("instructor", __name__)
 
@@ -20,9 +21,15 @@ def edit_instructor():
             last_name = (request.form.get("last_name") or "").strip()
             department_name = (request.form.get("department_name") or "").strip()
             salary = (request.form.get("salary") or "0").strip()
+            username = (request.form.get("username") or "").strip()
+            password = (request.form.get("password") or "").strip()
 
-            cursor.execute("CALL create_instructor(%s, %s, %s, %s)",
-                (first_name, last_name, department_name, salary))
+            password_bytes = password.encode('utf-8')
+            s = bcrypt.gensalt()
+            hashed = bcrypt.hashpw(password_bytes, s)
+
+            cursor.execute("CALL create_instructor(%s, %s, %s, %s, %s, %s)",
+                (first_name, last_name, department_name, salary, username, hashed))
             
             dbserver.commit()
 
