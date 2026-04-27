@@ -5,6 +5,11 @@ profile_blueprint = Blueprint("profile", __name__)
 
 @profile_blueprint.route("/profile", methods=['POST', 'GET'])
 def profile():
+
+    cursor = dbserver.cursor()
+
+    cursor.execute()
+
     return render_template(
         "profile.html",
         first_name="bob",

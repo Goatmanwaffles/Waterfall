@@ -1,27 +1,34 @@
 {% extends '/include/layout.html' %}
 {% include '/include/navbar.html' %}
 {% block content %}
+{% if user %}
 <br>
 <!-- First and last name at top of page -->
-<h1 class="mb-4 text-4xl font-bold tracking-tight text-heading md:text-5xl lg:text-6xl text-center">Welcome back, {{ user[1] }} {{ user[2] }}</h1>
+<h1 class="mb-4 text-4xl font-bold tracking-tight text-heading md:text-5xl lg:text-6xl text-center">
+  Welcome back, {{ user[1] }} {{ user[2] }}
+</h1>
 
 <!-- change you name form -->
-{% if user %}
-<form method="POST">
+<form method="POST" class="m-4 rounded-xl border border-2 bg-gray-100 p-4 shadow-xl">
     <div class="flex items-center justify-center">
-        UserName:<input class="bg-white" value="{{ user[0] }}" name="username">
+        UserName:
+        <input class="bg-white ml-1 pl-2 border rounded-xl" value="{{ user[0] }}" name="username">
     </div>
     <br>
     <div class="flex items-center justify-center">
-        First Name:<input class="bg-white" value="{{ user[1] }}" name="firstName">
+        First Name:
+        <input class="bg-white ml-1 pl-2 border rounded-xl" value="{{ user[1] }}" name="firstName">
     </div>
     <br>
     <div class="flex items-center justify-center">
-        Last Name:<input class="bg-white" value="{{ user[2] }}" name="lastName">
+        Last Name:
+        <input class="bg-white ml-1 pl-2 border rounded-xl" value="{{ user[2] }}" name="lastName">
     </div>
-
-    <input type="submit">
+    <div class="flex items-center justify-center">
+      <button class="cursor-pointer bg-blue-600 rounded-xl p-2 mt-2 text-white">
+        <input class="cursor-pointer" type="submit">
+      </button>
+    </div>
 </form>
 {% endif %}
-
 {% endblock %}
