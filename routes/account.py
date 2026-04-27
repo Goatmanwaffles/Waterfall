@@ -127,8 +127,6 @@ def account():
             info.append("ADMIN")
             info.append("ADMIN")
 
-
-
         cursor.close()
         return render_template("profile.html", user=info, role=role)
     

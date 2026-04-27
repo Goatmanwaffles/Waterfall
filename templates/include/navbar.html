@@ -101,16 +101,16 @@
 
               <!-- Dropdown Options -->
               <el-menu anchor="bottom end" popover class="drop">
-                <a href="" class="drop-item">
+                <a href="{{url_for('instructor.instructorGrades')}}" class="drop-item">
                   Edit Grades 
                 </a>
                 <a href="{{url_for('instructor.edit_prereqs')}}" class="drop-item">
                   Modify Course Prereqs
                 </a>
-                <a href="" class="drop-item">
+                <a href="{{url_for('instructor.editRosters')}}" class="drop-item">
                   View Class Rosters
                 </a>
-                <a href="" class="drop-item">
+                <a href="{{url_for('instructor.assignedClasses')}}" class="drop-item">
                   Check Sections
                 </a>
               </el-menu>
@@ -127,7 +127,7 @@
 
               <!-- Dropdown Options -->
               <el-menu anchor="bottom end" popover class="drop">
-                <a href="" class="drop-item">
+                <a href="{{url_for('advisor.modifyAdvisingRoster')}}" class="drop-item">
                   Modify Advising Roster
                 </a>
               </el-menu>
