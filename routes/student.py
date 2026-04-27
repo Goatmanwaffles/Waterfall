@@ -14,12 +14,14 @@ def checkCourses():
 
         cursor.execute("SELECT s.semester, s.year FROM takes t JOIN section s on t.section_ID = s.section_ID WHERE t.student_ID = %s",[student_ID])
         semesters = cursor.fetchall()
-
+        print (semesters)
         cursor.close()
         return render_template("checkCourses.html", semesters=semesters)
 
     if request.method == 'POST':
         semesterYear = request.form['semester']
+        if semesterYear == "":
+            return redirect(url_for("student.checkCourses()"))
         semester, year = semesterYear.split(',')
 
         cursor = dbserver.cursor()

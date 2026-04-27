@@ -45,7 +45,7 @@ def modifyAdvisingRoster():
             student = request.form['student']
             newAdvisor = request.form['newAdvisor']
             cursor = dbserver.cursor()
-            cursor.execute("UPDATE advises SET instructor_ID = %s WHERE student_ID = %s", [newAdvisor, student])
+            cursor.execute("INSERT INTO advises (student_ID, instructor_ID) VALUES (%s, %s) ON DUPLICATE KEY UPDATE instructor_ID = %s;", [student, newAdvisor, newAdvisor])
             cursor.execute("UPDATE student SET advisor_ID = %s WHERE student_ID = %s", [newAdvisor, student])
             dbserver.commit()
             cursor.close()

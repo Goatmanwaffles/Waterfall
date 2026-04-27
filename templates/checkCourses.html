@@ -8,6 +8,7 @@
     {% if semesters %}
     <form method="POST">
         <select name="semester" id="semester" class="border border-blue-400 border-4 rounded-xl hover:cursor-pointer">
+            <option selected value="">Select a Semester</option>
             {% for semester in semesters %}
                 <option value="{{semester[0]}},{{semester[1]}}">{{semester[0]}}, {{semester[1]}}</option>
             {% endfor %}
