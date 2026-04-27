@@ -179,7 +179,8 @@ students = [
     {"first_name": "Elijah",   "last_name": "Jones",    "department_ID": 11, "total_cred": 147, "advisor_ID": 10, "account_ID": 14},
     {"first_name": "Liam",     "last_name": "Wood",     "department_ID": 12, "total_cred": 131, "advisor_ID": 10, "account_ID": 15},
     {"first_name": "Elijah",   "last_name": "James",    "department_ID": 13, "total_cred": 93,  "advisor_ID": 1, "account_ID": 16},
-    {"first_name": "Evelyn",   "last_name": "Brooks",   "department_ID": 14, "total_cred": 184, "advisor_ID": 3, "account_ID": 17},
+    {"first_name": "Evelyn",   "last_name": "Brooks",   "department_ID": 14, "total_cred": 184, "advisor_ID": 3,  "account_ID": 17},
+    {"first_name": "Jordan",   "last_name": "Reyes",    "department_ID": 1,  "total_cred": 30,  "advisor_ID": 11, "account_ID": 3},
 ]
 
 instructors = [
@@ -193,6 +194,7 @@ instructors = [
     {"first_name": "Alan",    "last_name": "Cortez",     "department_ID": 8,  "salary": 446818.44, "account_ID": 25},
     {"first_name": "Oksana",  "last_name": "Daher",      "department_ID": 9,  "salary": 559553.55, "account_ID": 26},
     {"first_name": "Nadia",   "last_name": "Andersson",  "department_ID": 10, "salary": 993400.99, "account_ID": 27},
+    {"first_name": "Claire",  "last_name": "Hartley",     "department_ID": 1,  "salary": 75000.00,  "account_ID": 2},
 ]
 
 advises = [
@@ -210,6 +212,7 @@ advises = [
     {"student_ID": 12, "instructor_ID": 9},
     {"student_ID": 13, "instructor_ID": 10},
     {"student_ID": 14, "instructor_ID": 8},
+    {"student_ID": 15, "instructor_ID": 11},
 ]
 
 

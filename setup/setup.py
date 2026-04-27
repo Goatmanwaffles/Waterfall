@@ -205,7 +205,7 @@ def generateSeedData(tables, schema_filename, seed_filename):
     section_index = 0
 
     for instructor_id in instructor_ids:
-        for _ in range(10):  # each instructor teaches ~10 sections
+        for _ in range(100 // len(instructor_ids)):  # distribute sections evenly across all instructors
             if section_index >= len(section_ids):
                 break
 
