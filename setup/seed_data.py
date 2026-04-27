@@ -112,7 +112,7 @@ course_titles = [
     "Cognitive Psychology", "Social Psychology", "Developmental Psychology", "Intro to Sociology", "Cultural Anthropology", "Microeconomics", "Macroeconomics", "Econometrics", "International Economics", "Intro to Philosophy",
     "Ethics", "Logic", "Political Theory", "American Government", "Comparative Politics", "Intro to Music Theory", "Art History", "Film Studies", "Intro to Nursing", "Pharmacology"
 ]
-days = ["M", "T", "W", "H", "F"]
+days = ["M W F", "T H", "MTWH", "MTWHF"]
 
 usernames = ["Admin", "Instructor", "Student"]
 passwords = ["abc"]

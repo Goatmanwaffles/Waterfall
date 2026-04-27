@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from setup import dbserver
 
 student_blueprint = Blueprint("student", __name__)
@@ -148,6 +148,12 @@ def edit_student():
 
         elif action == "delete":
             student_id = (request.form.get("student_id") or "").strip()
+
+            cursor.execute("SELECT COUNT(*) FROM takes t WHERE t.student_ID = %s", [student_id])
+            if cursor.fetchone()[0] > 0:
+                flash("Cannot delete student - they still has active sections.", "error")
+                return redirect(url_for("student.edit_student"))
+            
             cursor.execute("CALL delete_student(%s)", (student_id,))
             dbserver.commit()
 

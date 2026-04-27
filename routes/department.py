@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from setup import dbserver
 
 department_blueprint = Blueprint("department", __name__)
@@ -46,6 +46,22 @@ def edit_department():
 
         elif action == "delete":
             department_id = (request.form.get("department_id") or "").strip()
+
+            cursor.execute("SELECT COUNT(*) FROM instructor s WHERE s.department_ID = %s", [department_id])
+            if cursor.fetchone()[0] > 0:
+                flash("Cannot delete department - it still has active instructors.", "error")
+                return redirect(url_for("department.edit_department"))
+            
+            cursor.execute("SELECT COUNT(*) FROM student s WHERE s.department_ID = %s", [department_id])
+            if cursor.fetchone()[0] > 0:
+                flash("Cannot delete department - it still has active students.", "error")
+                return redirect(url_for("department.edit_department"))
+            
+            cursor.execute("SELECT COUNT(*) FROM course s WHERE s.department_ID = %s", [department_id])
+            if cursor.fetchone()[0] > 0:
+                flash("Cannot delete department - it still has active courses.", "error")
+                return redirect(url_for("department.edit_department"))
+            
             cursor.execute("DELETE FROM department WHERE department_ID = %s", (department_id,))
             dbserver.commit()
 

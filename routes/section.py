@@ -42,14 +42,12 @@ def edit_section():
 
         elif action == "delete":
             section_id = (request.form.get("section_id") or "").strip()
-            course_id = (request.form.get("course_id") or "").strip()
-            semester = (request.form.get("semester") or "").strip()
-            year = (request.form.get("year") or "0").strip()
 
-            cursor.execute(
-                "CALL delete_section(%s, %s, %s, %s)",
-                (course_id, section_id, semester, year),
-            )
+            cursor.execute("DELETE FROM section WHERE section_id = %s", [section_id])
+            # cursor.execute(
+            #     "CALL delete_section(%s, %s, %s, %s)",
+            #     (course_id, section_id, semester, year),
+            # )
             dbserver.commit()
 
         cursor.close()
