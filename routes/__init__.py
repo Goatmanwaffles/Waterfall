@@ -14,6 +14,7 @@ from routes.dashboard import dashboard_blueprint
 from routes.profile import profile_blueprint
 from routes.teaches import teaches_blueprint
 from routes.advisor import advisor_blueprint
+from routes.statistics import statistics_blueprint
 
 mainBp = Blueprint("main", __name__)
 
@@ -33,3 +34,4 @@ def loadBlueprints(app):
     app.register_blueprint(profile_blueprint)
     app.register_blueprint(teaches_blueprint)
     app.register_blueprint(advisor_blueprint)
+    app.register_blueprint(statistics_blueprint)

@@ -1,0 +1,30 @@
+{% extends '/include/layout.html' %}
+{% include '/include/navbar.html' %}
+{% block content %}
+<body>
+  <h1 class="font-bold text-2xl mb-2 text-center">Number of students per department</h1>
+  <table class="w-full text-sm border-collapse table-fixed gap-4">
+    <thead>
+      <tr>
+        <th>Department</th>
+        <th>Students</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for department in has_students %}
+      <tr>
+      {% for value in department %}
+          <td class="text-center">{{ value }}</td>
+      {% endfor %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <h1 class="font-bold text-1xl mb-2 text-center">Does not have students:</h1>
+  <p>
+  {% for department in no_students %}
+    {{ department }},
+  {% endfor %}
+  </p>
+</body>
+{% endblock %}
