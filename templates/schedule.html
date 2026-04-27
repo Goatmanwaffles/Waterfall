@@ -2,31 +2,36 @@
 {% include '/include/navbar.html' %}
 {% block content %}
 <div class="h-full w-full bg-blue-200">
+    <div class="flex-col p-6">
+        <h1 class=" font-bold text-2xl flex justify-center">Schedule</h1>
     {% if classes %}
-    <table class="w-full text-sm border-collapse table-fixed gap-4">
-        <thead>
+    <div class="border border-2 border-blue-300 rounded-xl overflow-hidden">
+    <table class="w-full text-sm border-collapse table-fixed">
+        <thead class="bg-blue-1002">
             <tr>
-                <th>Course:</th>
-                <th>Instructor:</th>
-                <th>Year:</th>
-                <th>Semester:</th>
-                <th>Building:</th>
-                <th>TimeSlot:</th>
+                <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Course:</th>
+                <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Instructor:</th>
+                <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Year:</th>
+                <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Semester:</th>
+                <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">Building:</th>
+                <th class="text-left px-4 py-3 text-blue-700 uppercase text-xs tracking-wide">TimeSlot:</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="bg-gray-100">
             {% for section in classes.values() %}
-            <tr>
-                <td>{{ section.class }}</td>
-                <td>{{ section.name }}</td>
-                <td>{{ section.year }}</td>
-                <td>{{ section.semester }}</td>
-                <td>{{ section.building }}</td>
-                <td>{{ section.timeslot }}</td>
+            <tr class="border-t border-1 border-blue-100 hover:bg-sky-300">
+                <td class="tracking-wide ml-2">{{ section.class }}</td>
+                <td class="tracking-wide ml-2">{{ section.name }}</td>
+                <td class="tracking-wide ml-2">{{ section.year }}</td>
+                <td class="tracking-wide ml-2">{{ section.semester }}</td>
+                <td class="tracking-wide ml-2">{{ section.building }}</td>
+                <td class="tracking-wide ml-2">{{ section.timeslot }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    </div>
     {% endif %}
+    </div>
 </div>
 {% endblock %}

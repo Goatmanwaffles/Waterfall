@@ -10,7 +10,7 @@
         <link href="{{url_for('static',filename='dist/output.css')}}" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     </head>
-    <body class="bg-sky-200">
+    <body class="bg-blue-200">
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}

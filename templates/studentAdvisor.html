@@ -1,11 +1,20 @@
 {% extends '/include/layout.html' %}
 {% include '/include/navbar.html' %}
 {% block content %}
-<div class="h-full w-full bg-blue-200">
+<div class="h-100 w-full bg-blue-200">
     {% if advisor %}
-        <h2 class="font-semibold">Advisor Name: {{advisor[0]}} {{advisor[1]}}</h2>
+    <div class="flex justify-center items-center h-full">
+    <div class="flex flex-col border border-2 border-blue-300 bg-gray-100 flex justify-center items-center p-6 rounded-xl max-w-sm">
+        <div class="flex flex-row">
+        <h2 class="font-semibold">Advisor Name: </h2>
+        <p class="font-medium">{{advisor[0]}} {{advisor[1]}}</p>
+        </div>
+        <div class="flex flex-row">
         <h2 class="font-semibold">Department:</h2>
         <p>{{advisor[2]}}</p>
+        </div>
+    </div>
+    </div>
     {% endif %}
 </div>
 {% endblock %}

@@ -2,9 +2,12 @@
 {% include '/include/navbar.html' %}
 {% block content %}
 <div class="h-full w-full bg-blue-200">
+    <div class="flex flex-col p-6 justify-center items-center">
+    <h1 class="font-bold text-2xl flex justify-center">View your Semester Schedule</h1>
+    <div class="flex justify-center items-center border border-2 border-blue-300 rounded-xl overflow-hidden bg-gray-100 align-content-center p-6 max-w-sm">
     {% if semesters %}
     <form method="POST">
-        <select name="semester" id="semester">
+        <select name="semester" id="semester" class="border border-blue-400 border-4 rounded-xl hover:cursor-pointer">
             {% for semester in semesters %}
                 <option value="{{semester[0]}},{{semester[1]}}">{{semester[0]}}, {{semester[1]}}</option>
             {% endfor %}
@@ -12,8 +15,10 @@
         
 
 
-        <input type="submit">
+        <button type="submit" class="p-1 m-1 bg-blue-400 rounded-xl text-center font-bold border border-blue-600 border-2 hover:border-red-600 hover:bg-red-500 hover:cursor-pointer text-white">View Schedule</button>
     </form>
     {% endif %}
+    </div>
+    </div>
 </div>
 {% endblock %}
