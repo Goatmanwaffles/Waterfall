@@ -14,7 +14,13 @@
                 <input type="hidden" name="action" value="create">
 
                 <label class="mb-1 block text-sm">Day</label>
-                <input class="mb-2 w-full rounded border p-1" name="day" maxlength="1" required>
+                <!-- <input class="mb-2 w-full rounded border p-1" name="day" maxlength="1" required> -->
+                <select class="mb-2 w-full rounded border p-1" name="day" required>
+                    <option value="MWF">M W F</option>
+                    <option value="TH">T H</option>
+                    <option value="MTWH">M T W H</option>
+                    <option value="MTWHF">M T W H F</option>
+                </select>
 
                 <label class="mb-1 block text-sm">Start Hour</label>
                 <input class="mb-2 w-full rounded border p-1" name="start_hr" type="number" min="0" max="23" required>
@@ -39,7 +45,12 @@
                 <input class="mb-2 w-full rounded border p-1" name="time_slot_id" type="number" min="1" required>
 
                 <label class="mb-1 block text-sm">Day</label>
-                <input class="mb-2 w-full rounded border p-1" name="day" maxlength="1" required>
+                <select class="mb-2 w-full rounded border p-1" name="day" required>
+                    <option value="MWF">M W F</option>
+                    <option value="TH">T H</option>
+                    <option value="MTWH">M T W H</option>
+                    <option value="MTWHF">M T W H F</option>
+                </select>
 
                 <label class="mb-1 block text-sm">Start Hour</label>
                 <input class="mb-2 w-full rounded border p-1" name="start_hr" type="number" min="0" max="23" required>
