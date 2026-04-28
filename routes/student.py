@@ -179,7 +179,8 @@ def edit_student():
         SELECT s.student_ID, s.first_name, s.last_name, d.department_name, s.total_cred, i.instructor_ID, CONCAT(i.first_name, ' ', i.last_name)
         FROM student s
         LEFT JOIN department d ON d.department_ID = s.department_ID
-        LEFT JOIN instructor i ON i.instructor_ID = s.advisor_ID
+        LEFT JOIN advises a ON a.student_ID = s.student_ID
+        LEFT JOIN instructor i ON i.instructor_ID = a.instructor_ID
         ORDER BY s.student_ID
         """
     )

@@ -110,7 +110,6 @@ BEGIN
         last_name, 
         department_ID, 
         total_cred, 
-        advisor_ID,
         account_ID
     )
     VALUES (
@@ -118,9 +117,20 @@ BEGIN
         temp_last_name,
         (SELECT department_ID FROM department WHERE department_name = temp_department_name), 
         temp_total_credits,
-        temp_advisor_ID,
         new_account_ID
     );
+
+    SET new_account_ID = LAST_INSERT_ID();
+    
+    INSERT INTO advises(
+        student_ID,
+        instructor_ID
+    )
+    VALUES (
+        new_account_ID,
+        temp_advisor_ID
+    )
+    
 END;;
 
 -- Read Students
