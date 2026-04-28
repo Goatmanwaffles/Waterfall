@@ -22,7 +22,7 @@
 
                 <label class="mb-1 block text-sm">Section</label>
                 <select class="mb-3 w-full rounded border p-1" name="section_id" required>
-                    {% for section in sections %}
+                    {% for section in emptySections %}
                         <option value="{{ section[0] }}">{{ section[0] }} - {{ section[2] or '' }} ({{ section[3] }} {{ section[4] }})</option>
                     {% endfor %}
                 </select>
@@ -34,15 +34,8 @@
                 <h2 class="mb-2 text-lg font-bold">Modify Assignment</h2>
                 <input type="hidden" name="action" value="update">
 
-                <label class="mb-1 block text-sm">Current Instructor</label>
-                <select class="mb-2 w-full rounded border p-1" name="old_instructor_id" required>
-                    {% for instructor in instructors %}
-                        <option value="{{ instructor[0] }}">{{ instructor[0] }} - {{ instructor[1] }} {{ instructor[2] }}</option>
-                    {% endfor %}
-                </select>
-
                 <label class="mb-1 block text-sm">Current Section</label>
-                <select class="mb-2 w-full rounded border p-1" name="old_section_id" required>
+                <select class="mb-2 w-full rounded border p-1" name="section_id" required>
                     {% for section in sections %}
                         <option value="{{ section[0] }}">{{ section[0] }} - {{ section[2] or '' }} ({{ section[3] }} {{ section[4] }})</option>
                     {% endfor %}
@@ -52,13 +45,6 @@
                 <select class="mb-2 w-full rounded border p-1" name="instructor_id" required>
                     {% for instructor in instructors %}
                         <option value="{{ instructor[0] }}">{{ instructor[0] }} - {{ instructor[1] }} {{ instructor[2] }}</option>
-                    {% endfor %}
-                </select>
-
-                <label class="mb-1 block text-sm">New Section</label>
-                <select class="mb-3 w-full rounded border p-1" name="section_id" required>
-                    {% for section in sections %}
-                        <option value="{{ section[0] }}">{{ section[0] }} - {{ section[2] or '' }} ({{ section[3] }} {{ section[4] }})</option>
                     {% endfor %}
                 </select>
 
