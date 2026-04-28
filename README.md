@@ -19,8 +19,8 @@ uv run app.py
 ### Testing
 Some available testing accounts exist with logins
 ```
-admin
-abc
+admin <- Username
+abc   <- Password
 
 instructor
 abc
