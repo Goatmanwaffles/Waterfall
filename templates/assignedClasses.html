@@ -3,6 +3,29 @@
 {% block content %}
 <div class="h-full w-full bg-blue-200">
     <div class="flex-col p-6">
+        <form method="POST">
+            <input type="hidden" name="action" value="filter">
+            <label for="filterSemester">Semester: </label>
+            <select name="filterSemester" id="filterSemester">
+                <option value="" {% if selected_semester == '' %}selected{% endif %}>All Semesters</option>
+                <option value="Fall" {% if selected_semester == 'Fall' %}selected{% endif %}>Fall</option>
+                <option value="Summer" {% if selected_semester == 'Summer' %}selected{% endif %}>Summer</option>
+                <option value="Spring" {% if selected_semester == 'Spring' %}selected{% endif %}>Spring</option>
+                <option value="Winter" {% if selected_semester == 'Winter' %}selected{% endif %}>Winter</option>
+            </select>
+
+            <label for="filterYear">Year: </label>
+            <select name="filterYear" id="filterYear">
+                <option value="" {% if selected_year == '' %}selected{% endif %}>All Years</option>
+                {% for year_option in years %}
+                <option value="{{ year_option }}" {% if selected_year|string == year_option|string %}selected{% endif %}>
+                    {{ year_option }}
+                </option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="p-1 m-1 bg-blue-400 rounded-xl text-center font-bold border border-blue-600 border-2 hover:border-red-600 hover:bg-red-500 hover:cursor-pointer text-white">Filter</button>
+        </form>
+
         {% if classes %}
         <h1 class="font-bold text-2xl flex justify-center">Assigned Classes</h1>
         <div class="border border-2 border-blue-300 rounded-xl overflow-hidden">
