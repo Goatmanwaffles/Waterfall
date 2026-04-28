@@ -74,14 +74,13 @@ def statistics():
     cursor.execute("""
     SELECT department.department_name,
     (
-        SELECT COUNT(DISTINCT takes.student_ID)
-        FROM takes, section, course
-        WHERE takes.section_ID = section.section_ID
-            AND section.course_ID = course.course_ID
-            AND course.department_ID = department.department_ID
-            AND section.semester = "Spring"
-            AND section.year = 2026
-            AND takes.grades = ""
+        SELECT COUNT(DISTINCT st.student_ID)
+        FROM student st
+        JOIN takes t ON st.student_ID = t.student_ID
+        JOIN section sec ON t.section_ID = sec.section_ID
+        WHERE sec.semester = "Spring"
+            AND sec.year = 2026
+            AND st.department_ID = department.department_ID
     ) AS student_count
     FROM department;
     """)

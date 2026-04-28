@@ -24,20 +24,16 @@ def edit_teaches():
             dbserver.commit()
 
         elif action == "update":
-            old_instructor_id = (request.form.get("old_instructor_id") or "").strip()
-            old_section_id = (request.form.get("old_section_id") or "").strip()
             instructor_id = (request.form.get("instructor_id") or "").strip()
             section_id = (request.form.get("section_id") or "").strip()
 
             cursor.execute(
                 """
                 UPDATE teaches
-                SET instructor_ID = %s,
-                    section_ID = %s
-                WHERE instructor_ID = %s
-                    AND section_ID = %s
+                SET instructor_ID = %s
+                WHERE section_ID = %s
                 """,
-                (instructor_id, section_id, old_instructor_id, old_section_id),
+                (instructor_id, section_id),
             )
             dbserver.commit()
 
@@ -88,10 +84,23 @@ def edit_teaches():
         SELECT s.section_ID, s.course_ID, c.title, s.semester, s.year
         FROM section s
         LEFT JOIN course c ON c.course_ID = s.course_ID
+        WHERE s.section_ID NOT IN (SELECT section_ID FROM teaches)
+        ORDER BY s.section_ID
+        """
+    )
+    emptySections = cursor.fetchall()
+
+    cursor.execute(
+        """
+        SELECT s.section_ID, s.course_ID, c.title, s.semester, s.year
+        FROM section s
+        LEFT JOIN course c ON c.course_ID = s.course_ID
+        WHERE s.section_ID IN (SELECT section_ID FROM teaches)
         ORDER BY s.section_ID
         """
     )
     sections = cursor.fetchall()
+    print(sections)
 
     cursor.close()
 
@@ -100,4 +109,5 @@ def edit_teaches():
         teaches_rows=teaches_rows,
         instructors=instructors,
         sections=sections,
+        emptySections=emptySections
     )
