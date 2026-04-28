@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from setup import dbserver
+from routes.semester import getYear, getSemester
 
 statistics_blueprint = Blueprint("statistics", __name__)
 
@@ -71,6 +72,8 @@ def statistics():
     #####
 
     # Gets department name and the number of students in the department
+    year = getYear()
+    sem  = getSemester()
     cursor.execute("""
     SELECT department.department_name,
     (
@@ -78,12 +81,12 @@ def statistics():
         FROM student st
         JOIN takes t ON st.student_ID = t.student_ID
         JOIN section sec ON t.section_ID = sec.section_ID
-        WHERE sec.semester = "Spring"
-            AND sec.year = 2026
+        WHERE sec.semester = %s
+            AND sec.year = %s 
             AND st.department_ID = department.department_ID
     ) AS student_count
     FROM department;
-    """)
+    """, [sem, year])
     current_student_count = cursor.fetchall()
 
     # Gets lists of classes with and without students

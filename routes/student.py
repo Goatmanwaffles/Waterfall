@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from setup import dbserver
 import bcrypt
+from routes.semester import getYear, getSemester
 
 student_blueprint = Blueprint("student", __name__)
 
@@ -210,7 +211,8 @@ def edit_student():
 def getFinalGrades():
     student_ID = session.get("userID")
     cursor = dbserver.cursor()
-    cursor.execute("SELECT c.title, t.grades, s.semester, s.year FROM takes t JOIN section s ON t.section_ID = s.section_ID JOIN course c on c.course_ID = s.course_ID WHERE t.student_ID = %s AND s.year < 2026 AND t.grades != ''", [student_ID])
+    year = getYear()
+    cursor.execute("SELECT c.title, t.grades, s.semester, s.year FROM takes t JOIN section s ON t.section_ID = s.section_ID JOIN course c on c.course_ID = s.course_ID WHERE t.student_ID = %s AND s.year < %s AND t.grades != ''", [student_ID, year])
     grades = cursor.fetchall()
     cursor.close()
     return render_template("finalGrades.html", grades=grades)
