@@ -16,6 +16,20 @@ uv sync
 uv run app.py
 ```
 
+### Testing
+Some available testing accounts exist with logins
+```
+admin
+abc
+
+instructor
+abc
+
+student
+abc
+```
+
+More accounts are available in the seed_data.sql file, all with password abc for testing
 ### Procedures
 To run the basic CRUD test procedures use
 ```
