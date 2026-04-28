@@ -430,7 +430,12 @@ def resetDatabase():
     cursor = dbserver.cursor() # Creates cursor (never recreate)
     # I moved it here so it only runs once bc that was giving me trouble
     #generateSeedData(config.TABLES, config.SCHEMA, config.SEED) # Generates seed data
+    cursor.execute("SELECT COUNT(*) FROM student")
+    count = cursor.fetchone()[0]
+    
+    if count == 0:  # only seed if empty
 
-    runSQL(cursor, dbserver, config.SCHEMA ) # Inputs schema
-    runSQL(cursor, dbserver, config.SEED   ) # Inputs seed data
-    runSQL(cursor, dbserver, config.QUERIES) # Sets up procedure queries
+        runSQL(cursor, dbserver, config.SCHEMA ) # Inputs schema
+        runSQL(cursor, dbserver, config.SEED   ) # Inputs seed data
+        runSQL(cursor, dbserver, config.QUERIES) # Sets up procedure queries
+    cursor.close()
