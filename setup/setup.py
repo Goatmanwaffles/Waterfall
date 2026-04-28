@@ -19,7 +19,7 @@ def makeDatabase(hostname, username, password, database_name):
 
     # DROPS THE ENTIRE DATABASE 
     # THIS IS ONLY FOR TESTING PURPOSES!!!!!
-    cursor.execute(f"DROP DATABASE IF EXISTS {database_name};")
+    #cursor.execute(f"DROP DATABASE IF EXISTS {database_name};")
     cursor.execute(f"CREATE DATABASE IF NOT EXISTS {database_name};")
     make_db.commit()
     make_db.close()
@@ -430,12 +430,17 @@ def resetDatabase():
     cursor = dbserver.cursor() # Creates cursor (never recreate)
     # I moved it here so it only runs once bc that was giving me trouble
     #generateSeedData(config.TABLES, config.SCHEMA, config.SEED) # Generates seed data
-    cursor.execute("SELECT COUNT(*) FROM student")
-    count = cursor.fetchone()[0]
+    cursor.execute("""
+        SELECT COUNT(*) 
+        FROM information_schema.tables 
+        WHERE table_schema = %s AND table_name = 'student'
+    """, [config.DB_NAME])
     
-    if count == 0:  # only seed if empty
+    table_exists = cursor.fetchone()[0] > 0
 
-        runSQL(cursor, dbserver, config.SCHEMA ) # Inputs schema
-        runSQL(cursor, dbserver, config.SEED   ) # Inputs seed data
-        runSQL(cursor, dbserver, config.QUERIES) # Sets up procedure queries
+    if not table_exists:
+        runSQL(cursor, dbserver, config.SCHEMA)
+        runSQL(cursor, dbserver, config.SEED)
+        runSQL(cursor, dbserver, config.QUERIES)
+
     cursor.close()
