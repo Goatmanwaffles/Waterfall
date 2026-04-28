@@ -31,8 +31,6 @@ def login():
                 cursor.execute("SELECT s.student_ID FROM student s WHERE s.account_ID = %s",[row[3]])
             elif row[2] == "Instructor":
                 cursor.execute("SELECT i.instructor_ID FROM instructor i WHERE i.account_ID = %s",[row[3]])
-            elif row[2] == "Administrator": #NEEDS IMPLEMENTED DATABASE LEVEL
-                cursor.execute("SELECT s.student_ID FROM student s WHERE s.account_ID = %s",[row[3]])
             result = cursor.fetchone()
             Id = result[0] if result else None
             print(Id)
