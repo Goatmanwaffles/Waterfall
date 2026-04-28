@@ -229,26 +229,82 @@ def getFinalGrades():
 
 
 #Check section information
-@student_blueprint.route("/currentSchedule", methods=['GET'])
+@student_blueprint.route("/currentSchedule", methods=['GET', 'POST'])
 def getSectionInfo():
     student_ID = session.get("userID")
-    cursor = dbserver.cursor()
-    cursor.execute("SELECT s.section_ID, c.title, s.semester, s.year, i.first_name, i.last_name, b.building_name, ti.day, ti.start_hr, ti.start_min, ti.end_hr, ti.end_min FROM takes t JOIN section s ON s.section_ID = t.section_ID LEFT JOIN building b ON b.building_ID = s.building_ID JOIN course c ON c.course_ID = s.course_ID JOIN teaches th ON th.section_ID = s.section_ID JOIN instructor i ON i.instructor_ID = th.instructor_ID join time_slot ti ON ti.time_slot_ID = s.time_slot_ID WHERE t.student_ID = %s", [student_ID])
-    rows = cursor.fetchall()
-    classes = {}
+    if request.method == 'GET':
+        cursor = dbserver.cursor()
+        cursor.execute("SELECT s.section_ID, c.title, s.semester, s.year, i.first_name, i.last_name, b.building_name, ti.day, ti.start_hr, ti.start_min, ti.end_hr, ti.end_min FROM takes t JOIN section s ON s.section_ID = t.section_ID LEFT JOIN building b ON b.building_ID = s.building_ID JOIN course c ON c.course_ID = s.course_ID JOIN teaches th ON th.section_ID = s.section_ID JOIN instructor i ON i.instructor_ID = th.instructor_ID join time_slot ti ON ti.time_slot_ID = s.time_slot_ID WHERE t.student_ID = %s", [student_ID])
+        rows = cursor.fetchall()
+        classes = {}
 
-    for section_ID, title, semester, year, first, last, building, day, sthr, stmn, endhr, endmin in rows:
-        classes[section_ID]={
-            "class": title,
-            "semester": semester,
-            "year": year,
-            "name": f"{first} {last}",
-            "building": building,
-            "timeslot": f"{day} - {sthr}:{stmn} - {endhr}:{endmin}" 
-        }
+        for section_ID, title, semester, year, first, last, building, day, sthr, stmn, endhr, endmin in rows:
+            classes[section_ID]={
+                "class": title,
+                "semester": semester,
+                "year": year,
+                "name": f"{first} {last}",
+                "building": building,
+                "timeslot": f"{day} - {sthr}:{stmn} - {endhr}:{endmin}" 
+            }
+        
+        cursor.execute("""
+                SELECT DISTINCT sc.year
+                FROM section sc
+                JOIN takes te ON te.section_ID = sc.section_ID
+                WHERE te.student_ID = %s
+                ORDER BY sc.year DESC
+            """, [student_ID])
+        years = [row[0] for row in cursor.fetchall()]
+        
+        cursor.close()
+        return render_template("schedule.html", classes=classes, years=years)
     
-    return render_template("schedule.html", classes=classes)
+    if request.method == 'POST':
+        cursor = dbserver.cursor()
+        selected_semester = request.form.get('filterSemester', '')
+        selected_year = request.form.get('filterYear', '')
 
+        query="SELECT s.section_ID, c.title, s.semester, s.year, i.first_name, i.last_name, b.building_name, ti.day, ti.start_hr, ti.start_min, ti.end_hr, ti.end_min FROM takes t JOIN section s ON s.section_ID = t.section_ID LEFT JOIN building b ON b.building_ID = s.building_ID JOIN course c ON c.course_ID = s.course_ID JOIN teaches th ON th.section_ID = s.section_ID JOIN instructor i ON i.instructor_ID = th.instructor_ID join time_slot ti ON ti.time_slot_ID = s.time_slot_ID WHERE t.student_ID = %s"
+
+        params=[student_ID]
+
+        if selected_semester:
+            query += " AND s.semester = %s"
+            params.append(selected_semester)
+
+        if selected_year:
+            query += " AND s.year = %s"
+            params.append(selected_year)
+
+        cursor.execute(query,params)
+        rows = cursor.fetchall()
+
+        classes={}
+
+        for section_ID, title, semester, year, first, last, building, day, sthr, stmn, endhr, endmin in rows:
+            classes[section_ID]={
+                "class": title,
+                "semester": semester,
+                "year": year,
+                "name": f"{first} {last}",
+                "building": building,
+                "timeslot": f"{day} - {sthr}:{stmn} - {endhr}:{endmin}" 
+            }
+
+        cursor.execute("""
+                SELECT DISTINCT sc.year
+                FROM section sc
+                JOIN takes te ON te.section_ID = sc.section_ID
+                WHERE te.student_ID = %s
+                ORDER BY sc.year DESC
+            """, [student_ID])
+        
+        years = [row[0] for row in cursor.fetchall()]
+
+        cursor.close()
+        return render_template("schedule.html", classes=classes, years=years)
+        
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
