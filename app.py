@@ -10,7 +10,8 @@ from routes import loadBlueprints
 app = Flask(__name__)
 
 # This code will reset the database on run
-resetDatabase()
+# resetDatabase()
+
 dbserver.select_db(config.DB_NAME)
 
 cursor = dbserver.cursor()

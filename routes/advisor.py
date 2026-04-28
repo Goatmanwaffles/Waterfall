@@ -6,6 +6,12 @@ advisor_blueprint = Blueprint("advisor", __name__)
 #INSTRUCTOR ADVISING MODIFIER
 @advisor_blueprint.route("/advisingRoster", methods=['POST','GET'])
 def modifyAdvisingRoster():
+    if (
+            session.get("role") != "Instructor" and
+            session.get("role") != "Administrator"
+        ):
+        return redirect(url_for("account.unauthorized"))
+
     if request.method == 'GET':
         cursor = dbserver.cursor()
         cursor.execute("SELECT s.student_ID, s.first_name, s.last_name, d.first_name, d.last_name, d.instructor_ID from student s LEFT JOIN advises a ON s.student_ID = a.student_ID LEFT JOIN instructor d ON d.instructor_ID = a.instructor_ID")
