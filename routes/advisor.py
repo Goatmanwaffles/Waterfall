@@ -52,7 +52,6 @@ def modifyAdvisingRoster():
             newAdvisor = request.form['newAdvisor']
             cursor = dbserver.cursor()
             cursor.execute("INSERT INTO advises (student_ID, instructor_ID) VALUES (%s, %s) ON DUPLICATE KEY UPDATE instructor_ID = %s;", [student, newAdvisor, newAdvisor])
-            cursor.execute("UPDATE student SET advisor_ID = %s WHERE student_ID = %s", [newAdvisor, student])
             dbserver.commit()
             cursor.close()
             return redirect(url_for("advisor.modifyAdvisingRoster"))
@@ -61,7 +60,6 @@ def modifyAdvisingRoster():
             advisorToDelete = request.form['advisorToRemove']
             student = request.form['student']
             cursor = dbserver.cursor()
-            cursor.execute("UPDATE student set advisor_ID = NULL WHERE student_ID = %s",[student])
             cursor.execute("DELETE FROM advises WHERE student_ID = %s AND instructor_ID = %s", [student, advisorToDelete])
             dbserver.commit()
             cursor.close()
@@ -71,7 +69,6 @@ def modifyAdvisingRoster():
 @advisor_blueprint.route("/advisorInfo", methods=['GET'])
 def getAdvisorInfo():
     student_ID = session.get("userID")
-    print(student_ID)
     cursor = dbserver.cursor()
     cursor.execute("SELECT a2.first_name, a2.last_name, d.department_name FROM advises a JOIN instructor a2 ON a.instructor_ID = a2.instructor_ID JOIN department d ON d.department_ID = a2.department_ID WHERE a.student_ID = %s",[student_ID])
     advisor = cursor.fetchone()

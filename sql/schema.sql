@@ -115,12 +115,9 @@ CREATE TABLE IF NOT EXISTS student (
     last_name       VARCHAR(20) NOT NULL, 
     department_ID   INT,
     total_cred        NUMERIC(3,0) CHECK (total_cred >= 0),
-    advisor_ID      INT,
     account_ID      INT,
     FOREIGN KEY (department_ID) REFERENCES department(department_ID)
         ON DELETE RESTRICT,
-    FOREIGN KEY (advisor_ID) REFERENCES instructor (instructor_ID)
-        ON DELETE SET NULL,
     FOREIGN KEY (account_ID) REFERENCES account (account_ID)
         ON DELETE SET NULL
 );;

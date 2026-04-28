@@ -87,7 +87,6 @@ TABLES = {
         "last_name": "varchar(20)", 
         "department_ID": "int", 
         "total_cred": "numeric(3,0)",
-        "advisor_ID": "int",
         "account_ID": "int"
     },
     "teaches": {
