@@ -35,3 +35,4 @@ def loadBlueprints(app):
     app.register_blueprint(teaches_blueprint)
     app.register_blueprint(advisor_blueprint)
     app.register_blueprint(statistics_blueprint)
+
