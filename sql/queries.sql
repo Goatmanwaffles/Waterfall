@@ -86,12 +86,13 @@ CREATE PROCEDURE create_student(
     IN temp_last_name varchar(20),
     IN temp_department_name VARCHAR(20),
     IN temp_total_credits NUMERIC (3,0),
-    IN temp_advisor_ID int,
+    IN temp_advisor_ID INT,
     IN temp_username VARCHAR(20),
     IN temp_password VARCHAR(255)
 )
 BEGIN
     DECLARE new_account_ID INT;
+    DECLARE new_student_ID INT;
     INSERT INTO account(
         username,
         password,
@@ -120,16 +121,13 @@ BEGIN
         new_account_ID
     );
 
-    SET new_account_ID = LAST_INSERT_ID();
+    SET new_student_ID = LAST_INSERT_ID();
     
-    INSERT INTO advises(
-        student_ID,
-        instructor_ID
-    )
-    VALUES (
-        new_account_ID,
-        temp_advisor_ID
-    )
+    IF temp_advisor_ID IS NOT NULL THEN
+        INSERT INTO advises(student_ID, instructor_ID)
+        VALUES (new_student_ID, temp_advisor_ID);
+    END IF;
+
     
 END;;
 
@@ -155,8 +153,11 @@ BEGIN
     SET first_name = temp_first_name,
         last_name = temp_last_name,
         department_ID = (SELECT department_ID FROM department WHERE department_name = temp_department_name),
-        total_cred = temp_total_credits,
-        advisor_ID = temp_advisor_ID
+        total_cred = temp_total_credits
+    WHERE student_ID = temp_student_ID;
+
+    UPDATE advises
+    SET instructor_ID = temp_advisor_ID
     WHERE student_ID = temp_student_ID;
 END;;
 
