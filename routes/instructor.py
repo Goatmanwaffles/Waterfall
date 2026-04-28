@@ -23,6 +23,15 @@ def edit_instructor():
             salary = (request.form.get("salary") or "0").strip()
             username = (request.form.get("username") or "").strip()
             password = (request.form.get("password") or "").strip()
+            
+            cursor.execute("""
+                SELECT username FROM account WHERE username = %s
+            """, [username])
+           
+            userExists = cursor.fetchone()
+            if userExists:
+                flash("Username already taken", "error")
+                return redirect(url_for("instructor.edit_instructor"))
 
             password_bytes = password.encode('utf-8')
             s = bcrypt.gensalt()
